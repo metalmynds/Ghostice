@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Example.PetShop</name>
+    </assembly>
+    <members>
+        <member name="T:Example.PetShop.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.AccessoryRegistry.View.AccessoryRegistryPanel">
+            <summary>
+            Interaction logic for AccessoryRegistryView.xaml
+            </summary>
+            <summary>
+            AccessoryRegistryPanel
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.AccessoryRegistry.View.AccessoryRegistryPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.AccessoryRegistry.View.ListBoxHelper">
+            With thanks to Marlon Grech for this little trick:
+            http://marlongrech.wordpress.com/2009/06/02/sync-multi-select-listbox-with-viewmodel/
+        </member>
+        <member name="F:Example.PetShop.AccessoryRegistry.View.ListBoxHelper.SelectedItemsProperty">
+            <summary>
+            SelectedItems Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.AccessoryRegistry.View.ListBoxHelper.GetSelectedItems(System.Windows.DependencyObject)">
+            <summary>
+            Gets the SelectedItems property.  This dependency property 
+            indicates ....
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.AccessoryRegistry.View.ListBoxHelper.SetSelectedItems(System.Windows.DependencyObject,System.Collections.IList)">
+            <summary>
+            Sets the SelectedItems property.  This dependency property 
+            indicates ....
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.AccessoryRegistry.View.ListBoxHelper.OnSelectedItemsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the SelectedItems property.
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.Basket.BasketPanel">
+            <summary>
+            Interaction logic for BasketPanel.xaml
+            </summary>
+            <summary>
+            BasketPanel
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.Basket.BasketPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.Domain.PetFood.ToString">
+            This string is here because the item appears in a non-editable text box, bound by the FoodType.
+            Overriding the text is the only way to access it without indexes.
+        </member>
+        <member name="T:Example.PetShop.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Example.PetShop.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Example.PetShop.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.Shell">
+            <summary>
+            Interaction logic for Shell.xaml
+            </summary>
+            <summary>
+            Shell
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.Shell.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.History.HistoryPanel">
+            <summary>
+            HistoryPanel
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.History.HistoryPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.PetRegistry.RegistrationPanel">
+            <summary>
+            RegistrationPanel
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.PetRegistry.RegistrationPanel.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Example.PetShop.Controls.MessengerWindow">
+            <summary>
+            Interaction logic for Messenger.xaml
+            </summary>
+            <summary>
+            MessengerWindow
+            </summary>
+        </member>
+        <member name="M:Example.PetShop.Controls.MessengerWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

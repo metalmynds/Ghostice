@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88458497-503F-4C38-95FA-DEF32BAF1F1C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ghostice.ApplicationKit.UnitTests</RootNamespace>
+    <AssemblyName>Ghostice.ApplicationKit.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>55200f57</NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Anotar.Log4Net, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Anotar.Log4Net.Fody.2.19.2\Lib\Anotar.Log4Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NSubstitute, Version=1.9.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="CommandTests.cs" />
+    <Compile Include="FormComplex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormComplex.Designer.cs">
+      <DependentUpon>FormComplex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormExtensions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExtensions.Designer.cs">
+      <DependentUpon>FormExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMethodExtended.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMethodExtended.Designer.cs">
+      <DependentUpon>FormMethodExtended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNestedControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNestedControls.Designer.cs">
+      <DependentUpon>FormNestedControls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNestedTabPageControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNestedTabPageControls.Designer.cs">
+      <DependentUpon>FormNestedTabPageControls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSimpleUserControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSimpleUserControl.Designer.cs">
+      <DependentUpon>FormSimpleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSimpleWalk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSimpleWalk.Designer.cs">
+      <DependentUpon>FormSimpleWalk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWithComponents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWithComponents.Designer.cs">
+      <DependentUpon>FormWithComponents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RpcTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LocatorTests.cs" />
+    <Compile Include="InspectorTests.cs" />
+    <Compile Include="E2ETests.cs" />
+    <Compile Include="MethodTests.cs" />
+    <Compile Include="TestListViewExtension.cs" />
+    <Compile Include="SerialisationTests.cs" />
+    <Compile Include="ActionTests.cs" />
+    <Compile Include="CoreTests.cs" />
+    <Compile Include="MapTests.cs" />
+    <Compile Include="FrameworkTests.cs" />
+    <Compile Include="WindowTests.cs" />
+    <Compile Include="UserControlSimple.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlSimple.Designer.cs">
+      <DependentUpon>UserControlSimple.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WalkerTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Examples\WinForms\Example.PetShop.WinForms.exe" />
+    <Content Include="Examples\Wpf\Example.PetShop.exe" />
+    <Content Include="Examples\Wpf\Example.PetShop.XML" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.Composite.dll" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.Composite.Presentation.dll" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.Composite.UnityExtensions.dll" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.ObjectBuilder2.dll" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.ServiceLocation.xml" />
+    <Content Include="Examples\Wpf\Microsoft.Practices.Unity.dll" />
+    <Content Include="Examples\Wpf\Moq.dll" />
+    <Content Include="Examples\Wpf\Moq.xml" />
+    <Content Include="FodyWeavers.xml" />
+    <Content Include="TestData\OneLevelInspectExpected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Examples\WinForms\Example.PetShop.WinForms.exe.config" />
+    <None Include="Examples\Wpf\Example.PetShop.exe.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Client\Ghostice.ApplicationKit.Client\Ghostice.ApplicationKit.Client.csproj">
+      <Project>{b427f93d-c9b4-47a8-a21c-9a9e0904d85d}</Project>
+      <Name>Ghostice.ApplicationKit.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\Ghostice.Framework\Ghostice.Framework.csproj">
+      <Project>{8a1a7b7c-78db-45fd-8d46-1533000a1445}</Project>
+      <Name>Ghostice.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj">
+      <Project>{b7b29504-95ac-4405-8a4b-3dd6c7cde6db}</Project>
+      <Name>Ghostice.Core.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Ghostice.Core.Server\Ghostice.Core.Server.csproj">
+      <Project>{f2d8c7ff-4265-4f5d-a8f3-86b14960ea55}</Project>
+      <Name>Ghostice.Core.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Ghostice.Core\Ghostice.Core.csproj">
+      <Project>{f70d5565-16bd-4132-b072-7d6920e9f92d}</Project>
+      <Name>Ghostice.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\AustinHarris.JsonRpc.Client\AustinHarris.JsonRpc.Client.csproj">
+      <Project>{03ff12d9-6027-4050-81ac-a90b0ea8f8eb}</Project>
+      <Name>AustinHarris.JsonRpc.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ghostice.ApplicationKit.Example.Models\Ghostice.ApplicationKit.Example.Models.csproj">
+      <Project>{85d9689f-6170-4eba-b666-7423ec307aec}</Project>
+      <Name>Ghostice.ApplicationKit.Example.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FormComplex.resx">
+      <DependentUpon>FormComplex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormExtensions.resx">
+      <DependentUpon>FormExtensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMethodExtended.resx">
+      <DependentUpon>FormMethodExtended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNestedControls.resx">
+      <DependentUpon>FormNestedControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNestedTabPageControls.resx">
+      <DependentUpon>FormNestedTabPageControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSimpleUserControl.resx">
+      <DependentUpon>FormSimpleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSimpleWalk.resx">
+      <DependentUpon>FormSimpleWalk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWithComponents.resx">
+      <DependentUpon>FormWithComponents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlSimple.resx">
+      <DependentUpon>UserControlSimple.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(TargetDir)" /E /Y
+xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(TargetDir)" /E /Y
+xcopy "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\*.*" "$(TargetDir)Extensions\" /E /Y
+
+
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,430 @@
+﻿&o7
+AutoScaleBaseSize:
+  Width: 5
+  Height: 13
+AutoValidate: EnablePreventFocusChange
+BackColor: &o14
+  R: 240
+  G: 240
+  B: 240
+  A: 255
+  IsKnownColor: true
+  IsNamedColor: true
+  IsSystemColor: true
+  Name: Control
+ClientSize: &o5
+  Width: 284
+  Height: 262
+DesktopBounds: &o8
+  Location:
+    X: 75
+    Y: 75
+  Size: &o3
+    Width: 300
+    Height: 300
+  X: 75
+  Y: 75
+  Width: 300
+  Height: 300
+  Left: 75
+  Top: 75
+  Right: 375
+  Bottom: 375
+DesktopLocation:
+  X: 75
+  Y: 75
+Icon:
+  Handle: {}
+  Height: 32
+  Size: &o20
+    Width: 32
+    Height: 32
+  Width: 32
+Location:
+  X: 75
+  Y: 75
+Margin: &o24
+  All: 3
+  Bottom: 3
+  Left: 3
+  Right: 3
+  Top: 3
+  Horizontal: 6
+  Vertical: 6
+  Size:
+    Width: 6
+    Height: 6
+MdiChildren: []
+OwnedForms: []
+RestoreBounds: &o2
+  Size: *o3
+  Width: 300
+  Height: 300
+  Right: 300
+  Bottom: 300
+Size: *o3
+Text: FormNestedControls
+TopLevel: true
+AutoScaleDimensions: &o4
+  Width: 6
+  Height: 13
+AutoScaleMode: Font
+BindingContext: &o15 []
+CurrentAutoScaleDimensions: *o4
+DisplayRectangle: &o9
+  Size: *o5
+  Width: 284
+  Height: 262
+  Right: 284
+  Bottom: 262
+HorizontalScroll: {}
+VerticalScroll: {}
+DockPadding: {}
+AccessibilityObject:
+  Handle: &o30 {}
+  Name: FormNestedControls
+  Parent:
+    Bounds: *o8
+    Name: FormNestedControls
+    Parent:
+      Bounds: &o6
+        Size:
+          Width: 1680
+          Height: 1050
+        Width: 1680
+        Height: 1050
+        Right: 1680
+        Bottom: 1050
+      Name: Desktop
+      Parent:
+        Bounds: *o6
+        Name: Desktop
+        Role: Window
+        State: Focusable
+      Role: Client
+      State: Focusable
+    Role: Window
+    State: Invisible, Sizeable, Moveable, Focusable
+  Owner: *o7
+  Role: Client
+  Bounds: &o10
+    Location:
+      X: 83
+      Y: 105
+    Size: *o5
+    X: 83
+    Y: 105
+    Width: 284
+    Height: 262
+    Left: 83
+    Top: 105
+    Right: 367
+    Bottom: 367
+  State: Invisible, Focusable
+LayoutEngine: &o13 {}
+Bottom: 375
+Bounds: *o8
+ClientRectangle: *o9
+CompanyName: MetalMynds
+Controls:
+- &o11
+  DisplayRectangle:
+    Location:
+      X: 3
+      Y: 16
+    Size:
+      Width: 194
+      Height: 81
+    X: 3
+    Y: 16
+    Width: 194
+    Height: 81
+    Left: 3
+    Top: 16
+    Right: 197
+    Bottom: 97
+  Text: groupBox1
+  UseCompatibleTextRendering: true
+  AccessibilityObject:
+    Role: Grouping
+    Handle: &o26 {}
+    Name: groupBox1
+    Parent:
+      Bounds: &o12
+        Location:
+          X: 109
+          Y: 122
+        Size: &o16
+          Width: 200
+          Height: 100
+        X: 109
+        Y: 122
+        Width: 200
+        Height: 100
+        Left: 109
+        Top: 122
+        Right: 309
+        Bottom: 222
+      Name: groupBox1
+      Parent:
+        Bounds: *o10
+        Name: FormNestedControls
+        Parent:
+          Bounds: *o8
+          Name: FormNestedControls
+          Parent:
+            Bounds: *o6
+            Name: Desktop
+            Parent:
+              Bounds: *o6
+              Name: Desktop
+              Role: Window
+              State: Focusable
+            Role: Client
+            State: Focusable
+          Role: Window
+          State: Invisible, Sizeable, Moveable, Focusable
+        Role: Client
+        State: Invisible, Focusable
+      Role: Window
+      State: Focusable
+    Owner: *o11
+    Bounds: *o12
+    State: Focusable
+  LayoutEngine: *o13
+  BackColor: *o14
+  BindingContext: *o15
+  Bottom: 117
+  Bounds:
+    Location: &o27
+      X: 26
+      Y: 17
+    Size: *o16
+    X: 26
+    Y: 17
+    Width: 200
+    Height: 100
+    Left: 26
+    Top: 17
+    Right: 226
+    Bottom: 117
+  ClientRectangle:
+    Size: *o16
+    Width: 200
+    Height: 100
+    Right: 200
+    Bottom: 100
+  ClientSize: *o16
+  CompanyName: Microsoft Corporation
+  Controls:
+  - &o17
+    AutoCompleteCustomSource: []
+    Text: 
+    BackColor:
+      R: 255
+      G: 255
+      B: 255
+      A: 255
+      IsKnownColor: true
+      IsNamedColor: true
+      IsSystemColor: true
+      Name: Window
+    BackgroundImageLayout: Tile
+    ForeColor:
+      A: 255
+      IsKnownColor: true
+      IsNamedColor: true
+      IsSystemColor: true
+      Name: WindowText
+    Lines: []
+    PreferredHeight: 20
+    SelectedText: 
+    AccessibilityObject:
+      Handle: &o22 {}
+      Parent:
+        Bounds:
+          Location:
+            X: 127
+            Y: 144
+          Size: &o18
+            Width: 100
+            Height: 20
+          X: 127
+          Y: 144
+          Width: 100
+          Height: 20
+          Left: 127
+          Top: 144
+          Right: 227
+          Bottom: 164
+        Parent:
+          Bounds: *o12
+          Name: groupBox1
+          Parent:
+            Bounds: *o12
+            Name: groupBox1
+            Parent:
+              Bounds: *o10
+              Name: FormNestedControls
+              Parent:
+                Bounds: *o8
+                Name: FormNestedControls
+                Parent:
+                  Bounds: *o6
+                  Name: Desktop
+                  Parent:
+                    Bounds: *o6
+                    Name: Desktop
+                    Role: Window
+                    State: Focusable
+                  Role: Client
+                  State: Focusable
+                Role: Window
+                State: Invisible, Sizeable, Moveable, Focusable
+              Role: Client
+              State: Invisible, Focusable
+            Role: Window
+            State: Focusable
+          Role: Grouping
+          State: Focusable
+        Role: Window
+        State: Focusable
+      Owner: *o17
+      Role: Text
+      Bounds:
+        Location:
+          X: 129
+          Y: 146
+        Size: &o19
+          Width: 96
+          Height: 16
+        X: 129
+        Y: 146
+        Width: 96
+        Height: 16
+        Left: 129
+        Top: 146
+        Right: 225
+        Bottom: 162
+      State: Focusable
+      Value: 
+    LayoutEngine: *o13
+    BindingContext: *o15
+    Bottom: 42
+    Bounds:
+      Location: &o23
+        X: 18
+        Y: 22
+      Size: *o18
+      X: 18
+      Y: 22
+      Width: 100
+      Height: 20
+      Left: 18
+      Top: 22
+      Right: 118
+      Bottom: 42
+    ClientRectangle: &o21
+      Size: *o19
+      Width: 96
+      Height: 16
+      Right: 96
+      Bottom: 16
+    ClientSize: *o19
+    CompanyName: Microsoft Corporation
+    Controls: []
+    Cursor:
+      Handle: {}
+      HotSpot:
+        X: 8
+        Y: 9
+      Size: *o20
+    DataBindings: []
+    DisplayRectangle: *o21
+    Enabled: true
+    Font: &o25
+      FontFamily:
+        Name: Microsoft Sans Serif
+      Name: Microsoft Sans Serif
+      Size: 8.25
+      SizeInPoints: 8.25
+      Unit: Point
+      Height: 13
+      IsSystemFont: true
+      SystemFontName: DefaultFont
+    Handle: *o22
+    Height: 20
+    IsHandleCreated: true
+    Left: 18
+    Location: *o23
+    Margin: *o24
+    Name: textBox1
+    Parent: *o11
+    ProductName: "Microsoft® .NET Framework"
+    ProductVersion: 4.6.81.0
+    Right: 118
+    Size: *o18
+    Top: 22
+    TopLevelControl: *o7
+    Width: 100
+    WindowTarget:
+      Handle: *o22
+    PreferredSize:
+      Width: 4
+      Height: 20
+  Cursor: &o28
+    Handle: {}
+    Size: *o20
+  DataBindings: []
+  Enabled: true
+  Font: *o25
+  ForeColor: &o29
+    A: 255
+    IsKnownColor: true
+    IsNamedColor: true
+    IsSystemColor: true
+    Name: ControlText
+  Handle: *o26
+  HasChildren: true
+  Height: 100
+  IsHandleCreated: true
+  Left: 26
+  Location: *o27
+  Margin: *o24
+  Name: groupBox1
+  Parent: *o7
+  ProductName: "Microsoft® .NET Framework"
+  ProductVersion: 4.6.81.0
+  Right: 226
+  Size: *o16
+  Top: 17
+  TopLevelControl: *o7
+  Width: 200
+  WindowTarget:
+    Handle: *o26
+  PreferredSize:
+    Width: 124
+    Height: 61
+  Padding: *o24
+Cursor: *o28
+DataBindings: []
+Enabled: true
+Font: *o25
+ForeColor: *o29
+Handle: *o30
+HasChildren: true
+Height: 300
+IsHandleCreated: true
+Left: 75
+Name: FormNestedControls
+ProductName: Ghostice
+ProductVersion: 0.0.1
+Right: 375
+Top: 75
+TopLevelControl: *o7
+Width: 300
+WindowTarget:
+  Handle: *o30
+PreferredSize:
+  Width: 245
+  Height: 158
