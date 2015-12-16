@@ -9,13 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.Core", "src\Core\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.ApplicationKit.UnitTests", "src\UnitTest\Ghostice.ApplicationKit.UnitTests\Ghostice.ApplicationKit.UnitTests.csproj", "{88458497-503F-4C38-95FA-DEF32BAF1F1C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B749A5E-8602-44A7-88FA-179B8856E48E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.Core.Extensions", "src\Core\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj", "{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.ApplicationKit.Example.Models", "src\UnitTest\Ghostice.ApplicationKit.Example.Models\Ghostice.ApplicationKit.Example.Models.csproj", "{85D9689F-6170-4EBA-B666-7423EC307AEC}"
