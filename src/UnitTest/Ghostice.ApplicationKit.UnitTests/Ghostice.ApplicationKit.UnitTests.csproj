@@ -285,7 +285,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(TargetDir)" /E /Y
 xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(TargetDir)" /E /Y
-xcopy "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\*.*" "$(TargetDir)Extensions\" /E /Y
+REM xcopy "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\*.*" "$(TargetDir)Extensions\" /E /Y
 
 
 
