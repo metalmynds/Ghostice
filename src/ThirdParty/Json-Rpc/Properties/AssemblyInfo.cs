@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ghostice Server Command Line")]
-[assembly: AssemblyDescription("Ghostice ApplicationKit Server (Console)")]
+[assembly: AssemblyTitle("Json-Rpc.Net Core")]
+[assembly: AssemblyDescription("Core functionality for JsonRpc.Net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MetalMynds")]
-[assembly: AssemblyProduct("Ghostice")]
-[assembly: AssemblyCopyright("Copyright © Ghostice Server 2015")]
-[assembly: AssemblyTrademark("Today is the yesterday of tomorrow.")]
+[assembly: AssemblyCompany("Austin Harris")]
+[assembly: AssemblyProduct("Json-Rpc.Net Core")]
+[assembly: AssemblyCopyright("Austin Harris")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d44b7283-97a4-4a5c-8f33-29e067f0fe2e")]
+[assembly: Guid("2f8036b2-223d-4b90-b6a9-fadddeb3ac0d")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,10 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.6")]
-[assembly: AssemblyFileVersion("0.0.6")]
-
-[assembly: log4net.Config.XmlConfigurator(Watch = true, ConfigFileExtension = "log4net")]
+[assembly: AssemblyVersion("1.0.5.0")]
+[assembly: AssemblyFileVersion("1.0.5.0")]

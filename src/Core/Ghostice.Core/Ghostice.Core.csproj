@@ -57,20 +57,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>tempo.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>tempdevkey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="Anotar.Log4Net, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Anotar.Log4Net.Fody.2.19.2\Lib\Anotar.Log4Net.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="AustinHarris.JsonRpc, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\AustinHarris.JsonRpc.1.0.4.29\lib\net40\AustinHarris.JsonRpc.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -166,12 +162,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="tempdevkey.snk" />
     <None Include="tempo.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ThirdParty\AustinHarris.JsonRpc.Client\AustinHarris.JsonRpc.Client.csproj">
       <Project>{03ff12d9-6027-4050-81ac-a90b0ea8f8eb}</Project>
       <Name>AustinHarris.JsonRpc.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ThirdParty\Json-Rpc\AustinHarris.JsonRpc.csproj">
+      <Project>{24fc1a2a-0bc3-43a7-9bfe-b628c2c4a307}</Project>
+      <Name>AustinHarris.JsonRpc</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj">
       <Project>{b7b29504-95ac-4405-8a4b-3dd6c7cde6db}</Project>
