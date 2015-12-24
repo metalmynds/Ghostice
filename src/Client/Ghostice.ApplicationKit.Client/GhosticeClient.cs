@@ -95,10 +95,13 @@ namespace Ghostice.ApplicationKit
                     return ApplicationInfo.ReportFailed(ApplicationPath, Arguments, String.Format("Timeout Waiting for Application Start after {0} second(s)", TimeoutSeconds), startWatch.Elapsed);
                 }
 
-                if (result.Error != null)
+                if (result == null)
                 {
-                    //throw new GhosticeClientException(String.Format("Ghostice Start Application Failed!\r\nApplication Path: {0}\r\nArguments: {1}\r\nResponse:\r\n{2}", ApplicationPath, Arguments, result.Error.data));
-                    throw new GhosticeClientException(result.Error.data.ToString());
+                    throw new GhosticeClientException("Server Returned Null ActionRequest!", error);
+                }
+                else if (result.Error != null)
+                {
+                    throw new GhosticeClientException("Server Retured Request Has Errors", result.Error);
                 }
 
                 return ApplicationInfo.ReportStarted(ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
@@ -117,7 +120,8 @@ namespace Ghostice.ApplicationKit
     public class GhosticeClientException : Exception
     {
         protected GhosticeClientException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
 
         public GhosticeClientException(String Message)

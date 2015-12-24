@@ -43,7 +43,8 @@ namespace Ghostice.ApplicationKit
         }
 
         void Status_SystemUnderTestStarted(object sender, StartupEventArgs e)
-        {            
+        {
+            DisplaySummary(e.Path, e.Arguments);         
             LogMessage(String.Format("Started: {0} Arguments: {1}", e.Path, String.IsNullOrWhiteSpace(e.Arguments) ? "None" : e.Arguments), String.Empty);
         }
 
@@ -54,7 +55,7 @@ namespace Ghostice.ApplicationKit
 
         void Status_ActionPerformed(object sender, ActionEventArgs e)
         {
-            LogMessage(String.Format("Target: {0} {1}: {2} Value: {2}", e.Request.Location != null ? e.Request.Location.ToString() : "None", e.Request.Operation.ToString(), e.Request.Name, e.Result.ReturnValue), e.Result.Status.ToString());
+            LogMessage(String.Format("Target: {0} {1}: {2} Value: {3}", e.Request.Location != null ? e.Request.Location.ToString() : "None", e.Request.Operation.ToString(), e.Request.Name, e.Result.ReturnValue), e.Result.Status.ToString());
         }
 
         protected void HandleChooseTargetButtonClick(object sender, EventArgs e)
