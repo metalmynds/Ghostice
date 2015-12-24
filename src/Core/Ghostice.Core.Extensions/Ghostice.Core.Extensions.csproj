@@ -93,7 +93,7 @@
     <Error Condition="!Exists('..\..\..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Fody.1.29.2\build\dotnet\Fody.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>REM xcopy /Y "$(TargetDir)*.*" "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\"
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.*" "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\"
 </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\..\..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
