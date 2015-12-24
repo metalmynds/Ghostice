@@ -9,12 +9,10 @@ namespace Ghostice.Core.Server.Services
 {
     public class WaldoStatusReceiver : IWaldoStatus
     {
+
         public event EventHandler<ActionEventArgs> ActionPerformed;
-
         public event EventHandler<StartupEventArgs> SystemUnderTestStarted;
-
         public event EventHandler<ShutdownEventArgs> SystemUnderTestShutdown;
-
 
         public virtual void OnPerformed(ActionRequest Request, ActionResult Result)
         {

@@ -19,6 +19,8 @@ namespace Ghostice.ApplicationKit.Server
         static int Main(string[] args)
         {
 
+            Console.Title = "Ghostice Application Kit Server - v" + ReflectionHelper.ApplicationVersion;
+
             //var logo = @"'    _______  __    __    ______        _______..___________. __    ______  _______ \r\n" + 
             //@"'   /  _____||  |  |  |  /  __  \      /       ||           ||  |  /      ||   ____|\r\n"+
             //@"'  |  |  __  |  |__|  | |  |  |  |    |   (----``---|  |----`|  | |  ,----'|  |__   \r\n"+
