@@ -1,4 +1,4 @@
-﻿using Anotar.Log4Net;
+﻿using Anotar.NLog;
 using AustinHarris.JsonRpc;
 using Ghostice.Core;
 using Ghostice.Core.Utilities;

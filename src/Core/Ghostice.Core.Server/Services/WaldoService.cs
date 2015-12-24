@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.IO;
-using Anotar.Log4Net;
+using Anotar.NLog;
 using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Remoting;
 using Ghostice.Core.Server.Utilities;

@@ -1,4 +1,4 @@
-﻿using Anotar.Log4Net;
+﻿using Anotar.NLog;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Anotar.Log4Net;
+﻿using Anotar.NLog;
 using Ghostice.Core.Utilities;
 using System;
 using System.Collections.Generic;

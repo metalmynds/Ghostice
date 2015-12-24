@@ -1,11 +1,9 @@
-﻿using log4net.Config;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using log4net;
-using Anotar.Log4Net;
+using Anotar.NLog;
 using Ghostice.Core.Utilities;
 using System.Reflection;
 

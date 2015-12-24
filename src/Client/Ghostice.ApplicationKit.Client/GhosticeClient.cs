@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Anotar.Log4Net;
+using Anotar.NLog;
 
 namespace Ghostice.ApplicationKit
 {
