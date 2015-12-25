@@ -27,7 +27,15 @@ namespace Ghostice.ApplicationKit
 
                 if (!String.IsNullOrWhiteSpace(serverOptions.EndPoint))
                 {
-                    Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress = serverOptions.EndPoint;
+                    if (Uri.IsWellFormedUriString(serverOptions.EndPoint, UriKind.Absolute))
+                    {
+                        Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress = serverOptions.EndPoint;
+
+                    } else
+                    {
+                        LogTo.Fatal("Supplied EndPoint Parameter is Not a Valid Url!\nSupplied Url: {0}", serverOptions.EndPoint);
+                        return 1;
+                    }
                 }
 
             }
