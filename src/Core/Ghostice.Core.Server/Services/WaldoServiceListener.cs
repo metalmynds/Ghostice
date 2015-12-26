@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core.Server.Services
 {
-    public class WaldoStatusReceiver : IWaldoStatus
+    public class WaldoServiceListener : IWaldoListener
     {
 
         public event EventHandler<ActionEventArgs> ActionPerformed;

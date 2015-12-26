@@ -15,13 +15,13 @@ namespace Ghostice.Core.Server
 
         private Uri _endPoint;
 
-        private IWaldoStatus _status;
+        private IWaldoListener _status;
 
         private String _extensions;
 
         public GhosticeServer(String Extensions) : this(null, Extensions) { }
 
-        public GhosticeServer(IWaldoStatus Receiver, String Extensions)
+        public GhosticeServer(IWaldoListener Receiver, String Extensions)
         {
 
             if (!Directory.Exists(Extensions))
@@ -33,7 +33,7 @@ namespace Ghostice.Core.Server
 
             if (Receiver == null)
             {
-                Receiver = new WaldoStatusReceiver();
+                Receiver = new WaldoServiceListener();
             }
 
             _status = Receiver;
@@ -69,6 +69,6 @@ namespace Ghostice.Core.Server
 
         public String EndPoint { get { return _endPoint.ToString(); } }
 
-        public IWaldoStatus ServiceStatus { get { return _status; } }
+        public IWaldoListener ServiceStatus { get { return _status; } }
     }
 }

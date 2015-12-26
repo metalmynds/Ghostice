@@ -30,16 +30,16 @@ namespace Ghostice.Core.Server.Services
 
         private int _sutStartupTimeout = DEFAULT_SUT_STARTUP_TIMEOUT_SECONDS;
 
-        private IWaldoStatus _status;
+        private IWaldoListener _listener;
 
         private String _extensionsPath;
 
-        public WaldoService(IWaldoStatus Status, String ExtensionsPath)
+        public WaldoService(IWaldoListener listener, String extensionsPath)
         {
             
-            _status = Status;
+            _listener = listener;
 
-            _extensionsPath = ExtensionsPath;
+            _extensionsPath = extensionsPath;
 
             _appManagerSponsor = new ApplicationManagerSponsor(new TimeSpan(0, 5, 0));
         }
@@ -51,7 +51,7 @@ namespace Ghostice.Core.Server.Services
         }
 
         [JsonRpcMethod]
-        private ApplicationInfo Start(String executablePath, String Arguments)
+        private ApplicationInfo Start(String executablePath, String arguments)
         {
 
             if (String.IsNullOrWhiteSpace(executablePath) || !Path.IsPathRooted(executablePath))
@@ -59,11 +59,11 @@ namespace Ghostice.Core.Server.Services
                 throw new ArgumentException(String.Format("Path is not Valid! A fully qualified path is required.\r\nExecutablePath: [{0}]", executablePath), "ExecutablePath");
             }
 
-            var args = String.IsNullOrWhiteSpace(Arguments) ? String.Empty : Arguments;
+            var args = String.IsNullOrWhiteSpace(arguments) ? String.Empty : arguments;
 
             var appDomainBasePath = Path.GetDirectoryName(executablePath);
 
-            LogTo.Info(String.Format("Starting: {0} Arguments: {1}", executablePath, String.IsNullOrWhiteSpace(Arguments) ? "None" : Arguments), String.Empty);
+            LogTo.Info(String.Format("Starting: {0} Arguments: {1}", executablePath, String.IsNullOrWhiteSpace(arguments) ? "None" : arguments), String.Empty);
 
             try
             {
@@ -84,7 +84,7 @@ namespace Ghostice.Core.Server.Services
 
             LogTo.Info(String.Format("Started: {0}", executablePath), String.Empty);
 
-            _status.OnStarted(executablePath, Arguments);
+            _listener.OnStarted(executablePath, arguments);
 
             return _sutInformation;
         }
@@ -100,8 +100,8 @@ namespace Ghostice.Core.Server.Services
         {
             ActionResult actionResult = null;
 
-            // Casts any parameters to Type of 'ValueType' Property
-            request.FixParameterTypes();
+            // Casts any parameters to given Type of 'ValueType' Property
+            request.DeserialiseParameters();
 
             switch (request.Operation)
             {
@@ -113,7 +113,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: {0} Get: {1}", request.Location.ToString(), request.Name);
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -125,7 +125,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: {0} Set: {1} Value: {2}", request.Location.ToString(), request.Name, actionResult.ReturnValue, actionResult.ReturnValue);
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -139,7 +139,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: {0} Execute: {1} Arguments: {2}\r\nResult: {3}", request.Location.ToString(), request.Name, executeDisplayArgs, actionResult.ToString());
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -153,7 +153,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: {0} Map Arguments: {1}\r\nValue: {2}", request.Location.ToString(), request.Name, mapDisplayArgs, actionResult.ReturnValue.ToString());
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -165,7 +165,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: {0} Ready: Result: {1}", request.Location.ToString(), actionResult.ToString());
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -177,7 +177,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Debug("Target: Windows List:\r\nResult: {0}", actionResult.ToString());
 
-                    _status.OnPerformed(request, actionResult);
+                    _listener.OnPerformed(request, actionResult);
 
                     return actionResult;
 
@@ -206,6 +206,7 @@ namespace Ghostice.Core.Server.Services
         }
     }
 
+    [Serializable]
     public class WaldoServiceException : Exception
     {
 
@@ -222,6 +223,7 @@ namespace Ghostice.Core.Server.Services
         }
     }
 
+    [Serializable]
     public class WaldoStartupFailedException : WaldoServiceException
     {
 
@@ -232,6 +234,7 @@ namespace Ghostice.Core.Server.Services
         }
     }
 
+    [Serializable]
     public class WaldoShutdownFailedException : WaldoServiceException
     {
 

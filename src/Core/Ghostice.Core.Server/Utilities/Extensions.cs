@@ -11,7 +11,7 @@ namespace Ghostice.Core.Server.Utilities
     public static class Extensions
     {
 
-        public static void FixParameterTypes(this ActionRequest request)
+        public static void DeserialiseParameters(this ActionRequest request)
         {
             if (request.HasParameters)
             {

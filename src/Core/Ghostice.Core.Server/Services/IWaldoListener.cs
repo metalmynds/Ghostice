@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core.Server.Services
 {
-    public interface IWaldoStatus
+    public interface IWaldoListener
     {
 
         event EventHandler<ActionEventArgs> ActionPerformed;

@@ -117,14 +117,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GhosticeServer.cs" />
-    <Compile Include="Services\IWaldoStatus.cs" />
+    <Compile Include="Services\IWaldoListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rpc\HttpRequestEventArgs.cs" />
     <Compile Include="Rpc\HttpServer.cs" />
     <Compile Include="Rpc\RpcRequest.cs" />
     <Compile Include="Rpc\RpcServer.cs" />
     <Compile Include="Services\WaldoService.cs" />
-    <Compile Include="Services\WaldoStatusReceiver.cs" />
+    <Compile Include="Services\WaldoServiceListener.cs" />
     <Compile Include="Utilities\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
