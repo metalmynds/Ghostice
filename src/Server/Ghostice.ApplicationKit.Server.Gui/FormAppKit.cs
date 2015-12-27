@@ -58,14 +58,6 @@ namespace Ghostice.ApplicationKit
             LogMessage(String.Format("Target: {0} {1}: {2} Value: {3}", e.Request.Location != null ? e.Request.Location.ToString() : "None", e.Request.Operation.ToString(), e.Request.Name, e.Result.ReturnValue), e.Result.Status.ToString());
         }
 
-        protected void HandleChooseTargetButtonClick(object sender, EventArgs e)
-        {
-            if (opnfledlgApplication.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                txtTarget.Text = opnfledlgApplication.FileName;
-            }
-        }
-
         private void HandleAppKitFormClosed(object sender, FormClosedEventArgs e)
         {
             Ghostice.ApplicationKit.Properties.Settings.Default.Save();
@@ -76,11 +68,7 @@ namespace Ghostice.ApplicationKit
 
             _server.Start(new Uri(Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress));
 
-            var banner = "Waldo On ";
-
-            var listenAddress = banner + _server.EndPoint;
-
-            lblRpcAddress.Text = listenAddress;
+            lblRpcAddress.Text = _server.EndPoint;
            
         }
 

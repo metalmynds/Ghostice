@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lblApplication = new System.Windows.Forms.Label();
-            this.butChooseTarget = new System.Windows.Forms.Button();
             this.opnfledlgApplication = new System.Windows.Forms.OpenFileDialog();
             this.lblArguments = new System.Windows.Forms.Label();
             this.lstvewLog = new System.Windows.Forms.ListView();
@@ -40,6 +39,7 @@
             this.txtArguments = new System.Windows.Forms.TextBox();
             this.txtTarget = new System.Windows.Forms.TextBox();
             this.lblRpcAddress = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblApplication
@@ -50,17 +50,6 @@
             this.lblApplication.Size = new System.Drawing.Size(59, 13);
             this.lblApplication.TabIndex = 0;
             this.lblApplication.Text = "Application";
-            // 
-            // butChooseTarget
-            // 
-            this.butChooseTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.butChooseTarget.Location = new System.Drawing.Point(596, 10);
-            this.butChooseTarget.Name = "butChooseTarget";
-            this.butChooseTarget.Size = new System.Drawing.Size(31, 23);
-            this.butChooseTarget.TabIndex = 2;
-            this.butChooseTarget.Text = "..";
-            this.butChooseTarget.UseVisualStyleBackColor = true;
-            this.butChooseTarget.Click += new System.EventHandler(this.HandleChooseTargetButtonClick);
             // 
             // opnfledlgApplication
             // 
@@ -88,9 +77,9 @@
             this.colhedRequest,
             this.colhedResult});
             this.lstvewLog.FullRowSelect = true;
-            this.lstvewLog.Location = new System.Drawing.Point(12, 106);
+            this.lstvewLog.Location = new System.Drawing.Point(17, 97);
             this.lstvewLog.Name = "lstvewLog";
-            this.lstvewLog.Size = new System.Drawing.Size(615, 358);
+            this.lstvewLog.Size = new System.Drawing.Size(615, 367);
             this.lstvewLog.TabIndex = 7;
             this.lstvewLog.UseCompatibleStateImageBehavior = false;
             this.lstvewLog.View = System.Windows.Forms.View.Details;
@@ -131,31 +120,42 @@
             this.txtTarget.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Ghostice.ApplicationKit.Properties.Settings.Default, "AppKitTargetPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtTarget.Location = new System.Drawing.Point(79, 12);
             this.txtTarget.Name = "txtTarget";
-            this.txtTarget.Size = new System.Drawing.Size(511, 20);
+            this.txtTarget.Size = new System.Drawing.Size(548, 20);
             this.txtTarget.TabIndex = 1;
             this.txtTarget.Text = global::Ghostice.ApplicationKit.Properties.Settings.Default.AppKitTargetPath;
             // 
             // lblRpcAddress
             // 
             this.lblRpcAddress.AutoSize = true;
-            this.lblRpcAddress.Location = new System.Drawing.Point(14, 68);
+            this.lblRpcAddress.Location = new System.Drawing.Point(82, 69);
             this.lblRpcAddress.Name = "lblRpcAddress";
             this.lblRpcAddress.Size = new System.Drawing.Size(0, 13);
             this.lblRpcAddress.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 69);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "EndPoint";
             // 
             // FormAppKit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(641, 476);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblRpcAddress);
             this.Controls.Add(this.lstvewLog);
             this.Controls.Add(this.txtArguments);
             this.Controls.Add(this.lblArguments);
-            this.Controls.Add(this.butChooseTarget);
             this.Controls.Add(this.txtTarget);
             this.Controls.Add(this.lblApplication);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAppKit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Ghostice Application Kit Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HandleAppKitFormClosed);
             this.Load += new System.EventHandler(this.HandleAppKitFormLoad);
@@ -168,7 +168,6 @@
 
         private System.Windows.Forms.Label lblApplication;
         private System.Windows.Forms.TextBox txtTarget;
-        private System.Windows.Forms.Button butChooseTarget;
         private System.Windows.Forms.OpenFileDialog opnfledlgApplication;
         private System.Windows.Forms.TextBox txtArguments;
         private System.Windows.Forms.Label lblArguments;
@@ -178,6 +177,7 @@
         private System.Windows.Forms.ColumnHeader colhedIndex;
         private System.Windows.Forms.ColumnHeader colhedResult;
         private System.Windows.Forms.Label lblRpcAddress;
+        private System.Windows.Forms.Label label1;
     }
 }
 

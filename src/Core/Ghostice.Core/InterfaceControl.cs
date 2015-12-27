@@ -146,7 +146,7 @@ namespace Ghostice.Core
                 if (target == null)
                 {
 
-                    throw new DispatcherException("No Client Control Implementing IDispatcherHost Interface Found! Check Top Level Window Class or ApplicationControl!");
+                    throw new ClientDispatchActionRequestFailedException("No Client Control Implementing IDispatcherHost Interface Found! Check Top Level Window Class or ApplicationControl!");
                 }
                 else
                 {

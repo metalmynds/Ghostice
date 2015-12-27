@@ -22,11 +22,11 @@ namespace Ghostice.Core
         }
 
         public ActionResult Perform(ActionRequest Request)
-        {            
+        {
 
             AutoResetEvent completed = new AutoResetEvent(false);
 
-            Exception exception = null;
+            Exception clientException = null;
 
             ActionResult result = null;
 
@@ -39,14 +39,11 @@ namespace Ghostice.Core
             using (callback.Subscribe(
                 onNext: (response) =>
                 {
-                    //System.Diagnostics.Debug.WriteLine(response);
-                    error = response.Error != null ? response.Error.data.ToString() : null;
-
                     result = response.Result;
                 },
                 onError: (ex) =>
                 {
-                    exception = ex;
+                    clientException = ex;
 
                     completed.Set();
                 },
@@ -60,14 +57,17 @@ namespace Ghostice.Core
                 completed.WaitOne();
             }
 
-            if (exception != null) throw new DispatcherException(String.Format("ActionDispatcher Perform Failed!\r\nRequest:\r\n{0}\r\nError: {1}\r\nStack Trace:\r\n{2}", Request.ToString(), exception.Message, exception.StackTrace), exception);
-
-            if (error != null)
+            if (result == null)
             {
-                //throw new GhosticeClientException(String.Format("Ghostice Start Application Failed!\r\nApplication Path: {0}\r\nArguments: {1}\r\nResponse:\r\n{2}", ApplicationPath, Arguments, result.Error.data));
-                throw new DispatcherException(error);
+                if (clientException != null)
+                    throw new ClientDispatchActionRequestFailedException(String.Format("ActionDispatcher Perform Failed!\r\nRequest:\r\n{0}\r\nError: {1}\r\nStack Trace:\r\n{2}", Request.ToString(), clientException.Message, clientException.StackTrace), clientException);
+                else
+                    throw new ClientDispatchActionRequestFailedException(String.Format("ActionDispatcher Perform Failed!\r\nError: Server Return Null! and No Exception was Reported!"));
             }
-
+            else if (result.Error != null)
+            {
+                throw new ServerExecuteActionFailedException(Request, error);
+            }
 
             return result;
         }
@@ -75,24 +75,59 @@ namespace Ghostice.Core
     }
 
     [Serializable]
-    public class DispatcherException : Exception
+    public class ClientDispatchActionRequestFailedException : Exception
     {
 
-        protected DispatcherException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+        protected ClientDispatchActionRequestFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
 
 
-        public DispatcherException(String Message)
+        public ClientDispatchActionRequestFailedException(String Message)
             : base(Message)
         {
 
         }
-
-        public DispatcherException(String Message, Exception Inner)
+        public ClientDispatchActionRequestFailedException(String Message, Exception Inner)
             : base(Message, Inner)
         {
 
         }
 
     }
+
+    [Serializable]
+    public class ServerExecuteActionFailedException : Exception
+    {
+
+        protected ServerExecuteActionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
+
+
+        public ServerExecuteActionFailedException(String message)
+            : base(message)
+        {
+
+        }
+        public ServerExecuteActionFailedException(String message, Exception innerException)
+            : base(message, innerException)
+        {
+
+        }
+
+        public ServerExecuteActionFailedException(ActionRequest request, Exception innerException)
+            : base(String.Format("Server Execute Action Failed!\r\nRequest:\r\n{0} ", request.ToJson()), innerException)
+        {
+
+        }
+
+        public ServerExecuteActionFailedException(ActionRequest request, String error)
+            : base(String.Format("Server Execute Action Failed!\r\nRequest:\r\n{0}\r\nError: {1}", request.ToJson(), error))
+        {
+
+        }
+
+    }
+
 }

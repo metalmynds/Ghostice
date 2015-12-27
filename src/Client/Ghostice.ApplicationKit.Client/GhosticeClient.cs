@@ -87,7 +87,7 @@ namespace Ghostice.ApplicationKit
                         completed.Set();
                     }
                 ))
-            {
+            { 
 
 
                 if (!completed.WaitOne(TimeoutSeconds * 1000))
@@ -97,14 +97,16 @@ namespace Ghostice.ApplicationKit
 
                 if (result == null)
                 {
-                    throw new GhosticeClientException("Server Returned Null ActionRequest!", error);
+                    throw new GhosticeClientException("Server Returned Null expecting ActionRequest!", error);
                 }
                 else if (result.Error != null)
                 {
-                    throw new GhosticeClientException("Server Retured Request Has Errors", result.Error);
+                    throw new GhosticeClientException("Server Retured Request, But It Has Errors!", result.Error);
                 }
-
-                return ApplicationInfo.ReportStarted(ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+                else
+                {
+                    return ApplicationInfo.ReportStarted(ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+                }
 
             }
         }
