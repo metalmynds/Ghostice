@@ -61,6 +61,11 @@ namespace Ghostice.Core.Server.Services
                 throw new ArgumentException(String.Format("Path is not Valid! A fully qualified path is required.\r\nExecutablePath: [{0}]", executablePath), "ExecutablePath");
             }
 
+            if (!File.Exists(executablePath))
+            {
+                throw new FileNotFoundException("System Under Test Path Not Found!", executablePath);
+            }
+
             var args = String.IsNullOrWhiteSpace(arguments) ? String.Empty : arguments;
 
             var appDomainBasePath = Path.GetDirectoryName(executablePath);

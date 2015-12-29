@@ -27,15 +27,15 @@ namespace Ghostice.ApplicationKit
 
         }
 
-        public void Connect(String ServerUrl)
+        public void Connect(String serverUrl)
         {
 
-            if (!Uri.IsWellFormedUriString(ServerUrl.EndsWith("/") ? ServerUrl : ServerUrl += "/", UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(serverUrl.EndsWith("/") ? serverUrl : serverUrl += "/", UriKind.Absolute))
             {
-                throw new ArgumentException(String.Format("ServerUrl Parameter value is Not Well Formed!\r\nServerUrl: {0}", ServerUrl));
+                throw new ArgumentException(String.Format("ServerUrl Parameter value is Not a Well Formed Url!\r\nServerUrl: {0}", serverUrl));
             }
 
-            _client = new JsonRpcClient(new Uri(ServerUrl));
+            _client = new JsonRpcClient(new Uri(serverUrl));
 
             _dispatcher = new ActionDispatcher(_client);
 
@@ -48,15 +48,15 @@ namespace Ghostice.ApplicationKit
             _dispatcher = null;
         }
 
-        public void Shutdown(ApplicationInfo Application)
+        public void Shutdown(ApplicationInfo application)
         {
             throw new NotImplementedException("Shutdown of SUT is not yet implemented.");
         }
 
-        public ApplicationInfo Start(String ApplicationPath, String Arguments, int TimeoutSeconds)
+        public ApplicationInfo Start(String applicationPath, String arguments, int timeoutSeconds)
         {
 
-            Exception error = null;
+            Exception localException = null;
 
             JsonResponse<ApplicationInfo> result = null;
 
@@ -66,7 +66,7 @@ namespace Ghostice.ApplicationKit
 
             startWatch.Start();
 
-            var callback = _client.Invoke<ApplicationInfo>("Start", new String[] { ApplicationPath, Arguments }, Scheduler.Default);
+            var callback = _client.Invoke<ApplicationInfo>("Start", new String[] { applicationPath, arguments }, Scheduler.Default);
 
             using (callback.Subscribe(
                 onNext: (response) =>
@@ -77,8 +77,7 @@ namespace Ghostice.ApplicationKit
                 },
                 onError: (exception) =>
                 {
-
-                    error = exception;
+                    localException = exception;
                     completed.Set();
                 },
                 onCompleted:
@@ -87,28 +86,26 @@ namespace Ghostice.ApplicationKit
                         completed.Set();
                     }
                 ))
-            { 
 
-
-                if (!completed.WaitOne(TimeoutSeconds * 1000))
-                {
-                    return ApplicationInfo.ReportFailed(ApplicationPath, Arguments, String.Format("Timeout Waiting for Application Start after {0} second(s)", TimeoutSeconds), startWatch.Elapsed);
-                }
-
-                if (result == null)
-                {
-                    throw new GhosticeClientException("Server Returned Null expecting ActionRequest!", error);
-                }
-                else if (result.Error != null)
-                {
-                    throw new GhosticeClientException("Server Retured Request, But It Has Errors!", result.Error);
-                }
-                else
-                {
-                    return ApplicationInfo.ReportStarted(result.Result.InstanceIdentifier, result.Result.ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
-                } 
-
+            if (!completed.WaitOne(timeoutSeconds * 1000))
+            {
+                return ApplicationInfo.ReportFailed(applicationPath, arguments, String.Format("Timeout Waiting for Application {0} to Start after {1} second(s)", System.IO.Path.GetFileNameWithoutExtension(applicationPath), timeoutSeconds), startWatch.Elapsed);
             }
+           
+            if (result == null)
+            {
+                throw new ActionResultNullException(String.Format("Starting Application: {0} Aurguments: {1}\r\nServer Returned Null ActionResult!", System.IO.Path.GetFileName(applicationPath)), localException);
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteActionFailedException("Server Retured Request With Errors!", result.Error);
+            }
+            else
+            {
+                return ApplicationInfo.ReportStarted(result.Result.InstanceIdentifier, result.Result.ApplicationPath, arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+            }
+
+
         }
 
         public ApplicationRoot Application
@@ -119,7 +116,7 @@ namespace Ghostice.ApplicationKit
     }
 
     [Serializable]
-    public class GhosticeClientException : Exception
+    public abstract class GhosticeClientException : Exception
     {
         protected GhosticeClientException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
@@ -133,6 +130,50 @@ namespace Ghostice.ApplicationKit
         }
 
         public GhosticeClientException(String Message, Exception Inner)
+            : base(Message, Inner)
+        {
+
+        }
+
+    }
+
+    [Serializable]
+    public class ActionResultNullException : GhosticeClientException
+    {
+        protected ActionResultNullException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
+
+
+        public ActionResultNullException(String Message)
+            : base(Message)
+        {
+
+        }
+
+        public ActionResultNullException(String Message, Exception Inner)
+            : base(Message, Inner)
+        {
+
+        }
+
+    }
+
+    [Serializable]
+    public class RemoteActionFailedException : GhosticeClientException
+    {
+        protected RemoteActionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
+
+
+        public RemoteActionFailedException(String Message)
+            : base(Message)
+        {
+
+        }
+
+        public RemoteActionFailedException(String Message, Exception Inner)
             : base(Message, Inner)
         {
 
