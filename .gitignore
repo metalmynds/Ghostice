@@ -194,3 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+*.snk
+/src/Server/Ghostice.ApplicationKit.Server.Gui/Extensions/NLog.dll
+/src/Server/Ghostice.ApplicationKit.Server.Gui/Extensions/NLog.xml
+*.zip

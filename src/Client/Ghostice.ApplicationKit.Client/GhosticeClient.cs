@@ -20,7 +20,7 @@ namespace Ghostice.ApplicationKit
 
         protected ActionDispatcher _dispatcher;
 
-        protected ApplicationControl _application;
+        protected ApplicationRoot _application;
 
         public GhosticeClient()
         {
@@ -39,7 +39,7 @@ namespace Ghostice.ApplicationKit
 
             _dispatcher = new ActionDispatcher(_client);
 
-            _application = new ApplicationControl(_dispatcher);
+            _application = new ApplicationRoot(_dispatcher);
 
         }
 
@@ -111,7 +111,7 @@ namespace Ghostice.ApplicationKit
             }
         }
 
-        public ApplicationControl Application
+        public ApplicationRoot Application
         {
             get { return _application; }
         }

@@ -5,6 +5,7 @@ using System.IO;
 using Ghostice.Core.Server;
 using Ghostice.Core.Server.Services;
 using Ghostice.Core.Utilities;
+using Ghostice.ApplicationKit.Utilities;
 
 namespace Ghostice.ApplicationKit
 {
@@ -34,11 +35,13 @@ namespace Ghostice.ApplicationKit
 
             _server = new GhosticeServer(extensions);
 
-            _server.ServiceStatus.ActionPerformed += Status_ActionPerformed;
+            _server.StatusListener.ActionPerformed += Status_ActionPerformed;
 
-            _server.ServiceStatus.SystemUnderTestShutdown += Status_SystemUnderTestShutdown;
+            _server.StatusListener.SystemUnderTestShutdown += Status_SystemUnderTestShutdown;
 
-            _server.ServiceStatus.SystemUnderTestStarted += Status_SystemUnderTestStarted;
+            _server.StatusListener.SystemUnderTestStarted += Status_SystemUnderTestStarted;
+
+            Helpers.PositionBottomRightDesktop(this);
 
         }
 
@@ -68,7 +71,7 @@ namespace Ghostice.ApplicationKit
 
             _server.Start(new Uri(Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress));
 
-            lblRpcAddress.Text = _server.EndPoint;
+            txtRpcAddress.Text = _server.EndPoint;
            
         }
 

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core
 {
-    public class ApplicationControl : InterfaceControl, IDispatcherHost
+    public class ApplicationRoot : InterfaceControl, IDispatcherHost
 
     {
         protected ActionDispatcher _dispatcher;
 
 
-        public ApplicationControl(ActionDispatcher Dispatcher)
+        public ApplicationRoot(ActionDispatcher Dispatcher)
             : base(null)
         {
             _dispatcher = Dispatcher;

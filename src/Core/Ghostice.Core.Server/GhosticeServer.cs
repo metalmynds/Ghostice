@@ -69,6 +69,6 @@ namespace Ghostice.Core.Server
 
         public String EndPoint { get { return _endPoint.ToString(); } }
 
-        public IWaldoListener ServiceStatus { get { return _status; } }
+        public IWaldoListener StatusListener { get { return _status; } }
     }
 }
