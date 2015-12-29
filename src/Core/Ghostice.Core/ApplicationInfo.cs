@@ -24,7 +24,7 @@ namespace Ghostice.Core
         }
 
         [JsonConstructor]
-        public ApplicationInfo(String ApplicationPath, String CommandLineArguments, String ApplicationVersion, String InstanceIdentifier, String[] IPAddressList, String MachineName, String FullyQualifiedDomainName, String OperatingSystem, ApplicationStatus Status, String Error, int Pid, String StartupTime)
+        public ApplicationInfo(String ApplicationPath, String CommandLineArguments, String ApplicationVersion, String InstanceIdentifier, String[] IPAddressList, String MachineName, String FullyQualifiedDomainName, String OperatingSystem, ApplicationStatus Status, String Error, int Pid, String StartupTime, String ApplicationIdentifier)
         {
             
             this.InstanceIdentifier = Guid.NewGuid().ToString("N");
@@ -50,22 +50,17 @@ namespace Ghostice.Core
             this.StartupTime = StartupTime;
         }
 
-        public static ApplicationInfo ReportStarted(String ApplicationPath, String CommandLineArguments, int Pid, TimeSpan Duration)
+        public static ApplicationInfo ReportStarted(String InstanceIdentifier, String applicationPath, String commandLineArguments, int Pid, TimeSpan duration)
         {
-            return Create(GenerateIdentifier(), ApplicationPath, CommandLineArguments, ApplicationStatus.Started, String.Empty, Pid, Duration);
+            return Create(InstanceIdentifier, applicationPath, commandLineArguments, ApplicationStatus.Started, String.Empty, Pid, duration);
         }
 
-        public static ApplicationInfo ReportFailed(String ApplicationPath, String CommandLineArguments, String Error, TimeSpan Duration)
+        public static ApplicationInfo ReportFailed(String applicationPath, String commandLineArguments, String error, TimeSpan duration)
         {
-            return Create(null, ApplicationPath, CommandLineArguments, ApplicationStatus.Started, Error, -1, Duration);
+            return Create(null, applicationPath, commandLineArguments, ApplicationStatus.Started, error, -1, duration);
         }
 
-        static String GenerateIdentifier()
-        {
-            return Guid.NewGuid().ToString("N");
-        }
-
-        public static ApplicationInfo Create(String InstanceIdentifier, String ApplicationPath, String CommandLineArguments, ApplicationStatus Status, String Error, int Pid, TimeSpan Duration)
+        public static ApplicationInfo Create(String instanceIdentifier, String applicationPath, String commandLineArguments, ApplicationStatus status, String error, int pid, TimeSpan duration)
         {
 
             var applicationVersion = String.Format("{0} v{1}", Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString());
@@ -74,14 +69,14 @@ namespace Ghostice.Core
 
             var iPAddressList = machineIPList.ToArray<String>();
 
-            var applicationInfo = new ApplicationInfo(ApplicationPath,
-                                                    CommandLineArguments,
+            var applicationInfo = new ApplicationInfo(applicationPath,
+                                                    commandLineArguments,
                                                     applicationVersion,
-                                                    InstanceIdentifier,
+                                                    instanceIdentifier,
                                                     iPAddressList,
                                                     Environment.MachineName,
                                                     Dns.GetHostEntry(Environment.MachineName).HostName,
-                                                    Environment.OSVersion.ToString(), Status, Error, Pid, Duration.ToString());
+                                                    Environment.OSVersion.ToString(), status, error, pid, duration.ToString(), null);
 
             return applicationInfo;
         }
@@ -108,5 +103,6 @@ namespace Ghostice.Core
         public int Pid { get; protected set; }
 
         public String StartupTime { get; protected set; }
+
     }
 }

@@ -28,7 +28,7 @@ namespace Ghostice.Core
         /// <returns>A remote proxy to an instance of firstParameterType T. You can call methods 
         /// of T and the calls will be marshalled across the AppDomain boundary.</returns>
         public static T Create<T>(string baseFolder, string appDomainName,
-            object[] constructorArgs, bool partialTrust)
+            object[] constructorArgs, bool partialTrust, out AppDomain appDomain)
             where T : MarshalByRefObject
         {
             // With help from http://msdn.microsoft.com/en-us/magazine/cc163701.aspx
@@ -47,6 +47,9 @@ namespace Ghostice.Core
             {
                 newDomain = AppDomain.CreateDomain(appDomainName, null, setup);
             }
+
+            appDomain = newDomain;
+
             return (T)Activator.CreateInstanceFrom(newDomain,
                 typeof(T).Assembly.ManifestModule.FullyQualifiedName,
                 typeof(T).FullName, false,

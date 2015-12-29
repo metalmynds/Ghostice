@@ -17,7 +17,6 @@ namespace Ghostice.ApplicationKit
         private delegate void ThreadSafeLogMessage(String Message, String Result);
 
         private delegate void ThreadSafeDisplaySummary(String executable, String arguments);
-        
 
         private static ulong _rpcRequestIndex;
 

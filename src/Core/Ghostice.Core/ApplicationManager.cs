@@ -90,7 +90,7 @@ namespace Ghostice.Core
 
                 startWatch.Stop();
 
-                return ApplicationInfo.ReportStarted(ExecutablePath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+                return ApplicationInfo.ReportStarted(AppDomain.CurrentDomain.FriendlyName, ExecutablePath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
 
             }
             catch (Exception ex)

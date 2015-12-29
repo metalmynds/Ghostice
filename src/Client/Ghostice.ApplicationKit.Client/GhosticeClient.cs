@@ -105,8 +105,8 @@ namespace Ghostice.ApplicationKit
                 }
                 else
                 {
-                    return ApplicationInfo.ReportStarted(ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
-                }
+                    return ApplicationInfo.ReportStarted(result.Result.InstanceIdentifier, result.Result.ApplicationPath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+                } 
 
             }
         }

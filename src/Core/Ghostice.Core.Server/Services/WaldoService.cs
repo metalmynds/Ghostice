@@ -24,6 +24,8 @@ namespace Ghostice.Core.Server.Services
 
         private ApplicationManager _appManager;
 
+        private AppDomain _appManagerDomain;
+
         private ILease _appManagerLease;
 
         private Thread _pwnedUIThread;
@@ -68,7 +70,9 @@ namespace Ghostice.Core.Server.Services
             try
             {
 
-                _appManager = AppDomainFactory.Create<ApplicationManager>(appDomainBasePath, APPKIT_APPLICATION_DOMAIN_PREFIX, new Object[] { _extensionsPath }, false);
+                var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
+
+                _appManager = AppDomainFactory.Create<ApplicationManager>(appDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, out _appManagerDomain);
 
                 _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_appManager);
 
@@ -92,7 +96,7 @@ namespace Ghostice.Core.Server.Services
         [JsonRpcMethod]
         private void Shutdown(ApplicationInfo application)
         {
-
+            
         }
 
         [JsonRpcMethod]
