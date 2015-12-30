@@ -48,6 +48,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                 Assert.IsNotNull(result);
 
 
+
             }
 
 

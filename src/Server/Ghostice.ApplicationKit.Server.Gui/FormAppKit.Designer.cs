@@ -44,9 +44,10 @@
             // 
             // lblApplication
             // 
-            this.lblApplication.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblApplication.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblApplication.AutoSize = true;
-            this.lblApplication.Location = new System.Drawing.Point(16, 141);
+            this.lblApplication.Location = new System.Drawing.Point(11, 11);
             this.lblApplication.Name = "lblApplication";
             this.lblApplication.Size = new System.Drawing.Size(59, 13);
             this.lblApplication.TabIndex = 0;
@@ -60,9 +61,10 @@
             // 
             // lblArguments
             // 
-            this.lblArguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblArguments.AutoSize = true;
-            this.lblArguments.Location = new System.Drawing.Point(16, 167);
+            this.lblArguments.Location = new System.Drawing.Point(11, 37);
             this.lblArguments.Name = "lblArguments";
             this.lblArguments.Size = new System.Drawing.Size(57, 13);
             this.lblArguments.TabIndex = 5;
@@ -79,9 +81,9 @@
             this.colhedRequest,
             this.colhedResult});
             this.lstvewLog.FullRowSelect = true;
-            this.lstvewLog.Location = new System.Drawing.Point(14, 31);
+            this.lstvewLog.Location = new System.Drawing.Point(12, 64);
             this.lstvewLog.Name = "lstvewLog";
-            this.lstvewLog.Size = new System.Drawing.Size(687, 101);
+            this.lstvewLog.Size = new System.Drawing.Size(689, 196);
             this.lstvewLog.TabIndex = 7;
             this.lstvewLog.UseCompatibleStateImageBehavior = false;
             this.lstvewLog.View = System.Windows.Forms.View.Details;
@@ -106,30 +108,36 @@
             // 
             // txtArguments
             // 
-            this.txtArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtArguments.BackColor = System.Drawing.SystemColors.Control;
             this.txtArguments.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Ghostice.ApplicationKit.Properties.Settings.Default, "AppKitTargetArguments", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtArguments.Location = new System.Drawing.Point(81, 164);
+            this.txtArguments.Location = new System.Drawing.Point(81, 34);
             this.txtArguments.Name = "txtArguments";
+            this.txtArguments.ReadOnly = true;
             this.txtArguments.Size = new System.Drawing.Size(620, 20);
             this.txtArguments.TabIndex = 6;
             this.txtArguments.Text = global::Ghostice.ApplicationKit.Properties.Settings.Default.AppKitTargetArguments;
             // 
             // txtTarget
             // 
-            this.txtTarget.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTarget.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTarget.BackColor = System.Drawing.SystemColors.Control;
             this.txtTarget.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Ghostice.ApplicationKit.Properties.Settings.Default, "AppKitTargetPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTarget.Location = new System.Drawing.Point(81, 138);
+            this.txtTarget.Location = new System.Drawing.Point(81, 8);
             this.txtTarget.Name = "txtTarget";
+            this.txtTarget.ReadOnly = true;
             this.txtTarget.Size = new System.Drawing.Size(620, 20);
             this.txtTarget.TabIndex = 1;
             this.txtTarget.Text = global::Ghostice.ApplicationKit.Properties.Settings.Default.AppKitTargetPath;
             // 
             // lblEndPointAddress
             // 
+            this.lblEndPointAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEndPointAddress.AutoSize = true;
-            this.lblEndPointAddress.Location = new System.Drawing.Point(12, 9);
+            this.lblEndPointAddress.Location = new System.Drawing.Point(11, 269);
             this.lblEndPointAddress.Name = "lblEndPointAddress";
             this.lblEndPointAddress.Size = new System.Drawing.Size(98, 13);
             this.lblEndPointAddress.TabIndex = 10;
@@ -137,19 +145,20 @@
             // 
             // txtRpcAddress
             // 
-            this.txtRpcAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtRpcAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRpcAddress.BackColor = System.Drawing.SystemColors.Window;
-            this.txtRpcAddress.Location = new System.Drawing.Point(132, 5);
+            this.txtRpcAddress.BackColor = System.Drawing.SystemColors.Control;
+            this.txtRpcAddress.Location = new System.Drawing.Point(120, 266);
             this.txtRpcAddress.Name = "txtRpcAddress";
-            this.txtRpcAddress.Size = new System.Drawing.Size(569, 20);
+            this.txtRpcAddress.ReadOnly = true;
+            this.txtRpcAddress.Size = new System.Drawing.Size(581, 20);
             this.txtRpcAddress.TabIndex = 11;
             // 
             // FormAppKit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 196);
+            this.ClientSize = new System.Drawing.Size(713, 293);
             this.Controls.Add(this.txtRpcAddress);
             this.Controls.Add(this.lblEndPointAddress);
             this.Controls.Add(this.lstvewLog);
@@ -160,7 +169,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "FormAppKit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Ghostice Application Kit Server";
+            this.Text = " Ghostice Application Kit Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HandleAppKitFormClosed);
             this.Load += new System.EventHandler(this.HandleAppKitFormLoad);
             this.ResumeLayout(false);
