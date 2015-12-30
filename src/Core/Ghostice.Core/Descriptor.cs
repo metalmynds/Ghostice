@@ -10,21 +10,21 @@ namespace Ghostice.Core
 {
 
     [Serializable]
-    public class ControlDescription
+    public class Descriptor
     {
 
         [JsonConstructor]
-        public ControlDescription(List<Property> Properties)
+        public Descriptor(List<Property> Properties)
         {
             this.Properties = Properties;
         }
 
-        public ControlDescription()
+        public Descriptor()
         {
             Properties = new List<Property>();
         }
 
-        public ControlDescription(params Property[] List)
+        public Descriptor(params Property[] List)
         {
             Properties = new List<Property>();
 
@@ -34,7 +34,7 @@ namespace Ghostice.Core
             }
         }
 
-        public ControlDescription(params String[] KeyValueList)
+        public Descriptor(params String[] KeyValueList)
         {
             Properties = new List<Property>();
 

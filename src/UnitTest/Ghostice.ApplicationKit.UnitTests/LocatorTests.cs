@@ -10,9 +10,9 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void SimpleLocatorToString()
         {
-            var locator = new ControlPath();
+            var locator = new Locator();
 
-            var button1Descriptor = new ControlDescription();
+            var button1Descriptor = new Descriptor();
 
             locator.Path.Add(button1Descriptor);
 
@@ -28,9 +28,9 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void LongLocatorToString()
         {
-            var locator = new ControlPath();
+            var locator = new Locator();
 
-            var windowDescriptor = new ControlDescription();
+            var windowDescriptor = new Descriptor();
 
             locator.Path.Add(windowDescriptor);
 
@@ -38,7 +38,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             windowDescriptor.Properties.Add(new Property("Class", "Window"));
 
-            var groupDescriptor = new ControlDescription();
+            var groupDescriptor = new Descriptor();
 
             locator.Path.Add(groupDescriptor);
 
@@ -46,7 +46,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             groupDescriptor.Properties.Add(new Property("Class", "GroupBox"));
 
-            var buttonDescriptor = new ControlDescription();
+            var buttonDescriptor = new Descriptor();
 
             locator.Path.Add(buttonDescriptor);
 

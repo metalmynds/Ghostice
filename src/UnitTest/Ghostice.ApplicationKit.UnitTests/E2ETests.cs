@@ -47,17 +47,17 @@ namespace Ghostice.ApplicationKit.UnitTests
             //    ghostiseServer.WaitForInputIdle();
 
 
-            ControlFactory.ControlConstructor = new ControlFactory.ConstructControl((controlType, parent, name) =>
+            InterfaceControlFactory.ControlConstructor = new InterfaceControlFactory.ConstructControl((controlType, parent, name) =>
             {
 
                 Object[] parameters = new Object[1];
 
                 parameters[0] = parent;
 
-                if (ControlFactory.IsWindow(controlType))
+                if (InterfaceControlFactory.IsWindow(controlType))
                 {
 
-                    return ControlFactory.Create(controlType, parent);
+                    return InterfaceControlFactory.Create(controlType, parent);
 
                 }
                 else
@@ -99,7 +99,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 Assert.IsNotNull(mainWindow);
 
@@ -149,7 +149,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 Assert.IsNotNull(mainWindow);
 
@@ -201,7 +201,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 Assert.IsNotNull(mainWindow);
 
@@ -258,7 +258,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 Assert.IsNotNull(mainWindow);
 
@@ -319,7 +319,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Setup Main Window
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 mainWindow.WaitForReady(30);
 
@@ -382,7 +382,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Setup Main Window
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 mainWindow.WaitForReady(30);
 
@@ -447,7 +447,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 mainWindow.WaitForReady(30);
 
@@ -506,7 +506,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 mainWindow.WaitForReady(30);
 
@@ -594,7 +594,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Start(applicationPath, String.Empty, 15);
 
-                var mainWindow = ControlFactory.Create<MainFormWindow>(client.Application);
+                var mainWindow = InterfaceControlFactory.Create<MainFormWindow>(client.Application);
 
                 List<String> rules = new List<string>();
 

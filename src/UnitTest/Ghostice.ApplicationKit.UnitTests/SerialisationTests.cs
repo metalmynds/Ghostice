@@ -15,7 +15,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         public void SerialiseActionRequestToXml()
         {
 
-            var simpleLocator = new ControlPath(new ControlDescription(new Property("Name", "FormMain")));
+            var simpleLocator = new Locator(new Descriptor(new Property("Name", "FormMain")));
 
             var executeRequest = ActionRequest.Execute(simpleLocator, "Close", new ActionParameter[] { });
         
@@ -30,7 +30,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             var actual = RemoveWhitespace(builder.ToString());
 
-            var expected = "<?xml version=\"1.0\" encoding=\"utf-16\"?><ActionRequest xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Operation>Execute</Operation><Name>Close</Name><Parameters /><Location><Path><ControlDescription><Properties><Property><Name>Name</Name><Value>FormMain</Value></Property></Properties></ControlDescription></Path></Location></ActionRequest>";
+            var expected = "<?xml version=\"1.0\" encoding=\"utf-16\"?><ActionRequest xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Operation>Execute</Operation><Name>Close</Name><Parameters /><Location><Path><Descriptor><Properties><Property><Name>Name</Name><Value>FormMain</Value></Property></Properties></Descriptor></Path></Location></ActionRequest>";
 
             Assert.AreEqual<String>(expected, actual);
         }

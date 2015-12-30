@@ -110,8 +110,8 @@ namespace Ghostice.Core
 
                 var logArgsString = Request.HasParameters ? String.Join(", ", from parameter in Request.Parameters select parameter.Value.ToString()) : "None";
 
-                ControlDescription windowDescriptor = null;
-                ControlPath controlPath = null;
+                Descriptor windowDescriptor = null;
+                Locator controlPath = null;
 
                 //var controls = WindowManager.GetWindowChildControls(targetWindow);
 

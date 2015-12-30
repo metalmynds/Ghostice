@@ -20,7 +20,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find TextBox 1
 
-                var textBox1Locator = new ControlPath(new ControlDescription(new Property("Name", "textBox1")));
+                var textBox1Locator = new Locator(new Descriptor(new Property("Name", "textBox1")));
 
                 var textBox1 = WindowWalker.Locate(form, textBox1Locator);
 
@@ -28,7 +28,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find Button 1
 
-                var button1Locator = new ControlPath(new ControlDescription(new Property("Name", "button1")));
+                var button1Locator = new Locator(new Descriptor(new Property("Name", "button1")));
 
                 var button1 = WindowWalker.Locate(form, button1Locator);
 
@@ -50,7 +50,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find TextBox 1 (its nested in groupBox1)
 
-                var textBox1Locator = new ControlPath(new ControlDescription(new Property("Name", "groupBox1")), new ControlDescription(new Property("Name", "textBox1")));
+                var textBox1Locator = new Locator(new Descriptor(new Property("Name", "groupBox1")), new Descriptor(new Property("Name", "textBox1")));
 
                 var textBox1 = WindowWalker.Locate(form, textBox1Locator);
 
@@ -71,7 +71,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find TextBox 1
 
-                var text1Locator = new ControlPath(new ControlDescription(new Property("Name", "FormSimpleWalk")), new ControlDescription(new Property("Name", "textbox1")));
+                var text1Locator = new Locator(new Descriptor(new Property("Name", "FormSimpleWalk")), new Descriptor(new Property("Name", "textbox1")));
 
                 var value = "Dave Woz Here!";
 
@@ -103,7 +103,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
-                var nestedTextBoxLocator = new ControlPath(new ControlDescription(new Property("Name", "tabctrlTabControl")), new ControlDescription(new Property("Name", "tabpgeTabPage1")), new ControlDescription(new Property("Name", "txtboxTextBox")));
+                var nestedTextBoxLocator = new Locator(new Descriptor(new Property("Name", "tabctrlTabControl")), new Descriptor(new Property("Name", "tabpgeTabPage1")), new Descriptor(new Property("Name", "txtboxTextBox")));
 
                 TextBox textbox1 = WindowWalker.Locate(form, nestedTextBoxLocator) as TextBox;
 
@@ -125,7 +125,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find User Control 1
 
-                var userControl1Locator = new ControlPath(new ControlDescription(new Property("Name", "userControlSimple1")));
+                var userControl1Locator = new Locator(new Descriptor(new Property("Name", "userControlSimple1")));
 
                 var userControl = WindowWalker.Locate(form, userControl1Locator);
 
@@ -133,7 +133,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find Embedded Text Box 1
 
-                var textBox1Locator = new ControlPath(new ControlDescription(new Property("Name", "userControlSimple1")), new ControlDescription(new Property("Name", "textBox1")));
+                var textBox1Locator = new Locator(new Descriptor(new Property("Name", "userControlSimple1")), new Descriptor(new Property("Name", "textBox1")));
 
                 var textbox1 = WindowWalker.Locate(form, textBox1Locator);
 
@@ -155,7 +155,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find Component Font Dialog
 
-                var fontDialog1Locator = new ControlPath(new ControlDescription(new Property("Name", "fontDialog1")));
+                var fontDialog1Locator = new Locator(new Descriptor(new Property("Name", "fontDialog1")));
 
                 var fontDialog = WindowWalker.Locate(form, fontDialog1Locator);
 

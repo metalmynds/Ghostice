@@ -16,7 +16,7 @@ namespace Ghostice.Core
     {
         String WellKnownAs { get; }
         Boolean IsWellKnown { get; }
-        ControlDescription Descriptor { get; }
+        Descriptor Descriptor { get; }
         Type HeldType { get; }
         Object GetObject();
         InterfaceControl Parent { get; }

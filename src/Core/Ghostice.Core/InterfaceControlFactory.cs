@@ -8,7 +8,7 @@ using Ghostice.Core.Utilities;
 namespace Ghostice.Core
 {
 
-    public class ControlFactory
+    public class InterfaceControlFactory
     {
         public delegate Object ConstructControl(Type controlType, InterfaceControl parent, String name);
 
@@ -134,7 +134,7 @@ namespace Ghostice.Core
             {
                 String wellKnownName = null;
 
-                ControlDescription descriptor = GetDescriptor(member);
+                Descriptor descriptor = GetDescriptor(member);
 
                 if (descriptor != null)
                 {
@@ -171,7 +171,7 @@ namespace Ghostice.Core
 
         }
 
-        private static object CreatePlaceHolder(List<IHoldPlace> windowPlaceHolderList, String fieldPropertyName, Type genericTypedPlaceHolder, InterfaceControl parent, ControlDescription descriptor, Object window, String wellKnownName)
+        private static object CreatePlaceHolder(List<IHoldPlace> windowPlaceHolderList, String fieldPropertyName, Type genericTypedPlaceHolder, InterfaceControl parent, Descriptor descriptor, Object window, String wellKnownName)
         {
 
             object placeHolderObject = null;
@@ -208,10 +208,10 @@ namespace Ghostice.Core
             }
         }
 
-        private static ControlDescription GetDescriptor(MemberInfo member)
+        private static Descriptor GetDescriptor(MemberInfo member)
         {            
 
-            var attribute = (AutomationDescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(AutomationDescriptionAttribute), true);
+            var attribute = (AutomationDescriptorAttribute)Attribute.GetCustomAttribute(member, typeof(AutomationDescriptorAttribute), true);
 
             if (attribute != null)
             {
@@ -221,11 +221,11 @@ namespace Ghostice.Core
             return null;
         }
 
-        private static ControlDescription GetDescriptor(Type Class)
+        private static Descriptor GetDescriptor(Type Class)
         {
             var locators = new List<UIProperty>();
 
-            var attribute = (AutomationDescriptionAttribute)Attribute.GetCustomAttribute(Class, typeof(AutomationDescriptionAttribute), true);
+            var attribute = (AutomationDescriptorAttribute)Attribute.GetCustomAttribute(Class, typeof(AutomationDescriptorAttribute), true);
 
             if (attribute != null)
             {

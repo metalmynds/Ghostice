@@ -12,7 +12,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void ConstructExecuteActionRequestWithArguments()
         {
-            var locator = new ControlPath(new ControlDescription(new Property("Name", "FormA")), new ControlDescription(new Property("Name", "TabControl1")));
+            var locator = new Locator(new Descriptor(new Property("Name", "FormA")), new Descriptor(new Property("Name", "TabControl1")));
 
             var arguments = new ActionParameter[] { ActionParameter.Create(1) };
 
@@ -49,7 +49,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void ConstructActionExecuteRequest()
         {
-            var locator = new ControlPath(new ControlDescription(new Property("Name", "FormA")), new ControlDescription(new Property("Name", "Control1")));
+            var locator = new Locator(new Descriptor(new Property("Name", "FormA")), new Descriptor(new Property("Name", "Control1")));
 
             var request = new ActionRequest(locator, ActionRequest.OperationType.Execute, "Click");
 
@@ -80,7 +80,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void SerialiseActionRequestToJson()
         {
-            var locator = new ControlPath(new ControlDescription(new Property("Name", "FormMain")));
+            var locator = new Locator(new Descriptor(new Property("Name", "FormMain")));
 
             var request = new ActionRequest(locator, ActionRequest.OperationType.Execute, "Close", null, null);
 

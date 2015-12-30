@@ -157,11 +157,11 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="ActionRequest.cs" />
     <Compile Include="ApplicationManagerSponsor.cs" />
-    <Compile Include="AutomationDescriptionAttribute.cs">
+    <Compile Include="AutomationDescriptorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutomationWindowAttribute.cs" />
-    <Compile Include="ControlFactory.cs" />
+    <Compile Include="InterfaceControlFactory.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ForgetsAttribute.cs" />
     <Compile Include="IDispatcherHost.cs" />
@@ -181,8 +181,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IgnorableSerializerContractResolver.cs" />
-    <Compile Include="ControlPath.cs" />
-    <Compile Include="ControlDescription.cs" />
+    <Compile Include="Locator.cs" />
+    <Compile Include="Descriptor.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Utilities\LogHelper.cs" />
     <Compile Include="Utilities\ReflectionHelper.cs" />

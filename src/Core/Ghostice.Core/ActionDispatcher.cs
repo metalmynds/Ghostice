@@ -28,9 +28,11 @@ namespace Ghostice.Core
 
             Exception clientException = null;
 
-            ActionResult result = null;
+            JsonResponse<ActionResult> serverResponse = null;
 
-            String error = null;
+            //ActionResult result = null;
+
+            //String error = null;
 
             //var request = Request.ToJson();
 
@@ -39,7 +41,8 @@ namespace Ghostice.Core
             using (callback.Subscribe(
                 onNext: (response) =>
                 {
-                    result = response.Result;
+                    serverResponse = response;
+                    //result = response.Result;
                 },
                 onError: (ex) =>
                 {
@@ -57,19 +60,19 @@ namespace Ghostice.Core
                 completed.WaitOne();
             }
 
-            if (result == null)
+            if (serverResponse == null)
             {
                 if (clientException != null)
                     throw new ClientDispatchActionRequestFailedException(String.Format("ActionDispatcher Perform Failed!\r\nRequest:\r\n{0}\r\nError: {1}\r\nStack Trace:\r\n{2}", Request.ToString(), clientException.Message, clientException.StackTrace), clientException);
                 else
                     throw new ClientDispatchActionRequestFailedException(String.Format("ActionDispatcher Perform Failed!\r\nError: Server Return Null! and No Exception was Reported!"));
             }
-            else if (result.Error != null)
+            else if (serverResponse.Error != null)
             {
-                throw new ServerExecuteActionFailedException(Request, error);
+                throw new ServerExecuteActionFailedException(Request, serverResponse.Error.Message);
             }
 
-            return result;
+            return serverResponse.Result;
         }
 
     }

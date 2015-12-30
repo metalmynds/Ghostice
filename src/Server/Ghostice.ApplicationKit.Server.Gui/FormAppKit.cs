@@ -28,25 +28,13 @@ namespace Ghostice.ApplicationKit
 
             this.Text = "Ghostice Application Kit Server - v" + ReflectionHelper.ApplicationVersion;
 
-            var executablePath = Path.GetDirectoryName(Application.ExecutablePath);
-
-            var extensions = Path.Combine(executablePath, "Extensions");
-
-            _server = new GhosticeServer(extensions);
-
-            _server.StatusListener.ActionPerformed += Status_ActionPerformed;
-
-            _server.StatusListener.SystemUnderTestShutdown += Status_SystemUnderTestShutdown;
-
-            _server.StatusListener.SystemUnderTestStarted += Status_SystemUnderTestStarted;
-
             Helpers.PositionBottomRightDesktop(this);
 
         }
 
         void Status_SystemUnderTestStarted(object sender, StartupEventArgs e)
         {
-            DisplaySummary(e.Path, e.Arguments);         
+            DisplaySummary(e.Path, e.Arguments);
             LogMessage(String.Format("Started: {0} Arguments: {1}", e.Path, String.IsNullOrWhiteSpace(e.Arguments) ? "None" : e.Arguments), String.Empty);
         }
 
@@ -68,10 +56,31 @@ namespace Ghostice.ApplicationKit
         private void HandleAppKitFormLoad(object sender, EventArgs e)
         {
 
-            _server.Start(new Uri(Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress));
+            try
+            {
 
-            txtRpcAddress.Text = _server.EndPoint;
-           
+                var executablePath = Path.GetDirectoryName(Application.ExecutablePath);
+
+                var extensions = Path.Combine(executablePath, "Extensions");
+
+                _server = new GhosticeServer(extensions);
+
+                _server.StatusListener.ActionPerformed += Status_ActionPerformed;
+
+                _server.StatusListener.SystemUnderTestShutdown += Status_SystemUnderTestShutdown;
+
+                _server.StatusListener.SystemUnderTestStarted += Status_SystemUnderTestStarted;
+
+                _server.Start(new Uri(Ghostice.ApplicationKit.Properties.Settings.Default.AppKitRpcEndpointAddress));
+
+                txtRpcAddress.Text = _server.EndPoint;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this,String.Format("Start Application Kit Server Failed!\r\n{0}\r\n{1}",ex.Message, ex.StackTrace), "Ghostice Application Kit Server");
+                Close();
+            }
+
         }
 
         protected void LogMessage(String Message, String Result)

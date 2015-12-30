@@ -20,7 +20,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                 form.Show();
 
 
-                var nestedTextBoxLocator = new ControlPath(new ControlDescription(new Property("Name", "FormNestedTabPageControls")), new ControlDescription(new Property("Name", "tabctrlTabControl")), new ControlDescription(new Property("Name", "tabpgeTabPage1")), new ControlDescription(new Property("Name", "txtboxTextBox")));
+                var nestedTextBoxLocator = new Locator(new Descriptor(new Property("Name", "FormNestedTabPageControls")), new Descriptor(new Property("Name", "tabctrlTabControl")), new Descriptor(new Property("Name", "tabpgeTabPage1")), new Descriptor(new Property("Name", "txtboxTextBox")));
 
                 TextBox textbox1 = WindowWalker.Locate(form, nestedTextBoxLocator) as TextBox;
 

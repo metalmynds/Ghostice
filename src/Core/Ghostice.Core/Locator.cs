@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 namespace Ghostice.Core
 {
     [Serializable]
-    public class ControlPath
+    public class Locator
     {
 
-        public ControlPath()
+        public Locator()
         {
-            Path = new List<ControlDescription>();
+            this.Path = new List<Descriptor>();
         }
 
         [JsonConstructor]
-        public ControlPath(List<ControlDescription> Path)
+        public Locator(List<Descriptor> path)
         {
-            if (Path != null) this.Path = new List<ControlDescription>(Path);
+            if (path != null) this.Path = new List<Descriptor>(path);
         }
 
-        public ControlPath(params ControlDescription[] Path)
+        public Locator(params Descriptor[] path)
         {
-            if (Path != null) this.Path = new List<ControlDescription>(Path);
+            if (path != null) this.Path = new List<Descriptor>(path);
         }
 
-        public List<ControlDescription> Path { get; protected set; }
+        public List<Descriptor> Path { get; protected set; }
 
         //[JsonIgnore]
         //public Boolean HasRelative { get { return GetRelativePath.Path.Count > 0; } }
@@ -35,12 +35,12 @@ namespace Ghostice.Core
         //[JsonIgnore]
         //public Descriptor Window { get { return Path.FirstOrDefault(); } }
 
-        public ControlPath GetRelativePath()
+        public Locator GetRelativePath()
         {
 
-            ControlPath relative = new ControlPath();
+            Locator relative = new Locator();
 
-            var descriptors = new List<ControlDescription>(this.Path);
+            var descriptors = new List<Descriptor>(this.Path);
 
             if (descriptors.Count > 0)
             {

@@ -11,31 +11,31 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class BasketTabPage : WinFormControlBase
     {
 
-        [AutomationDescription("SelectPurchases", "Name=cmbPetBasket")]
+        [AutomationDescriptor("SelectPurchases", "Name=cmbPetBasket")]
         private PlaceHolder<WinFormComboBox> selectPurchases;
 
-        [AutomationDescription("BasketPurchases", "Name=lstvewBasketPurchases")]
+        [AutomationDescriptor("BasketPurchases", "Name=lstvewBasketPurchases")]
         private PlaceHolder<WinFormListView> basketPurchases;
 
-        [AutomationDescription("Cash", "Name=rdobutCash")]
+        [AutomationDescriptor("Cash", "Name=rdobutCash")]
         private PlaceHolder<WinFormRadioButton> radioCash;
 
-        [AutomationDescription("Cheque", "Name=rdobutCheque")]
+        [AutomationDescriptor("Cheque", "Name=rdobutCheque")]
         private PlaceHolder<WinFormRadioButton> radioCheque;
 
-        [AutomationDescription("Card", "Name=rdobutCard")]
+        [AutomationDescriptor("Card", "Name=rdobutCard")]
         private PlaceHolder<WinFormRadioButton> radioCard;
 
-        [AutomationDescription("VATReceipt", "Name=chkVATReceipt")]
+        [AutomationDescriptor("VATReceipt", "Name=chkVATReceipt")]
         private PlaceHolder<WinFormCheckBox> vatReceipt;
 
-        [AutomationDescription("TotalValue", "Name=lblTotalValue")]
+        [AutomationDescriptor("TotalValue", "Name=lblTotalValue")]
         private PlaceHolder<WinFormLabel> totalValue;
 
-        [AutomationDescription("BasketReset", "Name=butBasketReset")]
+        [AutomationDescriptor("BasketReset", "Name=butBasketReset")]
         private PlaceHolder<WinFormButton> basketReset;
 
-        [AutomationDescription("BasketPurchase", "Name=butBasketPurchase")]
+        [AutomationDescriptor("BasketPurchase", "Name=butBasketPurchase")]
         private PlaceHolder<WinFormButton> basketPurchase;
 
         public BasketTabPage(InterfaceControl Parent)

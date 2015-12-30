@@ -18,7 +18,7 @@ namespace Ghostice.Core
     public class PlaceHolder<T> : IHoldPlace
     {
         private String _fieldPropertyName;
-        private ControlDescription _descriptor;
+        private Descriptor _descriptor;
         private InterfaceControl _parent;
         private String _wellKnownAs;
         private Object _control;
@@ -33,7 +33,7 @@ namespace Ghostice.Core
         }
 
         public void Initialise(List<IHoldPlace> windowPlaceHolderList, String fieldPropertyName, InterfaceControl parent,
-                           ControlDescription descriptor, Object window, String wellKnownName)
+                           Descriptor descriptor, Object window, String wellKnownName)
         {
 
             windowPlaceHolderList.Add(this);
@@ -50,7 +50,7 @@ namespace Ghostice.Core
         // Use Static Method to Create PlaceHolder Instance, because Reflection Can't Pass Parameters in Net 3.5 :(
 
         public static PlaceHolder<T> Construct(List<IHoldPlace> windowPlaceHolderList, String fieldPropertyName, InterfaceControl parent,
-                           ControlDescription descriptors, Object window, String wellKnownName)
+                           Descriptor descriptors, Object window, String wellKnownName)
         {
 
             var placeholder = new PlaceHolder<T>();
@@ -86,7 +86,7 @@ namespace Ghostice.Core
                 if (_control == null)
                 {
 
-                    if (ControlFactory.ControlConstructor == null)
+                    if (InterfaceControlFactory.ControlConstructor == null)
                     {
                         throw new ControlFactoryConstructorDelegateNullException();
                     }
@@ -96,7 +96,7 @@ namespace Ghostice.Core
                     try
                     {
                         // Create ControlType
-                        _control = ControlFactory.ControlConstructor.Invoke(heldControlType, this.Parent,
+                        _control = InterfaceControlFactory.ControlConstructor.Invoke(heldControlType, this.Parent,
                                                                           Guid.NewGuid().ToString("N"));
                         // Add Path List
                         ((InterfaceControl)_control).SetDescription(this.Descriptor);
@@ -124,7 +124,7 @@ namespace Ghostice.Core
             get { return _wellKnownAs; }
         }
 
-        public ControlDescription Descriptor
+        public Descriptor Descriptor
         {
             get { return _descriptor; }
         }
@@ -212,12 +212,12 @@ namespace Ghostice.Core
     public class PlaceHolder
     {
 
-        public static PlaceHolder<T> Create<T>(InterfaceControl Parent, List<IHoldPlace> WellKnownList, AutomationDescriptionAttribute FindBy)
+        public static PlaceHolder<T> Create<T>(InterfaceControl Parent, List<IHoldPlace> WellKnownList, AutomationDescriptorAttribute FindBy)
         {
             return Create<T>(Parent, null, WellKnownList, FindBy);
         }
 
-        public static PlaceHolder<T> Create<T>(InterfaceControl Parent, Object Window, List<IHoldPlace> WellKnownList, AutomationDescriptionAttribute FindBy)
+        public static PlaceHolder<T> Create<T>(InterfaceControl Parent, Object Window, List<IHoldPlace> WellKnownList, AutomationDescriptorAttribute FindBy)
         {
 
             var placeHolder = new PlaceHolder<T>();

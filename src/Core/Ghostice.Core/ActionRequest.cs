@@ -32,14 +32,14 @@ namespace Ghostice.Core
 
         }
 
-        public ActionRequest(ControlPath Target, OperationType Operation, String Name)
+        public ActionRequest(Locator Target, OperationType Operation, String Name)
         {
             this.Operation = Operation;
             this.Name = Name;
             this.Location = Target;
         }
 
-        public ActionRequest(ControlPath Target, OperationType Operation, String Name, String Value, Type ValueType)
+        public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType)
         {
             this.Location = Target;
             this.Operation = Operation;
@@ -49,7 +49,7 @@ namespace Ghostice.Core
         }
 
         [JsonConstructor]
-        public ActionRequest(ControlPath Location, OperationType Operation, String Name, String Value, Type ValueType, ActionParameter[] Parameters)
+        public ActionRequest(Locator Location, OperationType Operation, String Name, String Value, Type ValueType, ActionParameter[] Parameters)
         {
             this.Operation = Operation;
             this.Name = Name;
@@ -76,7 +76,7 @@ namespace Ghostice.Core
             get { return this.Parameters != null; }
         }
 
-        public ControlPath Location { get; set; }
+        public Locator Location { get; set; }
 
         public virtual String ToJson()
         {
@@ -108,37 +108,37 @@ namespace Ghostice.Core
             return new ActionRequest(null, OperationType.List, null);
         }
 
-        public static ActionRequest Ready(ControlPath Target, int TimeoutSeconds)
+        public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
         {
             return new ActionRequest(Target, OperationType.Ready, null, null, null, new ActionParameter[] { ActionParameter.Create(TimeoutSeconds) });
         }
 
-        public static ActionRequest Tell(ControlPath Target, String Name)
+        public static ActionRequest Tell(Locator Target, String Name)
         {
             return new ActionRequest(Target, OperationType.Tell, Name);
         }
 
-        public static ActionRequest Map(ControlPath Target, String[] Properties)
+        public static ActionRequest Map(Locator Target, String[] Properties)
         {
             return new ActionRequest(Target, OperationType.Map, "Map", null, null, new ActionParameter[] { ActionParameter.Create(Properties) } );
         }
 
-        public static ActionRequest Execute(ControlPath Target, String Name)
+        public static ActionRequest Execute(Locator Target, String Name)
         {
             return new ActionRequest(Target, OperationType.Execute, Name);
         }
 
-        public static ActionRequest Execute(ControlPath Target, String Name, ActionParameter[] Parameters)
+        public static ActionRequest Execute(Locator Target, String Name, ActionParameter[] Parameters)
         {
             return new ActionRequest(Target, OperationType.Execute, Name, null, null, Parameters);
         }
 
-        public static ActionRequest Get(ControlPath Target, String Name)
+        public static ActionRequest Get(Locator Target, String Name)
         {
             return new ActionRequest(Target, OperationType.Get, Name);
         }
 
-        public static ActionRequest Set(ControlPath Target, String Name, String Value, Type ValueType)
+        public static ActionRequest Set(Locator Target, String Name, String Value, Type ValueType)
         {
             return new ActionRequest(Target, OperationType.Set, Name, Value, ValueType);
         }

@@ -10,7 +10,7 @@ namespace Ghostice.Core
 {
     public abstract class InterfaceControl
     {
-        protected ControlDescription _descriptor = new ControlDescription();
+        protected Descriptor _descriptor = new Descriptor();
         protected InterfaceControl _parent;
 
         public InterfaceControl(InterfaceControl Parent)
@@ -18,7 +18,7 @@ namespace Ghostice.Core
             _parent = Parent;
         }
 
-        public void SetDescription(ControlDescription Descriptor)
+        public void SetDescription(Descriptor Descriptor)
         {
             _descriptor = Descriptor;
         }
@@ -58,7 +58,7 @@ namespace Ghostice.Core
 
         //}
 
-        public ControlDescription Description
+        public Descriptor Description
         {
             get
             {
@@ -71,12 +71,12 @@ namespace Ghostice.Core
         //    _descriptor.Properties.Clear();
         //}
 
-        public ControlPath Path
+        public Locator Path
         {
             get
             {
 
-                var fullPath = new ControlPath();
+                var fullPath = new Locator();
 
                 InterfaceControl target = this;
 

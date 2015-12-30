@@ -11,9 +11,9 @@ namespace Ghostice.Core
 {
     public static class WindowWalker
     {
-        delegate Object UIThreadSafeLocate(Control Root, ControlPath Path);
+        delegate Object UIThreadSafeLocate(Control Root, Locator Path);
 
-        public static Control Locate(ControlDescription Description)
+        public static Control Locate(Descriptor Description)
         {
             var targetWindows = WindowManager.GetWindowControls();
 
@@ -39,7 +39,7 @@ namespace Ghostice.Core
             return targetWindow;
         }
 
-        public static Object Locate(Control Root, ControlPath Path)
+        public static Object Locate(Control Root, Locator Path)
         {
 
             Object currentControl = Root;
@@ -114,7 +114,7 @@ namespace Ghostice.Core
             return currentControl;
         }
 
-        private static Boolean TryLocate(Object Root, ControlDescription Description, out Control Found)
+        private static Boolean TryLocate(Object Root, Descriptor Description, out Control Found)
         {
 
             if (Root is Control)
@@ -150,12 +150,12 @@ namespace Ghostice.Core
             }
         }
 
-        public static Boolean Compare(ControlDescription Description, Control Control)
+        public static Boolean Compare(Descriptor Description, Control Control)
         {
             return Compare(Description, GetProperties(Control, Description.RequiredProperties));
         }
 
-        public static Boolean Compare(ControlDescription Description, PropertyCollection Properties)
+        public static Boolean Compare(Descriptor Description, PropertyCollection Properties)
         {
             foreach (var propertyName in Description.RequiredProperties)
             {
