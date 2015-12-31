@@ -61,7 +61,7 @@ namespace Ghostice.Core
 
             List<String> controlDescription = new List<string>();
 
-            foreach (var descriptor in Path)
+            foreach (var descriptor in this.Path)
             {
 
                 controlDescription.Add(descriptor.ToString());
