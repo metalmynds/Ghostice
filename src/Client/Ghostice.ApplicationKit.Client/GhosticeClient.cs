@@ -105,7 +105,6 @@ namespace Ghostice.ApplicationKit
                 return ApplicationInfo.ReportStarted(result.Result.InstanceIdentifier, result.Result.ApplicationPath, arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
             }
 
-
         }
 
         public ApplicationRoot Application

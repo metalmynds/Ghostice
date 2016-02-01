@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Ghostice.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ghostice.Core.Extensions
+namespace Ghostice.WinForms.Extensions
 {
     [ControlExtensionProvider(typeof(ListBox))]
     public static class ListBoxExtensions

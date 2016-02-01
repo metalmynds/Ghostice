@@ -138,7 +138,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -206,6 +208,7 @@
     <Compile Include="CoreTests.cs" />
     <Compile Include="MapTests.cs" />
     <Compile Include="FrameworkTests.cs" />
+    <Compile Include="DiagnosticTests.cs" />
     <Compile Include="WindowTests.cs" />
     <Compile Include="UserControlSimple.cs">
       <SubType>UserControl</SubType>
@@ -247,10 +250,6 @@
     <ProjectReference Include="..\..\Client\Ghostice.Framework\Ghostice.Framework.csproj">
       <Project>{8a1a7b7c-78db-45fd-8d46-1533000a1445}</Project>
       <Name>Ghostice.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj">
-      <Project>{b7b29504-95ac-4405-8a4b-3dd6c7cde6db}</Project>
-      <Name>Ghostice.Core.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Ghostice.Core.Server\Ghostice.Core.Server.csproj">
       <Project>{f2d8c7ff-4265-4f5d-a8f3-86b14960ea55}</Project>

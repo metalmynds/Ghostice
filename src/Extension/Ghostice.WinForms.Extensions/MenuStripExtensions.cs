@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Ghostice.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ghostice.Core.Extensions
+namespace Ghostice.WinForms.Extensions
 {
-
     [ControlExtensionProvider(typeof(MenuStrip))]
     public static class MenuStripExtensions
     {
-
 
         public static Boolean PerformClickMenu(this MenuStrip mainMenu, String path)
         {

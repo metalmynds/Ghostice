@@ -49,16 +49,16 @@ namespace Ghostice.Core
 
                             // Look for all Types (Classes) that have the ControlExtensionProvider Attribute
 
-                            var extensionProviderTypes = from type in extensionAssembly.GetTypes() where AttributeHelper.HasAttribute<ControlExtensionProviderAttribute>(type) select type;
+                            var extensionProviderTypes = ExtensionHelper.FindExtensionProviders(extensionAssembly);
 
                             foreach (var extensionProvider in extensionProviderTypes)
                             {
 
-                                var extensionAttribute = AttributeHelper.GetAttribute<ControlExtensionProviderAttribute>(extensionProvider);
+                                var providerAttribute = AttributeHelper.GetAttribute<ControlExtensionProviderAttribute>(extensionProvider);
 
                                 // Index the Provider by the type provided this allows multiple extensions to target the same currentControl (obviously as long as names don't clash!)
 
-                                AddExtension(extensionAttribute.Provided, extensionProvider);
+                                AddExtension(providerAttribute.Provided, extensionProvider);
 
                             }
 

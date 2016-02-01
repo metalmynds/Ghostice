@@ -24,7 +24,7 @@ namespace Ghostice.Core.Server.Services
 
         private ApplicationManager _appManager;
 
-        private AppDomain _appManagerDomain;
+        private AppDomain _sutAppDomain;
 
         private ILease _appManagerLease;
 
@@ -36,9 +36,11 @@ namespace Ghostice.Core.Server.Services
 
         private String _extensionsPath;
 
+        private String _sutAppDomainBasePath;
+
         public WaldoService(IWaldoListener listener, String extensionsPath)
         {
-            
+
             _listener = listener;
 
             _extensionsPath = extensionsPath;
@@ -66,9 +68,9 @@ namespace Ghostice.Core.Server.Services
                 throw new FileNotFoundException("System Under Test Path Not Found!", executablePath);
             }
 
-            var args = String.IsNullOrWhiteSpace(arguments) ? String.Empty : arguments;
+            arguments = String.IsNullOrWhiteSpace(arguments) ? String.Empty : arguments;
 
-            var appDomainBasePath = Path.GetDirectoryName(executablePath);
+            _sutAppDomainBasePath = Path.GetDirectoryName(executablePath);
 
             LogTo.Info(String.Format("Starting: {0} Arguments: {1}", executablePath, String.IsNullOrWhiteSpace(arguments) ? "None" : arguments), String.Empty);
 
@@ -77,18 +79,52 @@ namespace Ghostice.Core.Server.Services
 
                 var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
 
-                _appManager = AppDomainFactory.Create<ApplicationManager>(appDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, out _appManagerDomain);
+                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, (args) =>
+                {
+
+                    // We need to handle loading of Ghostice.Core.Extensions Assembly in SUT App Domain (it resides in bin folder)
+                    //var name = new AssemblyName(args.Name).Name;
+
+                    try
+                    {
+
+                        var assemblies = _sutAppDomain.GetAssemblies();
+
+                        var allreadyLoaded = (from assembly in assemblies where assembly.FullName == args.Name select assembly).Single();
+
+                        if (allreadyLoaded != null)
+                        {
+                            return allreadyLoaded;
+                        }
+                        else
+                        {
+
+                            var filename = new AssemblyName(args.Name).Name;
+
+                            return Assembly.LoadFile(Path.Combine(_sutAppDomainBasePath, filename));
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        var exception = new WaldoServiceException(String.Format("Load Assembly for System Under Test Failed!\r\nAssembly Name: {0}", args.Name),ex);
+                        LogTo.FatalException("Load SUT Assembly into Application Domain Failed!", exception);
+                        throw exception;
+                    }
+                }, out _sutAppDomain);
 
                 _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_appManager);
 
                 _appManagerLease.Register(_appManagerSponsor);
 
-                _sutInformation = _appManager.Start(executablePath, args, _sutStartupTimeout);
+                _sutInformation = _appManager.Start(executablePath, arguments, _sutStartupTimeout);
 
             }
             catch (Exception ex)
             {
-                LogTo.ErrorException("Start System Under Test Failed!", ex);
+                var exception = new WaldoServiceException("Start System Under Test Failed!", ex);
+                LogTo.FatalException("Startup of SUT Failed!", exception);
+                throw exception;
             }
 
             LogTo.Info(String.Format("Started: {0}", executablePath), String.Empty);
@@ -98,10 +134,35 @@ namespace Ghostice.Core.Server.Services
             return _sutInformation;
         }
 
+        private Assembly _sutAppDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // We need to handle loading of Ghostice.Core.Extensions Assembly in SUT App Domain (it resides in bin folder)
+            //var name = new AssemblyName(args.Name).Name;
+
+            var assemblies = _sutAppDomain.GetAssemblies();
+
+            var allreadyLoaded = (from assembly in assemblies where assembly.FullName == args.Name select assembly).Single();
+
+            if (allreadyLoaded != null)
+            {
+                return allreadyLoaded;
+            }
+            else
+            {
+
+                var filename = new AssemblyName(args.Name).Name;
+
+                return Assembly.LoadFile(Path.Combine(_sutAppDomainBasePath, filename));
+
+            }
+
+
+        }
+
         [JsonRpcMethod]
         private void Shutdown(ApplicationInfo application)
         {
-            
+
         }
 
         [JsonRpcMethod]
@@ -139,7 +200,7 @@ namespace Ghostice.Core.Server.Services
                     return actionResult;
 
                 case ActionRequest.OperationType.Execute:
-                    
+
                     var executeDisplayArgs = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value.ToString()) : "None";
 
                     var executeResult = _appManager.Perform(request);

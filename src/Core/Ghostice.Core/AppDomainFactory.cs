@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
 using System.Text;
@@ -8,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core
 {
-    /// <summary><see cref="AppDomainFactory.StartApplication"/> starts an AppDomain.</summary>
+    /// <summary><see cref="AppDomainFactory.Create"/> starts an AppDomain.</summary>
     public static class AppDomainFactory
     {
+        public delegate Assembly AssemblyResolution(ResolveEventArgs args);
+
+        private static AssemblyResolution _assemblyResolver;
+
         /// <summary>Creates a firstParameterType in a new sandbox-friendly AppDomain.</summary>
         /// <typeparam name="T">A trusted firstParameterType derived MarshalByRefObject to create 
         /// in the new AppDomain. The constructor of this firstParameterType must catch any 
@@ -25,36 +30,50 @@ namespace Ghostice.Core
         /// untrusted extensionProviderTypes this way.</param>
         /// <param name="partialTrust">Whether the new AppDomain should run in 
         /// partial-trust mode.</param>
+        /// <param name="appDomain">Output new AppDomain</param>
+
         /// <returns>A remote proxy to an instance of firstParameterType T. You can call methods 
         /// of T and the calls will be marshalled across the AppDomain boundary.</returns>
         public static T Create<T>(string baseFolder, string appDomainName,
-            object[] constructorArgs, bool partialTrust, out AppDomain appDomain)
+            object[] constructorArgs, bool partialTrust, AssemblyResolution resolver, out AppDomain appDomain)
             where T : MarshalByRefObject
         {
             // With help from http://msdn.microsoft.com/en-us/magazine/cc163701.aspx
             AppDomainSetup setup = new AppDomainSetup();
             setup.ApplicationBase = baseFolder;
 
-            AppDomain newDomain;
             if (partialTrust)
             {
                 var permSet = new PermissionSet(PermissionState.None);
                 permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
                 permSet.AddPermission(new UIPermission(PermissionState.Unrestricted));
-                newDomain = AppDomain.CreateDomain(appDomainName, null, setup, permSet);
+                appDomain = AppDomain.CreateDomain(appDomainName, null, setup, permSet);
             }
             else
             {
-                newDomain = AppDomain.CreateDomain(appDomainName, null, setup);
+                appDomain = AppDomain.CreateDomain(appDomainName, null, setup);
             }
 
-            appDomain = newDomain;
+            if (resolver != null)
+            {
+                _assemblyResolver = resolver;
+                appDomain.AssemblyResolve += AppDomain_AssemblyResolve;
+            }
+            else
+            {
+                _assemblyResolver = null;
+            }
 
-            return (T)Activator.CreateInstanceFrom(newDomain,
+            return (T)Activator.CreateInstanceFrom(appDomain,
                 typeof(T).Assembly.ManifestModule.FullyQualifiedName,
                 typeof(T).FullName, false,
                 0, null, constructorArgs, null, null).Unwrap();
 
+        }
+
+        private static Assembly AppDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return _assemblyResolver(args); 
         }
     }
 }

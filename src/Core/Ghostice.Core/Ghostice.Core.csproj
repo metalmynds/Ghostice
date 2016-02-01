@@ -161,6 +161,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutomationWindowAttribute.cs" />
+    <Compile Include="ControlExtensionProviderAttribute.cs" />
+    <Compile Include="Diagnostics\DiagnosticManager.cs" />
+    <Compile Include="Diagnostics\ExtensionInfo.cs" />
+    <Compile Include="Diagnostics\ExtensionMethodInfo.cs" />
+    <Compile Include="Diagnostics\ExtensionParameterInfo.cs" />
+    <Compile Include="ExtensionHelper.cs" />
     <Compile Include="InterfaceControlFactory.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ForgetsAttribute.cs" />
@@ -211,11 +217,8 @@
       <Project>{24fc1a2a-0bc3-43a7-9bfe-b628c2c4a307}</Project>
       <Name>AustinHarris.JsonRpc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj">
-      <Project>{b7b29504-95ac-4405-8a4b-3dd6c7cde6db}</Project>
-      <Name>Ghostice.Core.Extensions</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
