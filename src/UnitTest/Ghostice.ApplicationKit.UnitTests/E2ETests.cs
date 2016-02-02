@@ -18,8 +18,8 @@ namespace Ghostice.ApplicationKit.UnitTests
     {
         public const String SERVER_NAME = "WGhostice";
 
-        public const String WINFORMS_TEST_SUT = @"Example\WinForms\Example.PetShop.WinForms.exe";
-        //public const String WINFORMS_TEST_SUT = @"Example.PetShop.WinForms.exe";
+        //public const String WINFORMS_TEST_SUT = @"Example\WinForms\Example.PetShop.WinForms.exe";
+        public const String WINFORMS_TEST_SUT = @"Example.PetShop.WinForms.exe";
 
         //private Process ghostiseServer;
 
