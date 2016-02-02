@@ -14,11 +14,13 @@ namespace Ghostice.Core
         delegate WindowInfo UIThreadSafeCreate(Control Window);
 
         [JsonConstructor]
-        public WindowInfo(long handle, String type, String name)
+        public WindowInfo(long handle, String type, String name, String title, String tag)
         {
             this.Handle = handle;
             this.Type = type;
             this.Name = name;
+            this.Title = title;
+            this.Tag = tag;
         }
 
         public long Handle { get; protected set; }
@@ -26,6 +28,10 @@ namespace Ghostice.Core
         public String Type { get; protected set; }
 
         public String Name { get; protected set; }
+
+        public String Title { get; protected set; }
+
+        public String Tag { get; protected set; }
 
         public static WindowInfo Create(Control Window)
         {
@@ -35,7 +41,7 @@ namespace Ghostice.Core
             }
             else
             {
-                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name);
+                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString());
             }
         }
     }

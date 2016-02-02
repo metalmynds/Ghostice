@@ -8,6 +8,7 @@ using Anotar.NLog;
 using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Remoting;
 using Ghostice.Core.Server.Utilities;
+using static Ghostice.Core.AppDomainFactory;
 
 namespace Ghostice.Core.Server.Services
 {
@@ -83,55 +84,7 @@ namespace Ghostice.Core.Server.Services
 
                 var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
 
-                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, (args) =>
-                {
-
-                    // We need to handle loading of Ghostice.Core Assembly in SUT App Domain (it resides in bin folder)
-                    //var name = new AssemblyName(args.Name).Name;
-
-                    try
-                    {
-
-                        var assemblies = _sutAppDomain.GetAssemblies();
-
-                        var allreadyLoaded = (from assembly in assemblies where assembly.FullName == args.Name select assembly).Single();
-
-                        if (allreadyLoaded != null)
-                        {
-                            return allreadyLoaded;
-                        }
-                        else
-                        {
-
-                            var filename = new AssemblyName(args.Name).Name;
-
-                            var sutPath = Path.Combine(_sutAppDomainBasePath, filename);
-
-                            if (File.Exists(sutPath))
-                            {
-                                return Assembly.LoadFile(sutPath);
-                            }
-                            else
-                            {
-                                var serverPath = Path.Combine(_binariesPath, filename);
-
-                                if (!File.Exists(serverPath))
-                                {
-                                    throw new FileNotFoundException(String.Format("Assembly Not Found in SUT or Service Folder! Assembly: {0}", args.Name), filename);
-                                }
-
-                                return Assembly.LoadFile(serverPath);
-                            }
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        var exception = new WaldoServiceException(String.Format("Load Assembly for System Under Test Failed!\r\nAssembly Name: {0}", args.Name), ex);
-                        LogTo.FatalException("Load SUT Assembly into Application Domain Failed!", exception);
-                        throw exception;
-                    }
-                }, out _sutAppDomain);
+                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
 
                 _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_appManager);
 
@@ -154,29 +107,53 @@ namespace Ghostice.Core.Server.Services
             return _sutInformation;
         }
 
-        private Assembly _sutAppDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        private Assembly HandleSutAppDomainAssemblyResolve(ResolveEventArgs args)
         {
-            // We need to handle loading of Ghostice.Core.Extensions Assembly in SUT App Domain (it resides in bin folder)
+            // We need to handle loading of Ghostice.Core.Extensions Assembly in SUT App Domain (it resides in the servers bin folder)
             //var name = new AssemblyName(args.Name).Name;
 
-            var assemblies = _sutAppDomain.GetAssemblies();
-
-            var allreadyLoaded = (from assembly in assemblies where assembly.FullName == args.Name select assembly).Single();
-
-            if (allreadyLoaded != null)
-            {
-                return allreadyLoaded;
-            }
-            else
+            try
             {
 
-                var filename = new AssemblyName(args.Name).Name;
+                var assemblies = _sutAppDomain.GetAssemblies();
 
-                return Assembly.LoadFile(Path.Combine(_sutAppDomainBasePath, filename));
+                var allreadyLoaded = (from assembly in assemblies where assembly.FullName == args.Name select assembly).Single();
 
+                if (allreadyLoaded != null)
+                {
+                    return allreadyLoaded;
+                }
+                else
+                {
+
+                    var filename = new AssemblyName(args.Name).Name;
+
+                    var sutPath = Path.Combine(_sutAppDomainBasePath, filename);
+
+                    if (File.Exists(sutPath))
+                    {
+                        return Assembly.LoadFile(sutPath);
+                    }
+                    else
+                    {
+                        var serverPath = Path.Combine(_binariesPath, filename);
+
+                        if (!File.Exists(serverPath))
+                        {
+                            throw new FileNotFoundException(String.Format("Assembly Not Found in SUT or Service Folder! Assembly: {0}", args.Name), filename);
+                        }
+
+                        return Assembly.LoadFile(serverPath);
+                    }
+
+                }
             }
-
-
+            catch (Exception ex)
+            {
+                var exception = new WaldoServiceException(String.Format("Load Assembly for System Under Test Failed!\r\nAssembly Name: {0}", args.Name), ex);
+                LogTo.FatalException("Load SUT Assembly into Application Domain Failed!", exception);
+                throw exception;
+            }
         }
 
         [JsonRpcMethod]
