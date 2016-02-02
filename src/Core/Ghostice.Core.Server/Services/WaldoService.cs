@@ -36,12 +36,16 @@ namespace Ghostice.Core.Server.Services
 
         private String _extensionsPath;
 
+        private String _binariesPath;
+
         private String _sutAppDomainBasePath;
 
-        public WaldoService(IWaldoListener listener, String extensionsPath)
+        public WaldoService(IWaldoListener listener, String binariesPath, String extensionsPath)
         {
 
             _listener = listener;
+
+            _binariesPath = binariesPath;
 
             _extensionsPath = extensionsPath;
 
@@ -82,7 +86,7 @@ namespace Ghostice.Core.Server.Services
                 _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, (args) =>
                 {
 
-                    // We need to handle loading of Ghostice.Core.Extensions Assembly in SUT App Domain (it resides in bin folder)
+                    // We need to handle loading of Ghostice.Core Assembly in SUT App Domain (it resides in bin folder)
                     //var name = new AssemblyName(args.Name).Name;
 
                     try
@@ -101,13 +105,29 @@ namespace Ghostice.Core.Server.Services
 
                             var filename = new AssemblyName(args.Name).Name;
 
-                            return Assembly.LoadFile(Path.Combine(_sutAppDomainBasePath, filename));
+                            var sutPath = Path.Combine(_sutAppDomainBasePath, filename);
+
+                            if (File.Exists(sutPath))
+                            {
+                                return Assembly.LoadFile(sutPath);
+                            }
+                            else
+                            {
+                                var serverPath = Path.Combine(_binariesPath, filename);
+
+                                if (!File.Exists(serverPath))
+                                {
+                                    throw new FileNotFoundException(String.Format("Assembly Not Found in SUT or Service Folder! Assembly: {0}", args.Name), filename);
+                                }
+
+                                return Assembly.LoadFile(serverPath);
+                            }
 
                         }
                     }
                     catch (Exception ex)
                     {
-                        var exception = new WaldoServiceException(String.Format("Load Assembly for System Under Test Failed!\r\nAssembly Name: {0}", args.Name),ex);
+                        var exception = new WaldoServiceException(String.Format("Load Assembly for System Under Test Failed!\r\nAssembly Name: {0}", args.Name), ex);
                         LogTo.FatalException("Load SUT Assembly into Application Domain Failed!", exception);
                         throw exception;
                     }

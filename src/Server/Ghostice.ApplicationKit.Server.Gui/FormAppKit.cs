@@ -28,6 +28,8 @@ namespace Ghostice.ApplicationKit
 
             this.Text = "Ghostice Application Kit Server - v" + ReflectionHelper.ApplicationVersion;
 
+            trevewDiagnostics.ExpandAll();
+
             Helpers.PositionBottomRightDesktop(this);
 
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.Core", "src\Core\Ghostice.Core\Ghostice.Core.csproj", "{F70D5565-16BD-4132-B072-7D6920E9F92D}"
 EndProject
@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B749A
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.Core.Extensions", "src\Core\Ghostice.Core.Extensions\Ghostice.Core.Extensions.csproj", "{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02C2683E-2EED-474B-B2DE-CCE70243DB9C}"
 	ProjectSection(SolutionItems) = preProject
@@ -56,22 +54,6 @@ Global
 		{F70D5565-16BD-4132-B072-7D6920E9F92D}.WindowsPhone|Mixed Platforms.ActiveCfg = Release|x86
 		{F70D5565-16BD-4132-B072-7D6920E9F92D}.WindowsPhone|Mixed Platforms.Build.0 = Release|x86
 		{F70D5565-16BD-4132-B072-7D6920E9F92D}.WindowsPhone|x86.ActiveCfg = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|Any CPU.Build.0 = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|x86.ActiveCfg = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Debug|x86.Build.0 = Debug|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Release|Mixed Platforms.Build.0 = Release|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.Release|x86.ActiveCfg = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.WindowsPhone|Any CPU.ActiveCfg = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.WindowsPhone|Any CPU.Build.0 = Release|Any CPU
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.WindowsPhone|Mixed Platforms.ActiveCfg = Release|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.WindowsPhone|Mixed Platforms.Build.0 = Release|x86
-		{B7B29504-95AC-4405-8A4B-3DD6C7CDE6DB}.WindowsPhone|x86.ActiveCfg = Release|Any CPU
 		{A685561C-E5FA-4C1E-9F9E-2F84B0238C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A685561C-E5FA-4C1E-9F9E-2F84B0238C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A685561C-E5FA-4C1E-9F9E-2F84B0238C00}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

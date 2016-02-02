@@ -62,7 +62,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -326,11 +326,10 @@
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin" /E /Y
-xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin" /E /Y
-REM xcopy "$(SolutionDir)src\Server\Ghostice.ApplicationKit.Server.Gui\Extensions\*.*" 
-
-</PostBuildEvent>
+    <PostBuildEvent>REM xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin\Example\WinForms\" /Y /S /E
+REM xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin\Example\Wpf\" /Y /S /E
+xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin" /Y 
+xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin" /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

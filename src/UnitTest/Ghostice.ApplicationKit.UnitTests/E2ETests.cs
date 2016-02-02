@@ -18,6 +18,9 @@ namespace Ghostice.ApplicationKit.UnitTests
     {
         public const String SERVER_NAME = "WGhostice";
 
+        //public const String WINFORMS_TEST_SUT = @"Example\WinForms\Example.PetShop.WinForms.exe";
+        public const String WINFORMS_TEST_SUT = @"Example.PetShop.WinForms.exe";
+
         //private Process ghostiseServer;
 
         [TestInitialize]
@@ -95,7 +98,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21555");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
@@ -145,7 +148,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21555");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
@@ -197,7 +200,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21555");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
@@ -254,7 +257,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21599");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 
@@ -313,7 +316,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21600");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 
@@ -376,7 +379,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21599");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 
@@ -443,7 +446,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21599");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 
@@ -502,7 +505,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21299");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 
@@ -590,7 +593,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 client.Connect("http://localhost:21299");
 
-                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Example.PetShop.WinForms.exe");
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
 
                 client.Start(applicationPath, String.Empty, 15);
 

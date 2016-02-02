@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AustinHarris.JsonRpc", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.WinForms.Extensions", "src\Extension\Ghostice.WinForms.Extensions\Ghostice.WinForms.Extensions.csproj", "{B8F4E575-5173-4E3A-ADC3-168F0555D78D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostice.WinForms.Infragistics.Extensions", "src\Extension\Ghostice.WinForms.Infragistics.Extensions\Ghostice.WinForms.Infragistics.Extensions.csproj", "{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +251,24 @@ Global
 		{B8F4E575-5173-4E3A-ADC3-168F0555D78D}.WindowsPhone|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8F4E575-5173-4E3A-ADC3-168F0555D78D}.WindowsPhone|x86.ActiveCfg = Release|Any CPU
 		{B8F4E575-5173-4E3A-ADC3-168F0555D78D}.WindowsPhone|x86.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.Release|x86.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|Any CPU.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|Any CPU.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|Mixed Platforms.Build.0 = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|x86.ActiveCfg = Release|Any CPU
+		{AD99A74E-4CD1-472D-96F3-B08B4ED885B2}.WindowsPhone|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

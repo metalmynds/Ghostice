@@ -3,6 +3,7 @@ using Ghostice.Core.Server.Rpc;
 using Ghostice.Core.Server.Services;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Ghostice.Core.Server
 {
@@ -19,6 +20,8 @@ namespace Ghostice.Core.Server
 
         private String _extensions;
 
+        private String _serverBinPath;
+
         public GhosticeServer(String Extensions) : this(null, Extensions) { }
 
         public GhosticeServer(IWaldoListener Receiver, String Extensions)
@@ -31,6 +34,8 @@ namespace Ghostice.Core.Server
 
             _extensions = Extensions;
 
+            _serverBinPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             if (Receiver == null)
             {
                 Receiver = new WaldoServiceListener();
@@ -38,7 +43,7 @@ namespace Ghostice.Core.Server
 
             _status = Receiver;
 
-            _service = new WaldoService(_status, _extensions); // RPC Service Registration is Automatic
+            _service = new WaldoService(_status, _serverBinPath, _extensions); // RPC Service Registration is Automatic
 
         }
 
