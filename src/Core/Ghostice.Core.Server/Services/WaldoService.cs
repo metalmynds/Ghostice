@@ -8,6 +8,7 @@ using Anotar.NLog;
 using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Remoting;
 using Ghostice.Core.Server.Utilities;
+using static Ghostice.Core.AppDomainFactory;
 
 namespace Ghostice.Core.Server.Services
 {
@@ -83,7 +84,7 @@ namespace Ghostice.Core.Server.Services
 
                 var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
 
-                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AppDomainFactory.AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
+                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
 
                 _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_appManager);
 
