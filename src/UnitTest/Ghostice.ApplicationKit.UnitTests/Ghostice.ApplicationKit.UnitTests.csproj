@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ghostice.ApplicationKit.UnitTests</RootNamespace>
     <AssemblyName>Ghostice.ApplicationKit.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,7 +16,8 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>55200f57</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
@@ -108,20 +109,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Anotar.NLog, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Anotar.NLog.Fody.2.20.0\Lib\Anotar.NLog.dll</HintPath>
+      <HintPath>..\..\..\packages\Anotar.NLog.Fody.2.17.0\Lib\Anotar.NLog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\NLog.4.0.0\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NSubstitute, Version=1.9.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
+    <Reference Include="NLog, Version=3.2.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NLog.3.2.1\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -326,10 +322,10 @@
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin\Example\WinForms\" /Y /S /E
-xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin\Example\Wpf\" /Y /S /E
-REM xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin" /Y 
-REM xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin" /Y</PostBuildEvent>
+    <PostBuildEvent>REM xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin\Example\WinForms\" /Y /S /E
+REM xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin\Example\Wpf\" /Y /S /E
+xcopy "$(ProjectDir)Examples\WinForms\*.*" "$(SolutionDir)bin" /Y 
+xcopy "$(ProjectDir)Examples\Wpf\*.*" "$(SolutionDir)bin" /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

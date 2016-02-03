@@ -69,7 +69,7 @@ namespace Ghostice.Core.Server
 
         public void Shutdown()
         {
-            throw new NotImplementedException();
+            _server.Shutdown();
         }
 
         public String EndPoint { get { return _endPoint.ToString(); } }

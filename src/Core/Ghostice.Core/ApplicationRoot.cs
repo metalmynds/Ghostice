@@ -21,7 +21,7 @@ namespace Ghostice.Core
         }
 
 
-        public ActionDispatcher GetDispatcher()
+        public new ActionDispatcher GetDispatcher()
         {
             return _dispatcher;
         }

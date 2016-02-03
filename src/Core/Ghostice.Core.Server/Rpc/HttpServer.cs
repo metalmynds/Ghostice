@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Anotar.NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ghostice.Core.Server.Rpc
@@ -11,11 +13,22 @@ namespace Ghostice.Core.Server.Rpc
     {
 
         protected delegate void HttpRequestEventHandler(object sender, HttpRequestEventArgs e);
+
         protected event HttpRequestEventHandler OnHttpRequest;
+
+        protected HttpListener _listener;
+
+        protected Thread _requestThread;
 
         public HttpServer(Uri url)
         {
             this.Url = url;
+
+            _listener = new HttpListener();
+
+            if (!HttpListener.IsSupported)
+
+                throw new NotSupportedException("HttpListener not supported. Switch to mono provided one.");
 
         }
 
@@ -25,22 +38,45 @@ namespace Ghostice.Core.Server.Rpc
             protected set;
         }
 
+        public void Shutdown()
+        {
+            if (_requestThread != null)
+            {
+                try
+                {
+                    _requestThread.Abort();
+                }
+                catch (Exception ex)
+                {
+                    LogTo.FatalException("Shutdown of Http Request Thread Failed!", ex);
+                }
+            }
+
+            if (_listener != null)
+            {
+                try
+                {
+                    _listener.Close();
+                }
+                catch (Exception ex)
+                {
+                    LogTo.FatalException("Shutdown of HttpListener Failed!", ex);
+                }
+
+            }
+        }
+
         public void Listen()
         {
-            var listener = new HttpListener();
-
-            if (!HttpListener.IsSupported)
-
-                throw new NotSupportedException("HttpListener not supported. Switch to mono provided one.");
 
             try
             {
 
                 var address = this.Url.ToString();
 
-                listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
+                _listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
 
-                listener.Start();
+                _listener.Start();
 
 
             }
@@ -49,26 +85,69 @@ namespace Ghostice.Core.Server.Rpc
                 throw new HttpServerStartupFailedException(this.Url.ToString(), ex);
             }
 
-            var tcs = new TaskCompletionSource<object>();
+            // 4.0
 
-            listener.GetContextAsync().ContinueWith(async t =>
-            {
-                try
-                {
-                    while (true)
-                    {
-                        var context = await t;
-                        this.HttpRequestRecieved(new HttpRequestEventArgs(context));
-                        t = listener.GetContextAsync();
-                    }
-                }
-                catch (Exception e)
-                {
-                    listener.Close();
-                    tcs.TrySetException(e);
-                }
-            });
+            _requestThread = new Thread(new ThreadStart(ProcessThreadRequest));
+
+            _requestThread.Start();
+
+            // 4.5
+
+            //var tcs = new TaskCompletionSource<object>();
+
+            //listener.GetContextAsync().ContinueWith(async t =>
+            //{
+            //    try
+            //    {
+            //        while (true)
+            //        {
+            //            var context = await t;
+            //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+            //            t = listener.GetContextAsync();
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        listener.Close();
+            //        tcs.TrySetException(e);
+            //    }
+            //});
         }
+
+        protected void ProcessThreadRequest()
+        {
+            try
+            {
+
+                var callback = new AsyncCallback(ListenerCallback);
+
+                while (true)
+                {
+
+                    IAsyncResult result = _listener.BeginGetContext(callback, _listener);
+
+                    result.AsyncWaitHandle.WaitOne();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogTo.ErrorException("ProcessThreadRequest Failed!", ex);
+            }
+        }
+
+        protected void ListenerCallback(IAsyncResult result)
+        {
+            var listener = result.AsyncState as HttpListener;
+
+            var context = listener.EndGetContext(result);
+
+            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+
+        }
+
+
         protected virtual void HttpRequestRecieved(HttpRequestEventArgs e)
         {
             var handler = OnHttpRequest;
@@ -82,7 +161,8 @@ namespace Ghostice.Core.Server.Rpc
     {
 
         protected HttpServerStartupFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
 
         public HttpServerStartupFailedException(String Url, Exception InnerException)

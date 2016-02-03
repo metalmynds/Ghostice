@@ -273,7 +273,8 @@ namespace Ghostice.Core
                 {
                      ///NEED TO FORCE TYPE HERE (JUST FOR NOW)
 
-                    switch (parameter.ValueType.GenericTypeArguments[0].Name)
+                    //switch (parameter.ValueType.GenericTypeArguments[0].Name) // 4.5
+                    switch (parameter.ValueType.GetGenericArguments()[0].Name) // 4.0
                     {
 
                         case "Int32":
@@ -432,13 +433,14 @@ namespace Ghostice.Core
                 try
                 {
 
-                    value = property.GetValue(Target);
+                    //value = property.GetValue(Target); // 4.5
+                    value = property.GetValue(Target, null); // 4.0
 
                 }
                 catch (Exception ex)
                 {
 
-                    value = "Exception Getting Value! Message: " + ex.Message;
+                    value = "Exception Getting Value! Error Message: " + ex.Message;
 
                 }
 
