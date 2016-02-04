@@ -71,16 +71,22 @@ namespace Ghostice.Core
 
                     MethodInfo extensionMethod = null;
 
-                    if (Parameters != null)
-                    {
+                    // 4.5
 
-                        extensionMethod = extensionClass.GetMethod(MethodName, parameterTypeList.ToArray());
+                    //if (Parameters != null)
+                    //{
 
-                    }
-                    else
-                    {
-                        extensionMethod = extensionClass.GetMethod(MethodName);
-                    }
+                    //    extensionMethod = extensionClass.GetMethod(MethodName, parameterTypeList.ToArray());
+
+                    //}
+                    //else
+                    //{
+                    //    extensionMethod = extensionClass.GetMethod(MethodName);
+                    //}
+
+                    // 4.0
+
+                    extensionMethod = extensionClass.GetMethod(MethodName);
 
                     if (extensionMethod != null)
                     {

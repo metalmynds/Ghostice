@@ -341,7 +341,14 @@ namespace Ghostice.Core
 
                     try
                     {
-                        var result = ReflectionManager.Execute(Target, Request.Name, Request.Parameters);
+                        var arguments = new Object[] { };
+
+                        if (Request.HasParameters)
+                        {
+                            arguments = (from ActionParameter argument in arguments select argument.Value).ToArray();
+                        }
+
+                        var result = ReflectionManager.Execute(Target, Request.Name, arguments);
 
                         if (result != null)
                         {

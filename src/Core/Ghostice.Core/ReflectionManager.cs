@@ -15,7 +15,7 @@ namespace Ghostice.Core
         {
 
             try
-            {
+            {               
 
                 MethodInfo method = null;
 
@@ -26,7 +26,7 @@ namespace Ghostice.Core
                 if (method == null)
                 {
                     method = MethodManager.ResolveExtension(target, methodName, arguments);
-                    extension = true;
+                    extension = method != null;
                 }
 
                 if (method == null) throw new ReflectionManagerException(String.Format("Method or Extension Method Named [{0}] Not Found! for Target Type: {1}", methodName, target.GetType().FullName));
@@ -56,7 +56,8 @@ namespace Ghostice.Core
                 }
                 else
                 {
-                    return method.Invoke(target, null);
+                    //return method.Invoke(target, null); // 4.5
+                    return method.Invoke(target, new object[] {}); // 4.0
                 }
             }
             catch (Exception ex)
