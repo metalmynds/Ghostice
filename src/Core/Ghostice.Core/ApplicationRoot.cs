@@ -39,5 +39,17 @@ namespace Ghostice.Core
 
         }
 
+        public List<WindowInfo> GetWindows(String[] AdditionalProperties)
+        {
+
+            var listRequest = ActionRequest.List(AdditionalProperties);
+
+            var result = _dispatcher.Perform(listRequest);
+
+            var dserialised = JsonConvert.DeserializeObject<List<WindowInfo>>(result.ReturnValue);
+
+            return dserialised;
+
+        }
     }
 }
