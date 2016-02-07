@@ -39,29 +39,32 @@ namespace Ghostice.Core
             return targetWindow;
         }
 
-        public static Object Locate(Control Root, Locator Path)
+        public static Object Locate(Control Root, Locator Location)
         {
 
             Object currentControl = Root;
             Boolean failed = false;
+            Descriptor notFoundDescriptor = null;
 
             if (Root.InvokeRequired)
             {
-                return Root.Invoke(new UIThreadSafeLocate(Locate), new Object[] { Root, Path });
+                return Root.Invoke(new UIThreadSafeLocate(Locate), new Object[] { Root, Location });
             }
             else
             {
 
-                foreach (var description in Path.Path)
+                foreach (var descriptor in Location.Path)
                 {
                     Control childControl = null;
 
-                    if (TryLocate((Control)currentControl, description, out childControl))
+                    if (TryLocate((Control)currentControl, descriptor, out childControl))
                     {
-                        currentControl = childControl;
+                        currentControl = childControl;                        
                     }
                     else
                     {
+
+                        notFoundDescriptor = descriptor;
                         failed = true;
                         break;
                     }
@@ -77,26 +80,28 @@ namespace Ghostice.Core
 
                     var currentFields = form.GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    var description = Path.Path.Count == 0 ? null : Path.Path[0];
+                    //var description = Location.GetRelativePath(lastFoundDescriptor);
 
-                    if (description != null)
+                    var descriptor = notFoundDescriptor;
+
+                    if (descriptor != null)
                     {
 
                         foreach (var field in currentFields)
                         {
 
-                            var childComponent = field.GetValue(form) as Component;
+                            var childComponent = field.GetValue(form);
 
                             if (childComponent != null)
                             {
-                                var properties = GetProperties(childComponent, description.RequiredProperties);
+                                var properties = GetProperties(childComponent, descriptor.RequiredProperties);
 
                                 if (!properties.HasProperty("Name"))
                                 {
                                     properties.List.Add(Property.Create("Name", field.Name));
                                 }
-
-                                if (Compare(description, properties))
+                                
+                                if (Compare(descriptor, properties))
                                 {
                                     currentControl = field.GetValue(form) as Component;
                                     failed = false;
@@ -107,7 +112,7 @@ namespace Ghostice.Core
                     }
                 }
 
-                if (failed) throw new LocationNotFoundException(Root, Path.ToString());
+                if (failed) throw new LocationNotFoundException(Root, Location.ToString());
 
             }
 
@@ -174,7 +179,7 @@ namespace Ghostice.Core
             return true;
         }
 
-        public static PropertyCollection GetProperties(Component Target, params String[] Names)
+        public static PropertyCollection GetProperties(Object Target, params String[] Names)
         {
             var propertiesCollection = new PropertyCollection();
 

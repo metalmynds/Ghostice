@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FontDialogExtensions.cs" />
     <Compile Include="ListBoxExtensions.cs" />
     <Compile Include="ListViewExtensions.cs" />
     <Compile Include="MenuStripExtensions.cs" />

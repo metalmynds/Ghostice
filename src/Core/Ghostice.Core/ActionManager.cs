@@ -355,14 +355,16 @@ namespace Ghostice.Core
 
                     try
                     {
-                        var arguments = new Object[] { };
+                        //var arguments = new Object[] { };
 
-                        if (Request.HasParameters)
-                        {
-                            arguments = (from ActionParameter argument in arguments select argument.Value).ToArray();
-                        }
+                        //if (Request.HasParameters)
+                        //{
+                        //    arguments = (from ActionParameter argument in arguments select argument.Value).ToArray();
+                        //}
 
-                        var result = ReflectionManager.Execute(Target, Request.Name, arguments);
+                        var actualParameters = Request.HasParameters ? GetTypedParameters(Request.Parameters) : null;
+
+                        var result = ReflectionManager.Execute(Target, Request.Name, actualParameters);
 
                         if (result != null)
                         {

@@ -97,5 +97,35 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         }
 
+        [TestMethod]
+        public void CallExtensionMethodOnComponent()
+        {
+
+            using (var form = new FormWithComponents())
+            {
+
+                form.Show();
+
+                // Find Component Font Dialog
+
+                var fontDialog1Locator = new Locator(new Descriptor(new Property("Name", "FormWithComponents")), new Descriptor(new Property("Name", "fontDialog1")));
+
+                var fontDialog1 = WindowWalker.Locate(form, fontDialog1Locator) as FontDialog;
+
+                Assert.IsNotNull(fontDialog1);
+
+                var executeExtensionMethodRequest = ActionRequest.Execute(fontDialog1Locator, "Show", null);
+
+                var appManager = new ApplicationManager(".//Extensions");
+
+                //var getActionResult = ActionResult.FromJson(appManager.Perform(getTextRequest.ToJson()));
+                var executeActionResult = appManager.Perform(executeExtensionMethodRequest);
+
+
+            }
+
+        }
+
+  
     }
 }
