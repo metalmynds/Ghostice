@@ -113,7 +113,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                 var menuStrip1 = WindowWalker.Locate(form, menuStrip1Locator) as MenuStrip;
 
                 Assert.IsNotNull(menuStrip1);
-
+                 
                 var executeExtensionMethodRequest = ActionRequest.Execute(menuStrip1Locator, "PerformClickMenu", new ActionParameter[] { ActionParameter.Create("Hello\\Wurld") } );
 
                 var appManager = new ApplicationManager(".//Extensions");
