@@ -256,7 +256,8 @@ namespace Ghostice.Core
                             {
                                 windowInfoList.Add(WindowInfo.Create(window, propertyNames.ToArray()));
                             }
-                            else {
+                            else
+                            {
                                 windowInfoList.Add(WindowInfo.Create(window));
                             }
 

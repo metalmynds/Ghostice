@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ghostice.Core;
+using System.Collections.Generic;
 
 namespace Ghostice.ApplicationKit.UnitTests
 {
     [TestClass]
     public class WindowTests
     {
-        [TestMethod]
+        [TestMethod]    
         public void ListOpenWindows()
         {
 
@@ -21,6 +22,30 @@ namespace Ghostice.ApplicationKit.UnitTests
                     windowB.Show();
 
                     var listRequest = ActionRequest.List();
+
+                    var result = ActionManager.Execute(null, listRequest);
+
+                    Assert.IsNotNull(result);
+
+                }
+
+            }
+        }
+
+        [TestMethod]
+        public void ListOpenWindowsRetreivingAdditionalProperties()
+        {
+
+            using (var windowA = new FormComplex())
+            {
+                windowA.Show();
+
+                using (var windowB = new FormNestedTabPageControls())
+                {
+
+                    windowB.Show();
+
+                    var listRequest = ActionRequest.List(new String[] { "ForeColor", "BackColor", "WindowState" });
 
                     var result = ActionManager.Execute(null, listRequest);
 

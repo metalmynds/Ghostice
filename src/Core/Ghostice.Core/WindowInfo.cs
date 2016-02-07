@@ -24,14 +24,14 @@ namespace Ghostice.Core
         //}
 
         [JsonConstructor]
-        public WindowInfo(long handle, String type, String name, String title, String tag, Dictionary<String, String> CustomProperties)
+        public WindowInfo(long handle, String type, String name, String title, String tag, Dictionary<String, String> AdditionalProperties)
         {
             this.Handle = handle;
             this.Type = type;
             this.Name = name;
             this.Title = title;
             this.Tag = tag;
-            this.CustomProperties = CustomProperties;
+            this.AdditionalProperties = AdditionalProperties;
         }
 
         public long Handle { get; protected set; }
@@ -44,7 +44,7 @@ namespace Ghostice.Core
 
         public String Tag { get; protected set; }
 
-        public Dictionary<String,String> CustomProperties { get; protected set; }
+        public Dictionary<String,String> AdditionalProperties { get; protected set; }
 
         public static WindowInfo Create(Control Window)
         {
@@ -58,7 +58,7 @@ namespace Ghostice.Core
             }
         }
 
-        public static WindowInfo Create(Control Window, String[] CustomProperties)
+        public static WindowInfo Create(Control Window, String[] AdditionalProperytList)
         {
             if (Window.InvokeRequired)
             {
@@ -66,16 +66,16 @@ namespace Ghostice.Core
             }
             else
             {
-                Dictionary<String, String> customPropertyValues = new Dictionary<string, string>();
+                Dictionary<String, String> additionalPropertyValues = new Dictionary<string, string>();
 
-                foreach (var propertyName in CustomProperties)
+                foreach (var propertyName in AdditionalProperytList)
                 {
                     var propertyValue = ReflectionManager.Get(Window, propertyName);
 
-                    customPropertyValues.Add(propertyName, Convert.ToString(propertyValue));
+                    additionalPropertyValues.Add(propertyName, Convert.ToString(propertyValue));
                 }
 
-                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), customPropertyValues);
+                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), additionalPropertyValues);
             }
         }
 
