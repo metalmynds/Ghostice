@@ -21,10 +21,10 @@ namespace Ghostice.Core
         static IgnorableSerializerContractResolver ignorableJsonResolver = new IgnorableSerializerContractResolver();
 
         static JsonSerializerSettings commonJsonSettings = new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                ContractResolver = ignorableJsonResolver
-            };
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            ContractResolver = ignorableJsonResolver
+        };
 
         static ActionManager()
         {
@@ -137,9 +137,9 @@ namespace Ghostice.Core
                                 var arguments = from argument in Request.Parameters select argument.ToString();
 
                                 properties = arguments.ToList<String>().ToArray();
-                                 
+
                             }
-                            
+
                             var tree = GetControlHierarchy(Target, properties);
 
                             var serialised = JsonConvert.SerializeObject(tree, commonJsonSettings);
@@ -150,7 +150,7 @@ namespace Ghostice.Core
                         catch (Exception ex)
                         {
 
-                            return ActionResult.Failed(Target.Describe(), ex);                            
+                            return ActionResult.Failed(Target.Describe(), ex);
                         }
 
                     case ActionRequest.OperationType.Ready:
@@ -160,7 +160,7 @@ namespace Ghostice.Core
 
                         var visibleEvent = new AutoResetEvent(Target.Visible);
 
-                        EventHandler visibleHandler = delegate(Object sender, EventArgs e)
+                        EventHandler visibleHandler = delegate (Object sender, EventArgs e)
                         {
                             if (((Control)sender).Visible)
                             {
@@ -168,7 +168,7 @@ namespace Ghostice.Core
                             }
                         };
 
-                        EventHandler enabledHandler = delegate(Object sender, EventArgs e)
+                        EventHandler enabledHandler = delegate (Object sender, EventArgs e)
                         {
                             if (((Control)sender).Enabled)
                             {
@@ -189,11 +189,11 @@ namespace Ghostice.Core
 
                             Target.VisibleChanged += visibleHandler;
 
-                            Target.EnabledChanged += enabledHandler;                            
+                            Target.EnabledChanged += enabledHandler;
 
                             if (!visibleEvent.WaitOne(timeoutSeconds))
                             {
-                                return ActionResult.Failed(Target.Describe(),String.Format("Timed Out Waiting for Control to be Visible!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
+                                return ActionResult.Failed(Target.Describe(), String.Format("Timed Out Waiting for Control to be Visible!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
                             }
 
                             if (!enabledEvent.WaitOne(timeoutSeconds))
@@ -238,14 +238,27 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.List:
 
-                        var windowList = from window in WindowManager.GetWindowControls() where window !=null select window;
+                        List<String> propertyNames = new List<string>();
+
+
+                        var windowList = from window in WindowManager.GetWindowControls() where window != null select window;
 
                         var windowInfoList = new List<WindowInfo>();
 
+                        if (Request.HasParameters)
+                        {
+                            propertyNames.AddRange((String[])Request.Parameters[0].Value);
+                        }
+
                         foreach (var window in windowList)
                         {
-                            
-                            windowInfoList.Add(WindowInfo.Create(window));
+                            if (Request.HasParameters)
+                            {
+                                windowInfoList.Add(WindowInfo.Create(window, propertyNames.ToArray()));
+                            }
+                            else {
+                                windowInfoList.Add(WindowInfo.Create(window));
+                            }
 
                         }
 
@@ -271,7 +284,7 @@ namespace Ghostice.Core
 
                 if (parameter.Value as JArray != null)
                 {
-                     ///NEED TO FORCE TYPE HERE (JUST FOR NOW)
+                    ///NEED TO FORCE TYPE HERE (JUST FOR NOW)
 
                     //switch (parameter.ValueType.GenericTypeArguments[0].Name) // 4.5
                     switch (parameter.ValueType.GetGenericArguments()[0].Name) // 4.0
@@ -280,7 +293,7 @@ namespace Ghostice.Core
                         case "Int32":
                             break;
 
-                        case "String":                            
+                        case "String":
                             String[] items = (parameter.Value as JArray).Select(jv => (String)jv).ToArray();
                             typed.Add(items);
                             break;
@@ -295,7 +308,7 @@ namespace Ghostice.Core
 
             return typed.ToArray();
         }
-             
+
 
         public static ActionResult Execute(Component Target, ActionRequest Request)
         {

@@ -108,6 +108,12 @@ namespace Ghostice.Core
             return new ActionRequest(null, OperationType.List, null);
         }
 
+        public static ActionRequest List(List<String> CustomProperties)
+        {
+            return new ActionRequest(null, OperationType.List, null, null, null, new ActionParameter[] { ActionParameter.Create(CustomProperties.ToArray<String>()) });
+        }
+
+
         public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
         {
             return new ActionRequest(Target, OperationType.Ready, null, null, null, new ActionParameter[] { ActionParameter.Create(TimeoutSeconds) });

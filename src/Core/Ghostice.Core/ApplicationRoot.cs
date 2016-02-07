@@ -33,9 +33,9 @@ namespace Ghostice.Core
 
             var result = _dispatcher.Perform(listRequest);
 
-            var serialised = JsonConvert.DeserializeObject<List<WindowInfo>>(result.ReturnValue);
+            var dserialised = JsonConvert.DeserializeObject<List<WindowInfo>>(result.ReturnValue);
 
-            return serialised;
+            return dserialised;
 
         }
 

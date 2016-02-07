@@ -42,6 +42,26 @@ namespace Ghostice.Core
             return new ActionParameter { Value = value, ValueType = type, TypeCode = typeCode };
         }
 
+        //public static ActionParameter[] Create(String[] parameters)
+        //{
+
+        //    List<ActionParameter> parameterList = new List<ActionParameter>();
+
+        //    foreach (var parameter in parameters)
+        //    {
+
+        //        var typeCode = TypeCode.String;
+
+        //        var type = typeof(String);
+
+        //        parameterList.Add(new ActionParameter { Value = parameters, ValueType = type, TypeCode = typeCode });
+        //    }
+
+        //    return parameterList.ToArray();
+
+        //}
+
+
         public override string ToString()
         {
             return Value.ToString();
