@@ -108,20 +108,20 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find Component Font Dialog
 
-                var fontDialog1Locator = new Locator(new Descriptor(new Property("Name", "FormWithComponents")), new Descriptor(new Property("Name", "fontDialog1")));
+                var menuStrip1Locator = new Locator(new Descriptor(new Property("Name", "FormWithComponents")), new Descriptor(new Property("Name", "menuStrip1")));
 
-                var fontDialog1 = WindowWalker.Locate(form, fontDialog1Locator) as FontDialog;
+                var menuStrip1 = WindowWalker.Locate(form, menuStrip1Locator) as MenuStrip;
 
-                Assert.IsNotNull(fontDialog1);
+                Assert.IsNotNull(menuStrip1);
 
-                var executeExtensionMethodRequest = ActionRequest.Execute(fontDialog1Locator, "Show", null);
+                var executeExtensionMethodRequest = ActionRequest.Execute(menuStrip1Locator, "PerformClickMenu", new ActionParameter[] { ActionParameter.Create("Hello\\Wurld") } );
 
                 var appManager = new ApplicationManager(".//Extensions");
 
                 //var getActionResult = ActionResult.FromJson(appManager.Perform(getTextRequest.ToJson()));
                 var executeActionResult = appManager.Perform(executeExtensionMethodRequest);
 
-
+                Assert.IsNull(executeActionResult.Error);
             }
 
         }
