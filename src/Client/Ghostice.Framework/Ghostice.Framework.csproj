@@ -131,6 +131,7 @@
     <Compile Include="WinFormRadioButton.cs" />
     <Compile Include="WinFormTabControlBase.cs" />
     <Compile Include="WinFormTextBox.cs" />
+    <Compile Include="WinFormUltraToolbar.cs" />
     <Compile Include="WinFormWindowBase.cs" />
   </ItemGroup>
   <ItemGroup>
