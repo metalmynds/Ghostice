@@ -69,7 +69,7 @@ namespace Ghostice.Core
             }
             else if (serverResponse.Error != null)
             {
-                throw new ServerExecuteActionFailedException(Request, serverResponse.Error.Message);
+                throw new ServerExecuteActionFailedException(Request, serverResponse.Error.Message, serverResponse.Error.Data, serverResponse.Error.StackTrace, serverResponse.Error.InnerException);
             }
 
             return serverResponse.Result;
@@ -131,6 +131,23 @@ namespace Ghostice.Core
 
         }
 
+        public ServerExecuteActionFailedException(ActionRequest request, String error, System.Collections.IDictionary data, String stackTrace, Exception innerException)
+            : base(String.Format("Server Execute Action Failed!\r\nRequest:\r\n{0}\r\nError: {1}\r\nError Data: {2}\r\nRemote Stack Trace: {3}", request.ToJson(), error, GetPropertyList(data), stackTrace), innerException)
+        {
+
+        }
+
+        private static String GetPropertyList(System.Collections.IDictionary pairs)
+        {
+            StringBuilder listBuilder = new StringBuilder();
+
+            foreach (String key in pairs.Keys)
+            {
+                listBuilder.AppendFormat("{0} = {1}\r\n", key, Convert.ToString(pairs[key]));
+            }
+
+            return listBuilder.ToString();
+        }
     }
 
 }

@@ -59,5 +59,43 @@ namespace Ghostice.ApplicationKit.UnitTests
             Assert.AreEqual(@"Descriptor[Name=FormMain, Class=Window]\Descriptor[Name=grpOptions, Class=GroupBox]\Descriptor[Name=butOK, Class=Button]", locatorString);
         }
 
+        [TestMethod]
+        public void GetWindowRelativePath()
+        {
+            var locator = new Locator();
+
+            var windowDescriptor = new Descriptor();
+
+            locator.Path.Add(windowDescriptor);
+
+            windowDescriptor.Properties.Add(new Property("Name", "FormMain"));
+
+            windowDescriptor.Properties.Add(new Property("Class", "Window"));
+
+            var groupDescriptor = new Descriptor();
+
+            locator.Path.Add(groupDescriptor);
+
+            groupDescriptor.Properties.Add(new Property("Name", "grpOptions"));
+
+            groupDescriptor.Properties.Add(new Property("Class", "GroupBox"));
+
+            var buttonDescriptor = new Descriptor();
+
+            locator.Path.Add(buttonDescriptor);
+
+            buttonDescriptor.Properties.Add(new Property("Name", "butOK"));
+
+            buttonDescriptor.Properties.Add(new Property("Class", "Button"));
+
+            var locatorString = locator.ToString();
+
+            Assert.AreEqual(@"Descriptor[Name=FormMain, Class=Window]\Descriptor[Name=grpOptions, Class=GroupBox]\Descriptor[Name=butOK, Class=Button]", locatorString);
+
+            var relativelocatorString = locator.GetRelativePath().ToString();
+
+            var deepRelativelocatorString = locator.GetRelativePath(windowDescriptor).ToString();
+        }
+
     }
 }
