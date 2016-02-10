@@ -12,6 +12,9 @@ namespace Ghostice.ApplicationKit.UnitTests
 {
     public partial class FormWithComponents : Form
     {
+
+        private System.Threading.Thread _aThread;
+
         public FormWithComponents()
         {
             InitializeComponent();

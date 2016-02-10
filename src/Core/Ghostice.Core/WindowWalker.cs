@@ -59,7 +59,7 @@ namespace Ghostice.Core
 
                     if (TryLocate((Control)currentControl, descriptor, out childControl))
                     {
-                        currentControl = childControl;                        
+                        currentControl = childControl;
                     }
                     else
                     {
@@ -100,7 +100,7 @@ namespace Ghostice.Core
                                 {
                                     properties.List.Add(Property.Create("Name", field.Name));
                                 }
-                                
+
                                 if (Compare(descriptor, properties))
                                 {
                                     currentControl = field.GetValue(form) as Component;
@@ -160,16 +160,22 @@ namespace Ghostice.Core
             return Compare(Description, GetProperties(Control, Description.RequiredProperties));
         }
 
-        public static Boolean Compare(Descriptor Description, PropertyCollection Properties)
+        public static Boolean Compare(Descriptor Description, PropertyCollection ControlProperties)
         {
             foreach (var propertyName in Description.RequiredProperties)
             {
                 var expected = Description.GetProperty(propertyName);
 
-                foreach (var property in Properties.List)
+                foreach (var property in ControlProperties.List)
                 {
-                    if (property.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)
-                        && !property.Value.Equals(expected.Value, StringComparison.InvariantCultureIgnoreCase))
+                    if (property.HasValue)
+                    {
+                        if (property.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)
+                            && !property.Value.Equals(expected.Value, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            return false;
+                        }
+                    } else if (expected.HasValue)
                     {
                         return false;
                     }
@@ -193,7 +199,7 @@ namespace Ghostice.Core
                     var newProperty = new Property(propertyName, (String)Target.GetType().Name);
 
                     propertiesCollection.List.Add(newProperty);
-                    
+
                 }
                 else if (propertyName.Equals("FullType", StringComparison.InvariantCultureIgnoreCase) || propertyName.Equals("FullClass", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -225,7 +231,8 @@ namespace Ghostice.Core
     {
 
         protected WindowWalkerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
         public WindowWalkerException(String Message) :
             base(Message)
@@ -246,7 +253,8 @@ namespace Ghostice.Core
     {
 
         protected LocationNotFoundException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
         public LocationNotFoundException(Control Root, String Path) :
             base(String.Format("Window Walker Can't Locate Control!\r\nPath: {0}\r\nRoot: {1}", Path, Root.GetType().FullName))

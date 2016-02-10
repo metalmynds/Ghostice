@@ -94,7 +94,11 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             var relativelocatorString = locator.GetRelativePath().ToString();
 
-            var deepRelativelocatorString = locator.GetRelativePath(windowDescriptor).ToString();
+            Assert.AreEqual(@"Descriptor[Name=grpOptions, Class=GroupBox]\Descriptor[Name=butOK, Class=Button]", relativelocatorString);
+
+            //var deepRelativelocatorString = locator.GetRelativePath(groupDescriptor).ToString();
+
+            //Assert.AreEqual(@"Descriptor[Name=grpOptions, Class=GroupBox]\Descriptor[Name=butOK, Class=Button]", deepRelativelocatorString);
         }
 
     }

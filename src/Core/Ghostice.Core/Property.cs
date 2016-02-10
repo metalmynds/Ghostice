@@ -49,6 +49,11 @@ namespace Ghostice.Core
 
         public String Value { get; set; }
 
+        [JsonIgnore]
+        public Boolean HasValue
+        {
+            get { return Value != null; }
+        }
 
         public override string ToString()
         {

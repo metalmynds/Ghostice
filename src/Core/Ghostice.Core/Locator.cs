@@ -55,29 +55,29 @@ namespace Ghostice.Core
 
         }
 
-        public Locator GetRelativePath(Descriptor From)
-        {
+        //public Locator GetRelativePath(Descriptor From)
+        //{
 
-            Locator relative = new Locator();
+        //    Locator relative = new Locator();
 
-            var descriptors = new List<Descriptor>(this.Path);
+        //    var descriptors = new List<Descriptor>(this.Path);
 
-            var position = descriptors.FindIndex(delegate (Descriptor descriptor) { return descriptor.Equals(From); });
+        //    var position = descriptors.FindIndex(delegate (Descriptor descriptor) { return descriptor.Equals(From); });
 
-            if (descriptors.Count > 0)
-            {
+        //    if (descriptors.Count > 0)
+        //    {
 
-                descriptors.RemoveRange(0, position);
+        //        descriptors.RemoveRange(0, position);
 
-                //descriptors.RemoveAt(0);
+        //        //descriptors.RemoveAt(0);
 
-                relative.Path.AddRange(descriptors);
+        //        relative.Path.AddRange(descriptors);
 
-            }
+        //    }
 
-            return relative;
+        //    return relative;
 
-        }
+        //}
 
 
         public override string ToString()
