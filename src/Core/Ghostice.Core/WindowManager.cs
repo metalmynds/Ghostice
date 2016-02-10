@@ -33,7 +33,35 @@ namespace Ghostice.Core
                 LogTo.Error("Failed to Get Window Manager Host Process Main Window Handle!");
             }
 
-        }        
+        }
+
+        public static Object GetNestedControlPropertyValue(Control root, String name)
+        {
+
+            var property = root.GetType().GetProperty(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            if (property != null)
+            {
+                var value = property.GetValue(root, null);
+
+                return value;
+
+            }
+            else
+            {
+                foreach (Control subControl in root.Controls)
+                {
+                    var subValue = GetNestedControlPropertyValue(subControl, name);
+
+                    if (subValue != null)
+                    {
+                        return subValue;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         public static List<Control> GetWindowControls()
         {

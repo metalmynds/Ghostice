@@ -185,6 +185,10 @@ namespace Ghostice.Core
             return true;
         }
 
+        
+
+
+
         public static PropertyCollection GetProperties(Object Target, params String[] Names)
         {
             var propertiesCollection = new PropertyCollection();

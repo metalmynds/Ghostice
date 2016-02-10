@@ -70,7 +70,10 @@ namespace Ghostice.Core
 
                 foreach (var propertyName in AdditionalProperytList)
                 {
-                    var propertyValue = ReflectionManager.Get(Window, propertyName);
+
+                    var propertyValue = WindowManager.GetNestedControlPropertyValue(Window, propertyName);
+
+                    //var propertyValue = ReflectionManager.Get(Window, propertyName);
 
                     additionalPropertyValues.Add(propertyName, Convert.ToString(propertyValue));
                 }

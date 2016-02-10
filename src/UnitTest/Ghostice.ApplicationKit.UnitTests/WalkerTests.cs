@@ -145,6 +145,21 @@ namespace Ghostice.ApplicationKit.UnitTests
         }
 
         [TestMethod]
+        public void FindNestedPropertyOnSimpleUserControl()
+        {
+
+            using (var form = new FormSimpleUserControl())
+            {
+
+                form.Show();
+
+                var nestedValue = WindowManager.GetNestedControlPropertyValue(form, "AnIdentifier");
+
+                Assert.IsNotNull(nestedValue);
+            }
+        }
+
+        [TestMethod]
         public void LocateComponents()
         {
 

@@ -240,7 +240,6 @@ namespace Ghostice.Core
 
                         List<String> propertyNames = new List<string>();
 
-
                         var windowList = from window in WindowManager.GetWindowControls() where window != null select window;
 
                         var windowInfoList = new List<WindowInfo>();
@@ -252,6 +251,7 @@ namespace Ghostice.Core
 
                         foreach (var window in windowList)
                         {
+
                             if (Request.HasParameters)
                             {
                                 windowInfoList.Add(WindowInfo.Create(window, propertyNames.ToArray()));

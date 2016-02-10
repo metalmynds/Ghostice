@@ -15,6 +15,10 @@ namespace Ghostice.ApplicationKit.UnitTests
         public UserControlSimple()
         {
             InitializeComponent();
+
+            AnIdentifier = Guid.NewGuid();
         }
+
+        public Guid AnIdentifier { get; protected set; }
     }
 }
