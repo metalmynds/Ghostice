@@ -39,6 +39,20 @@ namespace Ghostice.Core
             this.Location = Target;
         }
 
+        public ActionRequest(Locator Target, OperationType Operation)
+        {
+            this.Operation = Operation;
+            this.Location = Target;
+        }
+
+        public ActionRequest(Locator Target, OperationType Operation, ActionParameter[] Parameters)
+        {
+            this.Operation = Operation;
+            this.Name = Name;
+            this.Location = Target;
+            this.Parameters = Parameters;
+        }
+
         public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType)
         {
             this.Location = Target;
@@ -105,14 +119,23 @@ namespace Ghostice.Core
 
         public static ActionRequest List()
         {
-            return new ActionRequest(null, OperationType.List, null);
+            return new ActionRequest(null, OperationType.List);
+        }
+
+        public static ActionRequest List(WindowInfo parent)
+        {
+            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent) });
         }
 
         public static ActionRequest List(String[] AditionalProperties)
         {
-            return new ActionRequest(null, OperationType.List, null, null, null, new ActionParameter[] { ActionParameter.Create(AditionalProperties) });
+            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(AditionalProperties) });
         }
 
+        public static ActionRequest List(WindowInfo parent, String[] AditionalProperties)
+        {
+            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent), ActionParameter.Create(AditionalProperties) });
+        }
         public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
         {
             return new ActionRequest(Target, OperationType.Ready, null, null, null, new ActionParameter[] { ActionParameter.Create(TimeoutSeconds) });
@@ -125,7 +148,7 @@ namespace Ghostice.Core
 
         public static ActionRequest Map(Locator Target, String[] Properties)
         {
-            return new ActionRequest(Target, OperationType.Map, "Map", null, null, new ActionParameter[] { ActionParameter.Create(Properties) } );
+            return new ActionRequest(Target, OperationType.Map, "Map", null, null, new ActionParameter[] { ActionParameter.Create(Properties) });
         }
 
         public static ActionRequest Execute(Locator Target, String Name)

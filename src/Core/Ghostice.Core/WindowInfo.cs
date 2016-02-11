@@ -24,7 +24,7 @@ namespace Ghostice.Core
         //}
 
         [JsonConstructor]
-        public WindowInfo(long handle, String type, String name, String title, String tag, Dictionary<String, String> AdditionalProperties)
+        public WindowInfo(IntPtr handle, String type, String name, String title, String tag, Dictionary<String, String> AdditionalProperties)
         {
             this.Handle = handle;
             this.Type = type;
@@ -34,7 +34,7 @@ namespace Ghostice.Core
             this.AdditionalProperties = AdditionalProperties;
         }
 
-        public long Handle { get; protected set; }
+        public IntPtr Handle { get; protected set; }
 
         public String Type { get; protected set; }
 
@@ -46,6 +46,11 @@ namespace Ghostice.Core
 
         public Dictionary<String,String> AdditionalProperties { get; protected set; }
 
+        public override string ToString()
+        {
+            return String.Format("Windows [Name: {0} Title: {1} Handle: {2}]", Name, Title, Convert.ToString((Handle)));
+        }
+
         public static WindowInfo Create(Control Window)
         {
             if (Window.InvokeRequired)
@@ -54,7 +59,7 @@ namespace Ghostice.Core
             }
             else
             {
-                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), null);
+                return new WindowInfo(Window.Handle, Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), null);
             }
         }
 
@@ -78,9 +83,10 @@ namespace Ghostice.Core
                     additionalPropertyValues.Add(propertyName, Convert.ToString(propertyValue));
                 }
 
-                return new WindowInfo(Window.Handle.ToInt64(), Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), additionalPropertyValues);
+                return new WindowInfo(Window.Handle, Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), additionalPropertyValues);
             }
         }
+
 
     }
 }

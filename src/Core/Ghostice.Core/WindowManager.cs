@@ -17,6 +17,8 @@ namespace Ghostice.Core
     public static class WindowManager
     {
 
+        private delegate List<Control> UIThreadSafeGetChildControls(Control parent);
+
         private static Process _process;
 
         private static IntPtr _hostMainWindow;
@@ -88,21 +90,36 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetWindowChildControls(Control Parent)
+        public static List<Control> GetWindowsChildWindowControls(Control parent)
         {
             var controls = new List<Control>();
 
-            var handles = EnumChildWindowHandles(Parent.Handle);
-
-            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);
-
-            foreach (var hwnd in handles)
+            try
             {
-                var window = Control.FromChildHandle(hwnd);
+                if (parent != null && !parent.IsDisposed)
+                {
+                    if (parent.InvokeRequired)
+                    {
+                        return (List<Control>)parent.Invoke(new UIThreadSafeGetChildControls(GetWindowsChildWindowControls), new Object[] { parent });
+                    }
+                    var handles = EnumChildWindowHandles(parent.Handle);
 
-                if (window != null)
-                { controls.Add(window); }
+                    //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);
+
+                    foreach (var hwnd in handles)
+                    {
+                        var window = Control.FromChildHandle(hwnd);
+
+                        if (window != null)
+                        { controls.Add(window); }
+                    }
+                }
             }
+            catch (ObjectDisposedException ex)
+            {
+                // Ignore as control has been destroyed!
+            }
+        
 
             return controls;
         }
@@ -190,7 +207,8 @@ namespace Ghostice.Core
     {
 
         protected WindowManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
 
         public WindowManagerException(String Message) :

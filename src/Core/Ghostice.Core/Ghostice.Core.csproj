@@ -154,7 +154,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppDomainFactory.cs" />
-    <Compile Include="ApplicationRoot.cs" />
+    <Compile Include="ApplicationUnderTest.cs" />
     <Compile Include="ApplicationInfo.cs" />
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="ActionRequest.cs" />

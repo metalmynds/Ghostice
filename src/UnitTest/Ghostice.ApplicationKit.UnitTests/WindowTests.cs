@@ -64,7 +64,7 @@ namespace Ghostice.ApplicationKit.UnitTests
             {
                 aWindow.Show();
 
-                var children = WindowManager.GetWindowChildControls(aWindow);
+                var children = WindowManager.GetWindowsChildWindowControls(aWindow);
 
                 // LOOK AT CHANGING THE LOCATE ROUTINE TO USE THIS METHOD ITS QUICK AND CAN BE DYNAMICALY CALLED.
 

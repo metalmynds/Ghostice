@@ -238,13 +238,35 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.List:
 
+                        IEnumerable<Control> windowList = null;
+
                         List<String> propertyNames = new List<string>();
 
-                        var windowList = from window in WindowManager.GetWindowControls() where window != null select window;
+                        if (Request.HasParameters && Request.Parameters[0].Value is WindowInfo)
+                        {
+                            var parentWindowInfo = Request.Parameters[0].Value as WindowInfo;
+
+                            if (parentWindowInfo != null)
+                            {
+                                var windowParent = Control.FromHandle(parentWindowInfo.Handle);
+
+                                windowList = from window in WindowManager.GetWindowsChildWindowControls(windowParent) where window != null select window;
+                            }
+
+                        }
+                        else
+                        {
+                            windowList = from window in WindowManager.GetWindowControls() where window != null select window;
+
+                        }
 
                         var windowInfoList = new List<WindowInfo>();
 
-                        if (Request.HasParameters)
+                        if ((Request.HasParameters) && (Request.Parameters.Count() > 1 && Request.Parameters[1].Value is String[]))
+                        {
+                            propertyNames.AddRange((String[])Request.Parameters[1].Value);
+                        }
+                        else if ((Request.HasParameters) && Request.Parameters[0].Value is String[])
                         {
                             propertyNames.AddRange((String[])Request.Parameters[0].Value);
                         }
