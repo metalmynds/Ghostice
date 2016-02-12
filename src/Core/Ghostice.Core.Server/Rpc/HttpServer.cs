@@ -48,7 +48,7 @@ namespace Ghostice.Core.Server.Rpc
                 }
                 catch (Exception ex)
                 {
-                    LogTo.FatalException("Shutdown of Http Request Thread Failed!", ex);
+                    LogTo.WarnException("Shutdown of Http Request Thread Failed!", ex);
                 }
             }
 
@@ -60,7 +60,7 @@ namespace Ghostice.Core.Server.Rpc
                 }
                 catch (Exception ex)
                 {
-                    LogTo.FatalException("Shutdown of HttpListener Failed!", ex);
+                    LogTo.WarnException("Shutdown of HttpListener Failed!", ex);
                 }
 
             }
@@ -133,7 +133,8 @@ namespace Ghostice.Core.Server.Rpc
             }
             catch (Exception ex)
             {
-                LogTo.ErrorException("ProcessThreadRequest Failed!", ex);
+                LogTo.WarnException("Thread Processing HttpListener Requests Failed!", ex);
+                Shutdown();
             }
         }
 
@@ -141,10 +142,17 @@ namespace Ghostice.Core.Server.Rpc
         {
             var listener = result.AsyncState as HttpListener;
 
-            var context = listener.EndGetContext(result);
+            try {
 
-            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+                var context = listener.EndGetContext(result);
 
+                this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+
+            } catch (Exception ex)
+            {
+                LogTo.WarnException("HttpListener Request Call Back Failed!", ex);
+                Shutdown();
+            }
         }
 
 
