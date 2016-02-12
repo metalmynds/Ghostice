@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core
 {
-    public class ApplicationManagerSponsor : MarshalByRefObject, ISponsor
+    public class AutomationManagerSponsor : MarshalByRefObject, ISponsor
     {
         private readonly TimeSpan _renewalWindow;
 
-        public ApplicationManagerSponsor(TimeSpan RenewalWindow)
+        public AutomationManagerSponsor(TimeSpan RenewalWindow)
         {
             _renewalWindow = RenewalWindow;
         }

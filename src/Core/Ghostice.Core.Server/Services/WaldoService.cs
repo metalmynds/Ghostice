@@ -20,9 +20,9 @@ namespace Ghostice.Core.Server.Services
 
         private ApplicationInfo _sutInformation;
 
-        private ApplicationManagerSponsor _appManagerSponsor;
+        private AutomationManagerSponsor _autoManagerProxySponsor;
 
-        private ApplicationManager _appManager;
+        private AutomationManager _autoManagerProxy;
 
         private AppDomain _sutAppDomain;
 
@@ -49,7 +49,7 @@ namespace Ghostice.Core.Server.Services
 
             _extensionsPath = extensionsPath;
 
-            _appManagerSponsor = new ApplicationManagerSponsor(new TimeSpan(0, 5, 0));
+            _autoManagerProxySponsor = new AutomationManagerSponsor(new TimeSpan(0, 5, 0));
         }
 
         [JsonRpcMethod]
@@ -83,13 +83,13 @@ namespace Ghostice.Core.Server.Services
 
                 var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
 
-                _appManager = AppDomainFactory.Create<ApplicationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AppDomainFactory.AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
+                _autoManagerProxy = AppDomainFactory.Create<AutomationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AppDomainFactory.AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
 
-                _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_appManager);
+                _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_autoManagerProxy);
 
-                _appManagerLease.Register(_appManagerSponsor);
+                _appManagerLease.Register(_autoManagerProxySponsor);
 
-                _sutInformation = _appManager.Start(executablePath, arguments, _sutStartupTimeout);
+                _sutInformation = _autoManagerProxy.Start(executablePath, arguments, _sutStartupTimeout);
 
             }
             catch (Exception ex)
@@ -173,7 +173,7 @@ namespace Ghostice.Core.Server.Services
             {
                 case ActionRequest.OperationType.Get:
 
-                    var getResult = _appManager.Perform(request);
+                    var getResult = _autoManagerProxy.Perform(request);
 
                     actionResult = getResult;
 
@@ -185,7 +185,7 @@ namespace Ghostice.Core.Server.Services
 
                 case ActionRequest.OperationType.Set:
 
-                    var setResult = _appManager.Perform(request);
+                    var setResult = _autoManagerProxy.Perform(request);
 
                     actionResult = setResult;
 
@@ -199,7 +199,7 @@ namespace Ghostice.Core.Server.Services
 
                     var executeDisplayArgs = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value.ToString()) : "None";
 
-                    var executeResult = _appManager.Perform(request);
+                    var executeResult = _autoManagerProxy.Perform(request);
 
                     actionResult = executeResult;
 
@@ -213,7 +213,7 @@ namespace Ghostice.Core.Server.Services
 
                     var mapDisplayArgs = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value.ToString()) : "None";
 
-                    var mapResult = _appManager.Perform(request);
+                    var mapResult = _autoManagerProxy.Perform(request);
 
                     actionResult = mapResult;
 
@@ -223,9 +223,21 @@ namespace Ghostice.Core.Server.Services
 
                     return actionResult;
 
+                //case ActionRequest.OperationType.Tell:                    
+
+                //    var tellResult = _autoManagerProxy.Perform(request);
+
+                //    actionResult = tellResult;
+
+                //    LogTo.Debug("Target: {0} Tell\r\nValue: {1}", request.Location.ToString(), request.Name, actionResult.ReturnValue.ToString());
+
+                //    _listener.OnPerformed(request, actionResult);
+
+                //    return actionResult;
+
                 case ActionRequest.OperationType.Ready:
 
-                    var readyResult = _appManager.Perform(request);
+                    var readyResult = _autoManagerProxy.Perform(request);
 
                     actionResult = readyResult;
 
@@ -237,7 +249,7 @@ namespace Ghostice.Core.Server.Services
 
                 case ActionRequest.OperationType.List:
 
-                    var listResult = _appManager.Perform(request);
+                    var listResult = _autoManagerProxy.Perform(request);
 
                     actionResult = listResult;
 

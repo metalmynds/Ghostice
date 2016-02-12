@@ -156,9 +156,9 @@
     <Compile Include="AppDomainFactory.cs" />
     <Compile Include="ApplicationUnderTest.cs" />
     <Compile Include="ApplicationInfo.cs" />
-    <Compile Include="ApplicationManager.cs" />
+    <Compile Include="AutomationManager.cs" />
     <Compile Include="ActionRequest.cs" />
-    <Compile Include="ApplicationManagerSponsor.cs" />
+    <Compile Include="AutomationManagerSponsor.cs" />
     <Compile Include="AutomationDescriptorAttribute.cs">
       <SubType>Code</SubType>
     </Compile>

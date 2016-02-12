@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace Ghostice.Core
 {
+    [Serializable]
     public class WindowInfo
     {
 
@@ -44,7 +45,7 @@ namespace Ghostice.Core
 
         public String Tag { get; protected set; }
 
-        public Dictionary<String,String> AdditionalProperties { get; protected set; }
+        public Dictionary<String, String> AdditionalProperties { get; protected set; }
 
         public override string ToString()
         {

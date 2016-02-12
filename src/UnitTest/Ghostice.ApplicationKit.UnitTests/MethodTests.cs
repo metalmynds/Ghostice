@@ -116,7 +116,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                  
                 var executeExtensionMethodRequest = ActionRequest.Execute(menuStrip1Locator, "PerformClickMenu", new ActionParameter[] { ActionParameter.Create("Hello\\Wurld") } );
 
-                var appManager = new ApplicationManager(".//Extensions");
+                var appManager = new AutomationManager(".//Extensions");
 
                 //var getActionResult = ActionResult.FromJson(appManager.Perform(getTextRequest.ToJson()));
                 var executeActionResult = appManager.Perform(executeExtensionMethodRequest);

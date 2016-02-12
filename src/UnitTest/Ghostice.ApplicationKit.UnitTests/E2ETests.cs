@@ -348,6 +348,58 @@ namespace Ghostice.ApplicationKit.UnitTests
             }
         }
 
+        //[TestMethod]
+        //public void StartExampleInServerAndTellMainForm()
+        //{
+        //    Process ghostiseServer = null;
+
+        //    try
+        //    {
+
+
+        //        // Start Server
+
+        //        ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
+        //        serverStartupInfo.Arguments = "-e http://localhost:21606";
+
+        //        ghostiseServer = Process.Start(serverStartupInfo);
+
+        //        Assert.IsNotNull(ghostiseServer);
+
+        //        ghostiseServer.WaitForInputIdle();
+
+
+        //        // Start Client
+
+        //        GhosticeClient client = new GhosticeClient();
+
+        //        Assert.IsNotNull(client);
+
+        //        client.Connect("http://localhost:21606");
+
+        //        var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
+
+        //        client.Start(applicationPath, String.Empty, 15);
+
+        //        var mainWindowLocator = new Locator(new Descriptor(Property.Create("Name", "FormMain")));
+
+        //        var result = client.Application.Tell(mainWindowLocator);
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        if (ghostiseServer != null)
+        //        {
+        //            ghostiseServer.Kill();
+        //        }
+        //    }
+        //}
 
         [TestMethod]
         public void StartExampleInServerAndGetColumnsFromListViewViaExtensionMethod()

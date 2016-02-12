@@ -52,7 +52,8 @@ namespace Ghostice.ApplicationKit
 
         private void HandleAppKitFormClosed(object sender, FormClosedEventArgs e)
         {
-            Ghostice.ApplicationKit.Properties.Settings.Default.Save();
+            _server.Shutdown();
+            Ghostice.ApplicationKit.Properties.Settings.Default.Save();            
         }
 
         private void HandleAppKitFormLoad(object sender, EventArgs e)

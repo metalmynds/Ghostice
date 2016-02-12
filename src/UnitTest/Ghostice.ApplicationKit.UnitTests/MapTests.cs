@@ -78,5 +78,28 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         }
 
+        //[TestMethod]
+        //public void ComplexFormTell()
+        //{
+
+        //    using (var form = new FormComplex())
+        //    {
+
+        //        form.Show();
+
+        //        var locator = new Locator(new Descriptor("Name=FormComplex"));
+
+        //        var tellRequest = ActionRequest.Tell(locator);
+
+        //        var result = ActionManager.Execute(form, tellRequest);
+
+        //        Assert.IsNotNull(result);
+
+
+        //    }
+
+
+        //}
+
     }
 }

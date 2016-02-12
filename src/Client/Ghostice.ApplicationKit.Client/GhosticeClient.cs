@@ -94,7 +94,7 @@ namespace Ghostice.ApplicationKit
            
             if (result == null)
             {
-                throw new ActionResultNullException(String.Format("Starting Application: {0} Aurguments: {1}\r\nServer Returned Null ActionResult!", System.IO.Path.GetFileName(applicationPath)), localException);
+                throw new ActionResultNullException(String.Format("Starting Application: {0} Aurguments: {1}\r\nServer Returned Null ActionResult!", System.IO.Path.GetFileName(applicationPath), arguments), localException);
             }
             else if (result.Error != null)
             {

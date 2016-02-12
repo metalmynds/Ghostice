@@ -22,9 +22,17 @@ namespace Ghostice.Core
 
         static JsonSerializerSettings commonJsonSettings = new JsonSerializerSettings()
         {
+            MaxDepth = 10,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            ContractResolver = ignorableJsonResolver
+            Error = new EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>(handleJsonError),            
+            ContractResolver = ignorableJsonResolver, 
         };
+
+        static void handleJsonError(Object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+        {
+            args.ErrorContext.Handled = true;
+            System.Diagnostics.Debug.WriteLine(args.CurrentObject.ToString());
+        }
 
         static ActionManager()
         {
@@ -109,21 +117,21 @@ namespace Ghostice.Core
                             return ActionResult.Failed(Target.Describe(), ex);
                         }
 
-                    case ActionRequest.OperationType.Tell:
+                    //case ActionRequest.OperationType.Tell:
 
-                        try
-                        {
+                    //    try
+                    //    {
 
-                            var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
+                    //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
 
-                            return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
+                    //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
 
-                        }
-                        catch (Exception ex)
-                        {
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
 
-                            return ActionResult.Failed(Target.Describe(), ex);
-                        }
+                    //        return ActionResult.Failed(Target.Describe(), ex);
+                    //    }
 
                     case ActionRequest.OperationType.Map:
 
@@ -405,28 +413,28 @@ namespace Ghostice.Core
                         return ActionResult.Failed(Target.Describe(), ex);
                     }
 
-                case ActionRequest.OperationType.Tell:
+                //case ActionRequest.OperationType.Tell:
 
-                    try
-                    {
+                //    try
+                //    {
 
-                        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
+                //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
 
-                        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
+                //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
 
-                    }
-                    catch (Exception ex)
-                    {
+                //    }
+                //    catch (Exception ex)
+                //    {
 
-                        return ActionResult.Failed(Target.Describe(), ex);
-                    }
+                //        return ActionResult.Failed(Target.Describe(), ex);
+                //    }
 
 
 
             }
             return null;
         }
-
+      
         [JsonObject("Control")]
         public class ControlNode
         {
@@ -448,7 +456,7 @@ namespace Ghostice.Core
             public List<ControlNode> Children { get; protected set; }
         }
 
-        private static Object GetControlHierarchy(Control Root, String[] RequestedProperties)
+        private static ControlNode GetControlHierarchy(Control Root, String[] RequestedProperties)
         {
             ControlNode rootNode = null;
 

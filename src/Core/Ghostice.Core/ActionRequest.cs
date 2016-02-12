@@ -19,7 +19,7 @@ namespace Ghostice.Core
             Unknown,
             Get,
             Set,
-            Tell,
+            //Tell,
             Execute,
             Map,
             Ready,
@@ -141,10 +141,10 @@ namespace Ghostice.Core
             return new ActionRequest(Target, OperationType.Ready, null, null, null, new ActionParameter[] { ActionParameter.Create(TimeoutSeconds) });
         }
 
-        public static ActionRequest Tell(Locator Target, String Name)
-        {
-            return new ActionRequest(Target, OperationType.Tell, Name);
-        }
+        //public static ActionRequest Tell(Locator Target)
+        //{
+        //    return new ActionRequest(Target, OperationType.Tell);
+        //}
 
         public static ActionRequest Map(Locator Target, String[] Properties)
         {

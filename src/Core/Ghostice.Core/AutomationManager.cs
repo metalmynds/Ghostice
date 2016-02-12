@@ -15,13 +15,13 @@ using System.Windows.Forms;
 
 namespace Ghostice.Core
 {
-    public class ApplicationManager : MarshalByRefObject
+    public class AutomationManager : MarshalByRefObject
     {
 
         private Thread _applicationThread;
         private Assembly _application;
 
-        public ApplicationManager(String ExtensionsPath)
+        public AutomationManager(String ExtensionsPath)
         {
             if (Directory.Exists(ExtensionsPath))
             {
@@ -129,7 +129,7 @@ namespace Ghostice.Core
                         var getTargetWindow = WindowWalker.Locate(windowDescriptor);
 
                         var getControl = WindowWalker.Locate(getTargetWindow, controlPath) as Control;
-                         
+
                         if (getControl != null)
                         {
 
@@ -222,6 +222,38 @@ namespace Ghostice.Core
                         }
 
                         break;
+
+                    //case ActionRequest.OperationType.Tell:
+
+                    //    LogTo.Info(String.Format("Map: {0}", Request.Location.ToString()));
+
+                    //    windowDescriptor = Request.Location.Path[0];
+
+                    //    var tellTargetWindow = WindowWalker.Locate(windowDescriptor);
+
+                    //    controlPath = Request.Location.GetRelativePath();
+
+                    //    Control target = null;
+
+                    //    if (controlPath.Path.Count > 0)
+                    //    {
+                    //        target = WindowWalker.Locate(tellTargetWindow, controlPath) as Control;
+                    //    }
+                    //    else
+                    //    {
+                    //        target = tellTargetWindow;
+                    //    }
+
+                    //    if (target != null)
+                    //    {
+
+                    //        result = ActionManager.Execute(target, Request);
+                    //        break;
+
+                    //    }
+
+                    //    break;
+
 
                     case ActionRequest.OperationType.Ready:
 
@@ -362,7 +394,8 @@ namespace Ghostice.Core
     {
 
         protected ApplicationManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        { }
 
         public ApplicationManagerException(String Message) :
             base(Message)

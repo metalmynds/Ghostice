@@ -1,5 +1,6 @@
 ﻿using Ghostice.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,5 +79,15 @@ namespace Ghostice.Core
 
         }
 
+        //public JObject Tell(Locator Target)
+        //{
+        //    var tellRequest = ActionRequest.Tell(Target);
+
+        //    var result = _dispatcher.Perform(tellRequest);
+
+        //    var dserialised = JsonConvert.DeserializeObject<JObject>(result.ReturnValue);
+
+        //    return dserialised;
+        //}
     }
 }
