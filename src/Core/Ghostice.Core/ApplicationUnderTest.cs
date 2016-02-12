@@ -79,6 +79,11 @@ namespace Ghostice.Core
 
         }
 
+        public ControlNode Map(Locator Target)
+        {
+            return null;
+        }
+
         //public JObject Tell(Locator Target)
         //{
         //    var tellRequest = ActionRequest.Tell(Target);

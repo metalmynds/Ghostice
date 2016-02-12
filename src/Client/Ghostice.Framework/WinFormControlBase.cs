@@ -13,10 +13,10 @@ namespace Ghostice.Framework
 
         }
 
-        public String PrintTree()
+        public ControlNode PrintTree()
         {
 
-            return HandleResult<JObject>(GetDispatcher().Perform(ActionRequest.Map(this.Path, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" }))).ToString();
+            return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(this.Path, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" })));
 
         }
 

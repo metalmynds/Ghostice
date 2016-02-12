@@ -332,6 +332,8 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Assert.IsNotNull(mainWindowMap);
 
+                Assert.IsTrue(mainWindowMap.Children.Count > 0);
+
                 mainWindow.Close();
 
             }

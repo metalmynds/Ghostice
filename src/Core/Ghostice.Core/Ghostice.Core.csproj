@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="AutomationWindowAttribute.cs" />
     <Compile Include="ControlExtensionProviderAttribute.cs" />
+    <Compile Include="ControlNode.cs" />
     <Compile Include="Diagnostics\DiagnosticManager.cs" />
     <Compile Include="Diagnostics\ExtensionInfo.cs" />
     <Compile Include="Diagnostics\ExtensionMethodInfo.cs" />
