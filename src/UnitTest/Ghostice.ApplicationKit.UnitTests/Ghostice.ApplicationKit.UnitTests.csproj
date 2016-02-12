@@ -154,6 +154,18 @@
     <Compile Include="FormExtensions.Designer.cs">
       <DependentUpon>FormExtensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormMdiChild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMdiChild.Designer.cs">
+      <DependentUpon>FormMdiChild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMdiParent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMdiParent.Designer.cs">
+      <DependentUpon>FormMdiParent.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMethodExtended.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -270,6 +282,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormExtensions.resx">
       <DependentUpon>FormExtensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMdiChild.resx">
+      <DependentUpon>FormMdiChild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMdiParent.resx">
+      <DependentUpon>FormMdiParent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMethodExtended.resx">
       <DependentUpon>FormMethodExtended.cs</DependentUpon>

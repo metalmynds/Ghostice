@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ghostice.Core;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Ghostice.ApplicationKit.UnitTests
 {
@@ -66,11 +67,33 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var children = WindowManager.GetWindowsChildWindowControls(aWindow);
 
-                // LOOK AT CHANGING THE LOCATE ROUTINE TO USE THIS METHOD ITS QUICK AND CAN BE DYNAMICALY CALLED.
+                Assert.IsNotNull(children);
 
-                // DO WE NEED TO WALK THE PATH THRU THE CONTROLS ????????
+                Assert.IsTrue(children.Count > 0);
 
             }
         }
+
+        [TestMethod]
+        public void FindChildwindowControlsUnderMDIWindow()
+        {
+
+            using (var mdiParent = new FormMdiParent())
+            {
+                mdiParent.Show();
+
+                Application.DoEvents();
+
+                var childWindows = WindowManager.GetWindowsChildWindowControls(mdiParent);
+
+                Assert.IsNotNull(childWindows);
+
+                Assert.IsTrue(childWindows.Count > 0);
+
+                Assert.IsTrue(childWindows[1].Text == "FormMdiChild");
+            }
+        }
+
+
     }
 }
