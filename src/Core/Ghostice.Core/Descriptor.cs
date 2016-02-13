@@ -15,7 +15,8 @@ namespace Ghostice.Core
         Unknown,
         Window,
         Component,
-        Control
+        Control,
+        Custom
     }
 
     [Serializable]

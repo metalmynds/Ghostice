@@ -2,7 +2,7 @@
 
 namespace Ghostice.Core
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
     public class AutomationDescriptorAttribute : Attribute
     {
         private readonly Descriptor _descriptor;

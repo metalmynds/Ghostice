@@ -11,10 +11,10 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class RegistrationHistoryTabControl : WinFormTabControlBase
     {
 
-        [AutomationDescriptor(DescriptorType.Control, "RegistrationTab", "Name=tabpgRegistration")]
+        [ControlDescriptor("RegistrationTab", "Name=tabpgRegistration")]
         private PlaceHolder<RegistrationTabPage> registrationTab;
 
-        [AutomationDescriptor(DescriptorType.Control, "HistoryTab", "Name=tabpgHistory")]
+        [ControlDescriptor("HistoryTab", "Name=tabpgHistory")]
         private PlaceHolder<HistoryTabPage> historyTab;
 
        

@@ -11,31 +11,31 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class BasketTabPage : WinFormControlBase
     {
 
-        [AutomationDescriptor(DescriptorType.Control, "SelectPurchases", "Name=cmbPetBasket")]
+        [ControlDescriptor("SelectPurchases", "Name=cmbPetBasket")]
         private PlaceHolder<WinFormComboBox> selectPurchases;
 
-        [AutomationDescriptor(DescriptorType.Control, "BasketPurchases", "Name=lstvewBasketPurchases")]
+        [ControlDescriptor("BasketPurchases", "Name=lstvewBasketPurchases")]
         private PlaceHolder<WinFormListView> basketPurchases;
 
-        [AutomationDescriptor(DescriptorType.Control, "Cash", "Name=rdobutCash")]
+        [ControlDescriptor("Cash", "Name=rdobutCash")]
         private PlaceHolder<WinFormRadioButton> radioCash;
 
-        [AutomationDescriptor(DescriptorType.Control, "Cheque", "Name=rdobutCheque")]
+        [ControlDescriptor("Cheque", "Name=rdobutCheque")]
         private PlaceHolder<WinFormRadioButton> radioCheque;
 
-        [AutomationDescriptor(DescriptorType.Control, "Card", "Name=rdobutCard")]
+        [ControlDescriptor("Card", "Name=rdobutCard")]
         private PlaceHolder<WinFormRadioButton> radioCard;
 
-        [AutomationDescriptor(DescriptorType.Control, "VATReceipt", "Name=chkVATReceipt")]
+        [ControlDescriptor("VATReceipt", "Name=chkVATReceipt")]
         private PlaceHolder<WinFormCheckBox> vatReceipt;
 
-        [AutomationDescriptor(DescriptorType.Control, "TotalValue", "Name=lblTotalValue")]
+        [ControlDescriptor("TotalValue", "Name=lblTotalValue")]
         private PlaceHolder<WinFormLabel> totalValue;
 
-        [AutomationDescriptor(DescriptorType.Control, "BasketReset", "Name=butBasketReset")]
+        [ControlDescriptor("BasketReset", "Name=butBasketReset")]
         private PlaceHolder<WinFormButton> basketReset;
 
-        [AutomationDescriptor(DescriptorType.Control, "BasketPurchase", "Name=butBasketPurchase")]
+        [ControlDescriptor("BasketPurchase", "Name=butBasketPurchase")]
         private PlaceHolder<WinFormButton> basketPurchase;
 
         public BasketTabPage(InterfaceControl Parent)
@@ -86,7 +86,7 @@ namespace Ghostice.ApplicationKit.Example.Models
 
         public WinFormCheckBox VATReceipt
         {
-            get { return vatReceipt.GetControl();  }
+            get { return vatReceipt.GetControl(); }
         }
 
         public WinFormLabel Total

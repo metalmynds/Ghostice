@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ghostice.Core
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class ControlExtensionProviderAttribute : Attribute
     {
         private Type _provided;

@@ -163,6 +163,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutomationWindowAttribute.cs" />
+    <Compile Include="ComponentDescriptorAttribute.cs" />
+    <Compile Include="ControlDescriptorAttribute.cs" />
     <Compile Include="ControlExtensionProviderAttribute.cs" />
     <Compile Include="ControlNode.cs" />
     <Compile Include="Diagnostics\DiagnosticManager.cs" />
@@ -198,14 +200,16 @@
     <Compile Include="ReflectionManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WindowDescriptorAttribute.cs" />
     <Compile Include="WindowInfo.cs" />
     <Compile Include="WindowManager.cs" />
     <Compile Include="WindowWalker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\docs\architecture\BasicAvatarStaticUsageHierarchy.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="..\..\..\docs\architecture\BasicAvatarStaticUsageHierarchy.cd">
+      <Link>Docs\BasicAvatarStaticUsageHierarchy.cd</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="tempdevkey.snk" />
     <None Include="tempo.snk" />
