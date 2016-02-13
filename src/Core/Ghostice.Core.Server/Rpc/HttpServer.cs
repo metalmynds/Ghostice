@@ -16,20 +16,11 @@ namespace Ghostice.Core.Server.Rpc
 
         protected event HttpRequestEventHandler OnHttpRequest;
 
-        protected HttpListener _listener;
-
         protected Thread _requestThread;
 
         public HttpServer(Uri url)
         {
             this.Url = url;
-
-            _listener = new HttpListener();
-
-            if (!HttpListener.IsSupported)
-
-                throw new NotSupportedException("HttpListener not supported. Switch to mono provided one.");
-
         }
 
         public Uri Url
@@ -48,110 +39,99 @@ namespace Ghostice.Core.Server.Rpc
                 }
                 catch (Exception ex)
                 {
-                    LogTo.WarnException("Shutdown of Http Request Thread Failed!", ex);
+                    LogTo.WarnException("Shutdown of HttpServer Thread Failed!", ex);
                 }
             }
 
-            if (_listener != null)
-            {
-                try
-                {
-                    _listener.Close();
-                }
-                catch (Exception ex)
-                {
-                    LogTo.WarnException("Shutdown of HttpListener Failed!", ex);
-                }
-
-            }
         }
 
         public void Listen()
         {
 
-            try
-            {
-
-                var address = this.Url.ToString();
-
-                _listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
-
-                _listener.Start();
-
-
-            }
-            catch (Exception ex)
-            {
-                throw new HttpServerStartupFailedException(this.Url.ToString(), ex);
-            }
-
             // 4.0
 
-            _requestThread = new Thread(new ThreadStart(ProcessThreadRequest));
+            _requestThread = new Thread(new ThreadStart(ServerThread));
 
             _requestThread.Start();
 
             // 4.5
 
+            //using (var listener = new HttpListener())
+            //{
             //var tcs = new TaskCompletionSource<object>();
 
-            //listener.GetContextAsync().ContinueWith(async t =>
-            //{
-            //    try
-            //    {
-            //        while (true)
-            //        {
-            //            var context = await t;
-            //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
-            //            t = listener.GetContextAsync();
-            //        }
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        listener.Close();
-            //        tcs.TrySetException(e);
-            //    }
-            //});
+                //listener.GetContextAsync().ContinueWith(async t =>
+                //{
+                //    try
+                //    {
+                //        while (true)
+                //        {
+                //            var context = await t;
+                //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+                //            t = listener.GetContextAsync();
+                //        }
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        listener.Close();
+                //        tcs.TrySetException(e);
+                //    }
+                //});
+            //}
         }
 
-        protected void ProcessThreadRequest()
+        protected void ServerThread()
         {
-            try
+
+            using (var listener = new HttpListener())
             {
 
-                var callback = new AsyncCallback(ListenerCallback);
-
-                while (true)
+                try
                 {
 
-                    IAsyncResult result = _listener.BeginGetContext(callback, _listener);
+                    var address = this.Url.ToString();
 
-                    result.AsyncWaitHandle.WaitOne();
+                    listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
 
+                    listener.Start();
+
+                    var callback = new AsyncCallback(ListenerCallback);
+
+                    while (true)
+                    {
+
+                        IAsyncResult result = listener.BeginGetContext(callback, listener);
+
+                        result.AsyncWaitHandle.WaitOne();
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    LogTo.ErrorException("HttpServer Thread Failed!", ex);
+                    throw;
                 }
 
             }
-            catch (Exception ex)
-            {
-                LogTo.WarnException("Thread Processing HttpListener Requests Failed!", ex);
-                Shutdown();
-            }
+
         }
 
         protected void ListenerCallback(IAsyncResult result)
         {
             var listener = result.AsyncState as HttpListener;
 
-            try {
+            try
+            {
 
                 var context = listener.EndGetContext(result);
 
                 this.HttpRequestRecieved(new HttpRequestEventArgs(context));
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 LogTo.WarnException("HttpListener Request Call Back Failed!", ex);
-                Shutdown();
             }
         }
 

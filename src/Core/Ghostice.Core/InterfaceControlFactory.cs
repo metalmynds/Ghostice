@@ -34,7 +34,7 @@ namespace Ghostice.Core
 
             if (ctor == null)
             {
-                throw new ArgumentException("The Window Must Define a Constructor taking a Single Argument of Type ClientControl! (or Sub Class)");
+                throw new ArgumentException("The Window Must Define a Constructor taking a Single Argument of Type ClientControl! (or Super Class)");
             }
 
             // Instantiate the Window 

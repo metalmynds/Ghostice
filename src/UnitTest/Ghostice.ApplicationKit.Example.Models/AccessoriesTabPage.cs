@@ -11,7 +11,7 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class AccessoriesTabPage : WinFormControlBase
     {
 
-        [AutomationDescriptor("Accessories", "Name=lstAccessories")]
+        [AutomationDescriptor(DescriptorType.Control, "Accessories", "Name=lstAccessories")]
         private PlaceHolder<WinFormListBox> accessoriesList;
 
         public AccessoriesTabPage(InterfaceControl Parent)

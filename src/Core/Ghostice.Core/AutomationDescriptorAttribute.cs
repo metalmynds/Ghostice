@@ -7,9 +7,9 @@ namespace Ghostice.Core
     {
         private readonly Descriptor _descriptor;
 
-        public AutomationDescriptorAttribute(String Name, params String[] ControlProperties)
+        public AutomationDescriptorAttribute(DescriptorType Type, String Name, params String[] ControlProperties)
         {
-            _descriptor = new Descriptor(ControlProperties);
+            _descriptor = new Descriptor(Type, ControlProperties);
 
         }
 

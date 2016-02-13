@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,23 +10,39 @@ using System.Threading.Tasks;
 namespace Ghostice.Core
 {
 
+    public enum DescriptorType
+    {
+        Unknown,
+        Window,
+        Component,
+        Control
+    }
+
     [Serializable]
     public class Descriptor
     {
-
-        [JsonConstructor]
-        public Descriptor(List<Property> Properties)
-        {
-            this.Properties = Properties;
-        }
-
+        // Required for Serialisation
         public Descriptor()
         {
-            Properties = new List<Property>();
+
         }
 
-        public Descriptor(params Property[] List)
+        [JsonConstructor]
+        public Descriptor(DescriptorType Type, List<Property> Properties)
         {
+            this.Properties = Properties;
+            this.Type = Type;
+        }
+
+        public Descriptor(DescriptorType Type)
+        {
+            Properties = new List<Property>();
+            this.Type = Type;
+        }
+
+        public Descriptor(DescriptorType Type, params Property[] List)
+        {
+            this.Type = Type;
             Properties = new List<Property>();
 
             foreach (var property in List)
@@ -34,14 +51,30 @@ namespace Ghostice.Core
             }
         }
 
-        public Descriptor(params String[] KeyValueList)
+        public Descriptor(DescriptorType Type, params String[] KeyValueList)
         {
+            this.Type = Type;
             Properties = new List<Property>();
 
             foreach (var keyValue in KeyValueList)
             {
                 Properties.Add(Property.Create(keyValue));
             }
+        }
+
+        public static Descriptor Window(params String[] KeyValueList)
+        {
+            return new Descriptor(DescriptorType.Window, KeyValueList);
+        }
+
+        public static Descriptor Control(params String[] KeyValueList)
+        {
+            return new Descriptor(DescriptorType.Control, KeyValueList);
+        }
+
+        public static Descriptor Component(params String[] KeyValueList)
+        {
+            return new Descriptor(DescriptorType.Component, KeyValueList);
         }
 
         [JsonIgnore]
@@ -58,6 +91,13 @@ namespace Ghostice.Core
 
                 return names.ToArray();
             }
+        }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public DescriptorType Type
+        {
+            get;
+            set;
         }
 
         public List<Property> Properties
@@ -83,7 +123,8 @@ namespace Ghostice.Core
         {
             foreach (var property in Properties)
             {
-                if (property.Name.Equals(PropertyName, StringComparison.InvariantCultureIgnoreCase)) {
+                if (property.Name.Equals(PropertyName, StringComparison.InvariantCultureIgnoreCase))
+                {
                     return true;
                 }
             }
@@ -104,7 +145,7 @@ namespace Ghostice.Core
 
             propertyBuilder.Append(String.Join(", ", propertyClauses));
 
-            return String.Format("Descriptor[{0}]", propertyBuilder.ToString());
+            return String.Format("{0}[{1}]", Type.ToString(), propertyBuilder.ToString());
         }
     }
 }

@@ -120,11 +120,11 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Get:
 
-                        LogTo.Info(String.Format("Target: {0} Get: {1}", Request.Location, Request.Name));
+                        LogTo.Info(String.Format("Target: {0} Get: {1}", Request.Target, Request.Name));
 
-                        windowDescriptor = Request.Location.Path[0];
+                        windowDescriptor = Request.Target.Path[0];
 
-                        controlPath = Request.Location.GetRelativePath();
+                        controlPath = Request.Target.GetRelativePath();
 
                         var getTargetWindow = WindowWalker.Locate(windowDescriptor);
 
@@ -138,7 +138,7 @@ namespace Ghostice.Core
                             break;
                         }
 
-                        var getComponent = WindowWalker.Locate(getTargetWindow, Request.Location) as Component;
+                        var getComponent = WindowWalker.Locate(getTargetWindow, Request.Target) as Component;
 
                         if (getComponent != null)
                         {
@@ -153,11 +153,11 @@ namespace Ghostice.Core
                     case ActionRequest.OperationType.Set:
 
 
-                        LogTo.Info(String.Format("Target: {0} Set: {1} Value: {2}", Request.Location.ToString(), Request.Name, Request.Value));
+                        LogTo.Info(String.Format("Target: {0} Set: {1} Value: {2}", Request.Target.ToString(), Request.Name, Request.Value));
 
-                        windowDescriptor = Request.Location.Path[0];
+                        windowDescriptor = Request.Target.Path[0];
 
-                        controlPath = Request.Location.GetRelativePath();
+                        controlPath = Request.Target.GetRelativePath();
 
                         var setTargetWindow = WindowWalker.Locate(windowDescriptor);
 
@@ -175,11 +175,11 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Execute:
 
-                        LogTo.Info(String.Format("Target: {0} Execute: {1} Arguments: {2}", Request.Location.ToString(), Request.Name, logArgsString));
+                        LogTo.Info(String.Format("Target: {0} Execute: {1} Arguments: {2}", Request.Target.ToString(), Request.Name, logArgsString));
 
-                        windowDescriptor = Request.Location.Path[0];
+                        windowDescriptor = Request.Target.Path[0];
 
-                        controlPath = Request.Location.GetRelativePath();
+                        controlPath = Request.Target.GetRelativePath();
 
                         var executeTargetWindow = WindowWalker.Locate(windowDescriptor);
 
@@ -203,11 +203,11 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Map:
 
-                        LogTo.Info(String.Format("Map: {0}", Request.Location.ToString()));
+                        LogTo.Info(String.Format("Map: {0}", Request.Target.ToString()));
 
-                        windowDescriptor = Request.Location.Path[0];
+                        windowDescriptor = Request.Target.Path[0];
 
-                        controlPath = Request.Location.GetRelativePath();
+                        controlPath = Request.Target.GetRelativePath();
 
                         var mapTargetWindow = WindowWalker.Locate(windowDescriptor);
 
@@ -257,11 +257,11 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Ready:
 
-                        LogTo.Info(String.Format("Ready: {0}", Request.Location.ToString()));
+                        LogTo.Info(String.Format("Ready: {0}", Request.Target.ToString()));
 
-                        windowDescriptor = Request.Location.Path[0];
+                        windowDescriptor = Request.Target.Path[0];
 
-                        controlPath = Request.Location.GetRelativePath();
+                        controlPath = Request.Target.GetRelativePath();
 
                         int timeoutSeconds = 30;
 
@@ -307,7 +307,7 @@ namespace Ghostice.Core
                         }
                         else
                         {
-                            result = ActionResult.Failed(Request.Location.ToString(), "Failed to Find Control!", typeof(Boolean), "false");
+                            result = ActionResult.Failed(Request.Target.ToString(), "Failed to Find Control!", typeof(Boolean), "false");
                             break;
                         }
 
@@ -321,13 +321,13 @@ namespace Ghostice.Core
                     case ActionRequest.OperationType.Unknown:
                     default:
                         LogTo.Error("Action Request Type Not Valid!");
-                        result = ActionResult.Failed(Request.Location.ToString(), String.Format("Action Request Type is Not Valid!\r\nOperation Type: {0}", Enum.GetName(typeof(ActionRequest.OperationType), Request.Operation)));
+                        result = ActionResult.Failed(Request.Target.ToString(), String.Format("Action Request Type is Not Valid!\r\nOperation Type: {0}", Enum.GetName(typeof(ActionRequest.OperationType), Request.Operation)));
                         break;
                 }
             }
             catch (Exception ex)
             {
-                throw new ApplicationManagerException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", Request.Location.ToString(), ex.Message, Request.ToJson()), ex);
+                throw new ApplicationManagerException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", Request.Target.ToString(), ex.Message, Request.ToJson()), ex);
             }
 
             return result;

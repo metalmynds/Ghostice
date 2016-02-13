@@ -36,26 +36,26 @@ namespace Ghostice.Core
         {
             this.Operation = Operation;
             this.Name = Name;
-            this.Location = Target;
+            this.Target = Target;
         }
 
         public ActionRequest(Locator Target, OperationType Operation)
         {
             this.Operation = Operation;
-            this.Location = Target;
+            this.Target = Target;
         }
 
         public ActionRequest(Locator Target, OperationType Operation, ActionParameter[] Parameters)
         {
             this.Operation = Operation;
             this.Name = Name;
-            this.Location = Target;
+            this.Target = Target;
             this.Parameters = Parameters;
         }
 
         public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType)
         {
-            this.Location = Target;
+            this.Target = Target;
             this.Operation = Operation;
             this.Name = Name;
             this.Value = Value;
@@ -63,12 +63,12 @@ namespace Ghostice.Core
         }
 
         [JsonConstructor]
-        public ActionRequest(Locator Location, OperationType Operation, String Name, String Value, Type ValueType, ActionParameter[] Parameters)
+        public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType, ActionParameter[] Parameters)
         {
             this.Operation = Operation;
             this.Name = Name;
             this.Value = Value;
-            this.Location = Location;
+            this.Target = Target;
             this.Parameters = Parameters;
             this.ValueType = ValueType;
         }
@@ -90,7 +90,7 @@ namespace Ghostice.Core
             get { return this.Parameters != null; }
         }
 
-        public Locator Location { get; set; }
+        public Locator Target { get; set; }
 
         public virtual String ToJson()
         {

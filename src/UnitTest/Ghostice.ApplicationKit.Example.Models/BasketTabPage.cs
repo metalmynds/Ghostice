@@ -11,31 +11,31 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class BasketTabPage : WinFormControlBase
     {
 
-        [AutomationDescriptor("SelectPurchases", "Name=cmbPetBasket")]
+        [AutomationDescriptor(DescriptorType.Control, "SelectPurchases", "Name=cmbPetBasket")]
         private PlaceHolder<WinFormComboBox> selectPurchases;
 
-        [AutomationDescriptor("BasketPurchases", "Name=lstvewBasketPurchases")]
+        [AutomationDescriptor(DescriptorType.Control, "BasketPurchases", "Name=lstvewBasketPurchases")]
         private PlaceHolder<WinFormListView> basketPurchases;
 
-        [AutomationDescriptor("Cash", "Name=rdobutCash")]
+        [AutomationDescriptor(DescriptorType.Control, "Cash", "Name=rdobutCash")]
         private PlaceHolder<WinFormRadioButton> radioCash;
 
-        [AutomationDescriptor("Cheque", "Name=rdobutCheque")]
+        [AutomationDescriptor(DescriptorType.Control, "Cheque", "Name=rdobutCheque")]
         private PlaceHolder<WinFormRadioButton> radioCheque;
 
-        [AutomationDescriptor("Card", "Name=rdobutCard")]
+        [AutomationDescriptor(DescriptorType.Control, "Card", "Name=rdobutCard")]
         private PlaceHolder<WinFormRadioButton> radioCard;
 
-        [AutomationDescriptor("VATReceipt", "Name=chkVATReceipt")]
+        [AutomationDescriptor(DescriptorType.Control, "VATReceipt", "Name=chkVATReceipt")]
         private PlaceHolder<WinFormCheckBox> vatReceipt;
 
-        [AutomationDescriptor("TotalValue", "Name=lblTotalValue")]
+        [AutomationDescriptor(DescriptorType.Control, "TotalValue", "Name=lblTotalValue")]
         private PlaceHolder<WinFormLabel> totalValue;
 
-        [AutomationDescriptor("BasketReset", "Name=butBasketReset")]
+        [AutomationDescriptor(DescriptorType.Control, "BasketReset", "Name=butBasketReset")]
         private PlaceHolder<WinFormButton> basketReset;
 
-        [AutomationDescriptor("BasketPurchase", "Name=butBasketPurchase")]
+        [AutomationDescriptor(DescriptorType.Control, "BasketPurchase", "Name=butBasketPurchase")]
         private PlaceHolder<WinFormButton> basketPurchase;
 
         public BasketTabPage(InterfaceControl Parent)

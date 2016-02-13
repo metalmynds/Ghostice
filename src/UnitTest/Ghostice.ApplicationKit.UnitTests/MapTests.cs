@@ -16,15 +16,15 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
-                var locator = new Locator(new Descriptor("Name=FormSimpleWalk"));
+                var locator = new Locator(new Descriptor(DescriptorType.Window, "Name=FormSimpleWalk"));
 
-                var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position"});
+                var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position" });
 
                 var result = ActionManager.Execute(form, mapRequest);
 
                 Assert.IsNotNull(result);
 
-                
+
             }
 
 
@@ -39,7 +39,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
-                var locator = new Locator(new Descriptor("Name=FormNestedTabPageControls"));
+                var locator = new Locator(new Descriptor(DescriptorType.Window,"Name=FormNestedTabPageControls"));
 
                 var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position" });
 
@@ -64,7 +64,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
-                var locator = new Locator(new Descriptor("Name=FormComplex"));
+                var locator = new Locator(new Descriptor(DescriptorType.Window, "Name=FormComplex"));
 
                 var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" });
 

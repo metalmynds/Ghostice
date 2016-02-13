@@ -177,7 +177,7 @@ namespace Ghostice.Core.Server.Services
 
                     actionResult = getResult;
 
-                    LogTo.Debug("Target: {0} Get: {1}", request.Location.ToString(), request.Name);
+                    LogTo.Debug("Target: {0} Get: {1}", request.Target.ToString(), request.Name);
 
                     _listener.OnPerformed(request, actionResult);
 
@@ -189,7 +189,7 @@ namespace Ghostice.Core.Server.Services
 
                     actionResult = setResult;
 
-                    LogTo.Debug("Target: {0} Set: {1} Value: {2}", request.Location.ToString(), request.Name, actionResult.ReturnValue, actionResult.ReturnValue);
+                    LogTo.Debug("Target: {0} Set: {1} Value: {2}", request.Target.ToString(), request.Name, actionResult.ReturnValue, actionResult.ReturnValue);
 
                     _listener.OnPerformed(request, actionResult);
 
@@ -203,7 +203,7 @@ namespace Ghostice.Core.Server.Services
 
                     actionResult = executeResult;
 
-                    LogTo.Debug("Target: {0} Execute: {1} Arguments: {2}\r\nResult: {3}", request.Location.ToString(), request.Name, executeDisplayArgs, actionResult.ToString());
+                    LogTo.Debug("Target: {0} Execute: {1} Arguments: {2}\r\nResult: {3}", request.Target.ToString(), request.Name, executeDisplayArgs, actionResult.ToString());
 
                     _listener.OnPerformed(request, actionResult);
 
@@ -217,7 +217,7 @@ namespace Ghostice.Core.Server.Services
 
                     actionResult = mapResult;
 
-                    LogTo.Debug("Target: {0} Map Arguments: {1}\r\nValue: {2}", request.Location.ToString(), request.Name, mapDisplayArgs, actionResult.ReturnValue.ToString());
+                    LogTo.Debug("Target: {0} Map Arguments: {1}\r\nValue: {2}", request.Target.ToString(), request.Name, mapDisplayArgs, actionResult.ReturnValue.ToString());
 
                     _listener.OnPerformed(request, actionResult);
 
@@ -241,7 +241,7 @@ namespace Ghostice.Core.Server.Services
 
                     actionResult = readyResult;
 
-                    LogTo.Debug("Target: {0} Ready: Result: {1}", request.Location.ToString(), actionResult.ToString());
+                    LogTo.Debug("Target: {0} Ready: Result: {1}", request.Target.ToString(), actionResult.ToString());
 
                     _listener.OnPerformed(request, actionResult);
 
@@ -266,7 +266,7 @@ namespace Ghostice.Core.Server.Services
 
                     LogTo.Error(message);
 
-                    return ActionResult.Failed(request.Location != null ? request.Location.ToString() : "None", message);
+                    return ActionResult.Failed(request.Target != null ? request.Target.ToString() : "None", message);
             }
         }
 

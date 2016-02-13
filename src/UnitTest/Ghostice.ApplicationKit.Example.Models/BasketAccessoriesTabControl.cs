@@ -11,7 +11,7 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class BasketAccessoriesTabControl : WinFormTabControlBase
     {
 
-        [AutomationDescriptor("BasketTab", "Name=tabpgeBasket")]
+        [AutomationDescriptor(DescriptorType.Control, "BasketTab", "Name=tabpgeBasket")]
         private PlaceHolder<BasketTabPage> basketTab;
 
 

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Ghostice.ApplicationKit.Example.Models
 {
-    [AutomationDescriptor("MainWindow", "Name=FormMain")]
+    [AutomationDescriptor(DescriptorType.Window, "MainWindow", "Name=FormMain")]
     public class MainFormWindow : WinFormWindowBase
     {
 
-        [AutomationDescriptor("HistoryRegistration", "Name=tabctrlAdmin")]
+        [AutomationDescriptor(DescriptorType.Control, "HistoryRegistration", "Name=tabctrlAdmin")]
         private PlaceHolder<RegistrationHistoryTabControl> _registrationHistoryTabControl;
 
-        [AutomationDescriptor("BasketAccessories", "Name=tabctrlSales")]
+        [AutomationDescriptor(DescriptorType.Control, "BasketAccessories", "Name=tabctrlSales")]
         private PlaceHolder<BasketAccessoriesTabControl> _basketAccessoriesTabControl;
 
-        [AutomationDescriptor("MainMenu", "Name=mnustrpMain")]
+        [AutomationDescriptor(DescriptorType.Control, "MainMenu", "Name=mnustrpMain")]
         private PlaceHolder<WinFormMainMenu> _mainMenu;
 
         public MainFormWindow(InterfaceControl Parent)

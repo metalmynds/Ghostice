@@ -10,7 +10,7 @@ namespace Ghostice.Core
 {
     public abstract class InterfaceControl
     {
-        protected Descriptor _descriptor = new Descriptor();
+        protected Descriptor _descriptor = null;
         protected InterfaceControl _parent;
 
         public InterfaceControl(InterfaceControl Parent)

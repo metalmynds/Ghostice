@@ -108,7 +108,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Find Component Font Dialog
 
-                var menuStrip1Locator = new Locator(new Descriptor(new Property("Name", "FormWithComponents")), new Descriptor(new Property("Name", "menuStrip1")));
+                var menuStrip1Locator = new Locator(new Descriptor(DescriptorType.Window, new Property("Name", "FormWithComponents")), new Descriptor(DescriptorType.Component, new Property("Name", "menuStrip1")));
 
                 var menuStrip1 = WindowWalker.Locate(form, menuStrip1Locator) as MenuStrip;
 

@@ -11,22 +11,22 @@ namespace Ghostice.ApplicationKit.Example.Models
     public class RegistrationTabPage : WinFormControlBase
     {
 
-        [AutomationDescriptor("RegistrationName", "Name=txtName")]
+        [AutomationDescriptor(DescriptorType.Control, "RegistrationName", "Name=txtName")]
         private PlaceHolder<WinFormTextBox> registrationName;
 
-        [AutomationDescriptor("RegistrationType", "Name=cmbType")]
+        [AutomationDescriptor(DescriptorType.Control, "RegistrationType", "Name=cmbType")]
         private PlaceHolder<WinFormComboBox> registrationType;
 
-        [AutomationDescriptor("RegistrationEats", "Name=cmbEats")]
+        [AutomationDescriptor(DescriptorType.Control, "RegistrationEats", "Name=cmbEats")]
         private PlaceHolder<WinFormComboBox> registrationEats;
 
-        [AutomationDescriptor("RegistrationPrice", "Name=txtPrice")]
+        [AutomationDescriptor(DescriptorType.Control, "RegistrationPrice", "Name=txtPrice")]
         private PlaceHolder<WinFormTextBox> registrationPrice;
 
-        [AutomationDescriptor("RegistrationRules", "Name=lstRules")]
+        [AutomationDescriptor(DescriptorType.Control, "RegistrationRules", "Name=lstRules")]
         private PlaceHolder<WinFormListBox> registrationRules;
 
-        [AutomationDescriptor("SaveRegistration", "Name=butSave")]
+        [AutomationDescriptor(DescriptorType.Control, "SaveRegistration", "Name=butSave")]
         private PlaceHolder<WinFormButton> buttonSave;        
 
         public RegistrationTabPage(InterfaceControl Parent)

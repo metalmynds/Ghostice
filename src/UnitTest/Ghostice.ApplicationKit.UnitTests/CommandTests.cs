@@ -12,7 +12,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void ConstructExecuteActionRequestWithArguments()
         {
-            var locator = new Locator(new Descriptor(new Property("Name", "FormA")), new Descriptor(new Property("Name", "TabControl1")));
+            var locator = new Locator(new Descriptor(DescriptorType.Window, new Property("Name", "FormA")), new Descriptor(DescriptorType.Control, new Property("Name", "TabControl1")));
 
             var arguments = new ActionParameter[] { ActionParameter.Create(1) };
 
@@ -20,19 +20,19 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             Assert.AreEqual(request.Name, "SelectTab");
 
-            Assert.AreEqual(2, request.Location.Path.Count);
+            Assert.AreEqual(2, request.Target.Path.Count);
 
-            Assert.AreEqual(request.Location.Path[0].RequiredProperties[0], "Name");
+            Assert.AreEqual(request.Target.Path[0].RequiredProperties[0], "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Name, "Name");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Name, "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Value, "FormA");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Value, "FormA");
 
-            Assert.AreEqual(request.Location.Path[1].RequiredProperties[0], "Name");
+            Assert.AreEqual(request.Target.Path[1].RequiredProperties[0], "Name");
 
-            Assert.AreEqual(request.Location.Path[1].Properties[0].Name, "Name");
+            Assert.AreEqual(request.Target.Path[1].Properties[0].Name, "Name");
 
-            Assert.AreEqual(request.Location.Path[1].Properties[0].Value, "TabControl1");
+            Assert.AreEqual(request.Target.Path[1].Properties[0].Value, "TabControl1");
 
             Assert.IsTrue(request.HasParameters);
 
@@ -40,7 +40,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             var actual = request.ToJson();
 
-            var expected = "{\"Operation\":\"Execute\",\"Name\":\"SelectTab\",\"Value\":null,\"ValueType\":null,\"Parameters\":[{\"ValueType\":null,\"TypeCode\":\"Int32\",\"Value\":1}],\"Location\":{\"Path\":[{\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormA\"}]},{\"Properties\":[{\"Name\":\"Name\",\"Value\":\"TabControl1\"}]}]}}";
+            var expected = "{\"Operation\":\"Execute\",\"Name\":\"SelectTab\",\"Value\":null,\"ValueType\":null,\"Parameters\":[{\"ValueType\":null,\"TypeCode\":\"Int32\",\"Value\":1}],\"Target\":{\"Path\":[{\"Type\":\"Window\",\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormA\"}]},{\"Type\":\"Control\",\"Properties\":[{\"Name\":\"Name\",\"Value\":\"TabControl1\"}]}]}}";
 
             Assert.AreEqual<String>(expected, actual);
 
@@ -49,29 +49,29 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void ConstructActionExecuteRequest()
         {
-            var locator = new Locator(new Descriptor(new Property("Name", "FormA")), new Descriptor(new Property("Name", "Control1")));
+            var locator = new Locator(new Descriptor(DescriptorType.Window, new Property("Name", "FormA")), new Descriptor(DescriptorType.Control, new Property("Name", "Control1")));
 
             var request = new ActionRequest(locator, ActionRequest.OperationType.Execute, "Click");
 
             Assert.AreEqual(request.Name, "Click");
 
-            Assert.AreEqual(2, request.Location.Path.Count);
+            Assert.AreEqual(2, request.Target.Path.Count);
 
-            Assert.AreEqual(request.Location.Path[0].RequiredProperties[0], "Name");
+            Assert.AreEqual(request.Target.Path[0].RequiredProperties[0], "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Name, "Name");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Name, "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Value, "FormA");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Value, "FormA");
 
-            Assert.AreEqual(request.Location.Path[1].RequiredProperties[0], "Name");
+            Assert.AreEqual(request.Target.Path[1].RequiredProperties[0], "Name");
 
-            Assert.AreEqual(request.Location.Path[1].Properties[0].Name, "Name");
+            Assert.AreEqual(request.Target.Path[1].Properties[0].Name, "Name");
 
-            Assert.AreEqual(request.Location.Path[1].Properties[0].Value, "Control1");
+            Assert.AreEqual(request.Target.Path[1].Properties[0].Value, "Control1");
 
             var actual = request.ToJson();
 
-            var expected = "{\"Operation\":\"Execute\",\"Name\":\"Click\",\"Value\":null,\"ValueType\":null,\"Parameters\":null,\"Location\":{\"Path\":[{\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormA\"}]},{\"Properties\":[{\"Name\":\"Name\",\"Value\":\"Control1\"}]}]}}";
+            var expected = "{\"Operation\":\"Execute\",\"Name\":\"Click\",\"Value\":null,\"ValueType\":null,\"Parameters\":null,\"Target\":{\"Path\":[{\"Type\":\"Window\",\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormA\"}]},{\"Type\":\"Control\",\"Properties\":[{\"Name\":\"Name\",\"Value\":\"Control1\"}]}]}}";
 
             Assert.AreEqual<String>(expected, actual);
         }
@@ -80,23 +80,23 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void SerialiseActionRequestToJson()
         {
-            var locator = new Locator(new Descriptor(new Property("Name", "FormMain")));
+            var locator = new Locator(new Descriptor(DescriptorType.Window, new Property("Name", "FormMain")));
 
             var request = new ActionRequest(locator, ActionRequest.OperationType.Execute, "Close", null, null);
 
             Assert.AreEqual(request.Name, "Close");
 
-            Assert.AreEqual(1, request.Location.Path.Count);
+            Assert.AreEqual(1, request.Target.Path.Count);
 
-            Assert.AreEqual(request.Location.Path[0].RequiredProperties[0], "Name");
+            Assert.AreEqual(request.Target.Path[0].RequiredProperties[0], "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Name, "Name");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Name, "Name");
 
-            Assert.AreEqual(request.Location.Path[0].Properties[0].Value, "FormMain");
+            Assert.AreEqual(request.Target.Path[0].Properties[0].Value, "FormMain");
 
             var actual = request.ToJson();
 
-            var expected = "{\"Operation\":\"Execute\",\"Name\":\"Close\",\"Value\":null,\"ValueType\":null,\"Parameters\":null,\"Location\":{\"Path\":[{\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormMain\"}]}]}}";
+            var expected = "{\"Operation\":\"Execute\",\"Name\":\"Close\",\"Value\":null,\"ValueType\":null,\"Parameters\":null,\"Target\":{\"Path\":[{\"Type\":\"Window\",\"Properties\":[{\"Name\":\"Name\",\"Value\":\"FormMain\"}]}]}}";
 
             Assert.AreEqual<String>(expected, actual);
         }
