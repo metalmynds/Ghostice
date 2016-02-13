@@ -156,7 +156,7 @@
     <Compile Include="AppDomainFactory.cs" />
     <Compile Include="ApplicationUnderTest.cs" />
     <Compile Include="ApplicationInfo.cs" />
-    <Compile Include="AutomationManager.cs" />
+    <Compile Include="AutomationAvatar.cs" />
     <Compile Include="ActionRequest.cs" />
     <Compile Include="AutomationManagerSponsor.cs" />
     <Compile Include="AutomationDescriptorAttribute.cs">
@@ -204,6 +204,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\docs\architecture\BasicAvatarStaticUsageHierarchy.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="tempdevkey.snk" />
     <None Include="tempo.snk" />

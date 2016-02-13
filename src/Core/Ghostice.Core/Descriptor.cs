@@ -103,7 +103,7 @@ namespace Ghostice.Core
         public List<Property> Properties
         {
             get;
-            protected set;
+            set;
         }
 
         public Property GetProperty(String Name)

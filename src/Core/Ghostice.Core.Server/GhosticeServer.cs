@@ -63,7 +63,7 @@ namespace Ghostice.Core.Server
 
             _server.Listen();
 
-            LogTo.Info("RPC Server Started. Listening @ {0}", _server.Url);
+            LogTo.Info("RPC Server Started. Listening @ {0}", _server.EndPoint);
 
         }
 

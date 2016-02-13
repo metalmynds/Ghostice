@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Basic Hierarchy of Use of Static Classess by AutomationAvatar">
+    <Position X="0.5" Y="0.5" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="Ghostice.Core.ActionManager">
+    <Position X="5" Y="1.25" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="Ghostice.Core.ActionManager.UIThreadSafePerform" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ActionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAEAQAAAAEAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>ActionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.AutomationAvatar">
+    <Position X="2.75" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAQAACAUAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutomationAvatar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.ExtensionManager">
+    <Position X="7.75" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEEAAAACAAAAAgAAAABAAAAAAAAAAAAAAQAAg=</HashCode>
+      <FileName>ExtensionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.MethodManager">
+    <Position X="7.75" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MethodManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.ReflectionManager">
+    <Position X="10.5" Y="1.75" Width="2.25" />
+    <NestedTypes>
+      <Class Name="Ghostice.Core.ReflectionManager.ReflectionManagerException" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ReflectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABARAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReflectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.WindowManager">
+    <Position X="5" Y="6.25" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="Ghostice.Core.WindowManager.UIThreadSafeGetChildControls" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAABAAAAIgBAAAAAAAAAIAAAABAIBAAAAAAIAA=</HashCode>
+      <FileName>WindowManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ghostice.Core.WindowWalker">
+    <Position X="5" Y="4" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="Ghostice.Core.WindowWalker.UIThreadSafeLocate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowWalker.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAABAAAAAAAAAABAAAQAAAA=</HashCode>
+      <FileName>WindowWalker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

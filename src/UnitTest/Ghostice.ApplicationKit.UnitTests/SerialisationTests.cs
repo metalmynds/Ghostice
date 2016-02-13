@@ -61,7 +61,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         public void DeserialiseActionRequestFromXml()
         {
 
-            var serialized = "<?xml version=\"1.0\" encoding=\"utf-16\"?><ActionResult xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Status>Failed</Status><Target>ButtonA</Target><Error><Message>Dummy Exception</Message><InnerMessage>Missing Some File</InnerMessage></Error></ActionResult>";
+            var serialized = "<?xml version=\"1.0\" encoding=\"utf-16\"?><ActionRequest xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Operation>Execute</Operation><Name>Close</Name><Parameters /><Target><Path><Descriptor><Type>Control</Type><Properties><Property><Name>Name</Name><Value>FormMain</Value></Property></Properties></Descriptor></Path></Target></ActionRequest>";
 
             var serializer = new XmlSerializer(typeof(ActionRequest));
 

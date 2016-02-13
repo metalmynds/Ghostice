@@ -15,13 +15,13 @@ using System.Windows.Forms;
 
 namespace Ghostice.Core
 {
-    public class AutomationManager : MarshalByRefObject
+    public class AutomationAvatar : MarshalByRefObject
     {
 
         private Thread _applicationThread;
         private Assembly _application;
 
-        public AutomationManager(String ExtensionsPath)
+        public AutomationAvatar(String ExtensionsPath)
         {
             if (Directory.Exists(ExtensionsPath))
             {
@@ -95,7 +95,7 @@ namespace Ghostice.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationManagerException(String.Format("ApplicationManager Constructor Failed!\r\nPath: [{0}]\r\nArguments: [{1}]\r\nError: {2}", ExecutablePath, String.Concat(Arguments, " "), ex.Message), ex);
+                throw new AutomationAvatarException(String.Format("ApplicationManager Constructor Failed!\r\nPath: [{0}]\r\nArguments: [{1}]\r\nError: {2}", ExecutablePath, String.Concat(Arguments, " "), ex.Message), ex);
             }
 
         }
@@ -327,7 +327,7 @@ namespace Ghostice.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationManagerException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", Request.Target.ToString(), ex.Message, Request.ToJson()), ex);
+                throw new AutomationAvatarException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", Request.Target.ToString(), ex.Message, Request.ToJson()), ex);
             }
 
             return result;
@@ -390,20 +390,20 @@ namespace Ghostice.Core
     }
 
     [Serializable]
-    public class ApplicationManagerException : Exception
+    public class AutomationAvatarException : Exception
     {
 
-        protected ApplicationManagerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        protected AutomationAvatarException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         { }
 
-        public ApplicationManagerException(String Message) :
+        public AutomationAvatarException(String Message) :
             base(Message)
         {
 
         }
 
-        public ApplicationManagerException(String Message, Exception Inner) :
+        public AutomationAvatarException(String Message, Exception Inner) :
             base(Message, Inner)
         {
 

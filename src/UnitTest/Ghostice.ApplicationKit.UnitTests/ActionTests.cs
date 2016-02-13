@@ -29,7 +29,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var getTextRequest = ActionRequest.Get(nestedTextBoxLocator, "Text");
 
-                var appManager = new AutomationManager(String.Empty);
+                var appManager = new AutomationAvatar(String.Empty);
 
                 System.Threading.Thread.Sleep(512);
 

@@ -18,12 +18,19 @@ namespace Ghostice.Core.Server.Rpc
 
         protected Thread _requestThread;
 
-        public HttpServer(Uri url)
+        public HttpServer(String endPoint)
+            : this(new Uri(endPoint))
         {
-            this.Url = url;
         }
 
-        public Uri Url
+        public HttpServer(Uri endPoint)
+        {
+            var address = endPoint.ToString();
+
+            this.EndPoint = new Uri(address.EndsWith("/") ? address : address += "/");           
+        }
+
+        public Uri EndPoint
         {
             get;
             protected set;
@@ -83,38 +90,43 @@ namespace Ghostice.Core.Server.Rpc
         protected void ServerThread()
         {
 
-            using (var listener = new HttpListener())
-            {
+            try {
 
-                try
+                using (var listener = new HttpListener())
                 {
 
-                    var address = this.Url.ToString();
-
-                    listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
-
-                    listener.Start();
-
-                    var callback = new AsyncCallback(ListenerCallback);
-
-                    while (true)
+                    try
                     {
 
-                        IAsyncResult result = listener.BeginGetContext(callback, listener);
+                        var address = this.EndPoint.ToString();
 
-                        result.AsyncWaitHandle.WaitOne();
+                        listener.Prefixes.Add(address.EndsWith("/") ? address : address += "/");
 
+                        listener.Start();
+
+                        var callback = new AsyncCallback(ListenerCallback);
+
+                        while (true)
+                        {
+
+                            IAsyncResult result = listener.BeginGetContext(callback, listener);
+
+                            result.AsyncWaitHandle.WaitOne();
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        LogTo.ErrorException("HttpServer Thread Failed!", ex);
+                        throw;
                     }
 
                 }
-                catch (Exception ex)
-                {
-                    LogTo.ErrorException("HttpServer Thread Failed!", ex);
-                    throw;
-                }
-
+            } catch (Exception ex)
+            {
+                throw new HttpServerStartupFailedException(this.EndPoint.ToString(), ex);
             }
-
         }
 
         protected void ListenerCallback(IAsyncResult result)

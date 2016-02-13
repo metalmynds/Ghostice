@@ -22,7 +22,7 @@ namespace Ghostice.Core.Server.Services
 
         private AutomationManagerSponsor _autoManagerProxySponsor;
 
-        private AutomationManager _autoManagerProxy;
+        private AutomationAvatar _autoAvatarProxy;
 
         private AppDomain _sutAppDomain;
 
@@ -83,13 +83,13 @@ namespace Ghostice.Core.Server.Services
 
                 var instanceIdentifier = String.Format("{0}{1}", APPKIT_APPLICATION_DOMAIN_PREFIX, System.Guid.NewGuid().ToString("N"));
 
-                _autoManagerProxy = AppDomainFactory.Create<AutomationManager>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AppDomainFactory.AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
+                _autoAvatarProxy = AppDomainFactory.Create<AutomationAvatar>(_sutAppDomainBasePath, instanceIdentifier, new Object[] { _extensionsPath }, false, new AppDomainFactory.AssemblyResolution(HandleSutAppDomainAssemblyResolve), out _sutAppDomain);
 
-                _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_autoManagerProxy);
+                _appManagerLease = (ILease)RemotingServices.GetLifetimeService(_autoAvatarProxy);
 
                 _appManagerLease.Register(_autoManagerProxySponsor);
 
-                _sutInformation = _autoManagerProxy.Start(executablePath, arguments, _sutStartupTimeout);
+                _sutInformation = _autoAvatarProxy.Start(executablePath, arguments, _sutStartupTimeout);
 
             }
             catch (Exception ex)
@@ -173,7 +173,7 @@ namespace Ghostice.Core.Server.Services
             {
                 case ActionRequest.OperationType.Get:
 
-                    var getResult = _autoManagerProxy.Perform(request);
+                    var getResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = getResult;
 
@@ -185,7 +185,7 @@ namespace Ghostice.Core.Server.Services
 
                 case ActionRequest.OperationType.Set:
 
-                    var setResult = _autoManagerProxy.Perform(request);
+                    var setResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = setResult;
 
@@ -199,7 +199,7 @@ namespace Ghostice.Core.Server.Services
 
                     var executeDisplayArgs = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value.ToString()) : "None";
 
-                    var executeResult = _autoManagerProxy.Perform(request);
+                    var executeResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = executeResult;
 
@@ -213,7 +213,7 @@ namespace Ghostice.Core.Server.Services
 
                     var mapDisplayArgs = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value.ToString()) : "None";
 
-                    var mapResult = _autoManagerProxy.Perform(request);
+                    var mapResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = mapResult;
 
@@ -237,7 +237,7 @@ namespace Ghostice.Core.Server.Services
 
                 case ActionRequest.OperationType.Ready:
 
-                    var readyResult = _autoManagerProxy.Perform(request);
+                    var readyResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = readyResult;
 
@@ -249,7 +249,7 @@ namespace Ghostice.Core.Server.Services
 
                 case ActionRequest.OperationType.List:
 
-                    var listResult = _autoManagerProxy.Perform(request);
+                    var listResult = _autoAvatarProxy.Perform(request);
 
                     actionResult = listResult;
 

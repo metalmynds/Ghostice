@@ -39,7 +39,7 @@ namespace Ghostice.Core
             return targetWindow;
         }
 
-        public static Object Locate(Control Root, Locator Location)
+        public static Object Locate(Control Root, Locator Target)
         {
 
             Object currentControl = Root;
@@ -48,12 +48,12 @@ namespace Ghostice.Core
 
             if (Root.InvokeRequired)
             {
-                return Root.Invoke(new UIThreadSafeLocate(Locate), new Object[] { Root, Location });
+                return Root.Invoke(new UIThreadSafeLocate(Locate), new Object[] { Root, Target });
             }
             else
             {
 
-                foreach (var descriptor in Location.Path)
+                foreach (var descriptor in Target.Path)
                 {
                     Control childControl = null;
 
@@ -112,7 +112,7 @@ namespace Ghostice.Core
                     }
                 }
 
-                if (failed) throw new LocationNotFoundException(Root, Location.ToString());
+                if (failed) throw new LocationNotFoundException(Root, Target.ToString());
 
             }
 
@@ -183,11 +183,7 @@ namespace Ghostice.Core
             }
 
             return true;
-        }
-
-        
-
-
+        }      
 
         public static PropertyCollection GetProperties(Object Target, params String[] Names)
         {
