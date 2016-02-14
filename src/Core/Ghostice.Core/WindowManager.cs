@@ -73,18 +73,28 @@ namespace Ghostice.Core
 
             // DO NOT REMOVE
 
-            windows.Add(Control.FromHandle(_process.MainWindowHandle));
+            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
+
+            if (mainWindowControl != null)
+            {
+
+                windows.Add(mainWindowControl);
+
+            }
 
             // DO NOT REMOVE (Causes unit test failure trying to find nested control
 
-            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);
+            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
 
             foreach (var hwnd in handles)
             {
                 var window = Control.FromHandle(hwnd);
 
                 if (window != null)
-                { windows.Add(window); }
+
+                {
+                    windows.Add(window);
+                }
             }
 
             return windows;
@@ -119,7 +129,7 @@ namespace Ghostice.Core
             {
                 // Ignore as control has been destroyed!
             }
-        
+
 
             return controls;
         }

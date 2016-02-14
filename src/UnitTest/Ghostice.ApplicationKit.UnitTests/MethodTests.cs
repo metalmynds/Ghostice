@@ -110,7 +110,9 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var menuStrip1Locator = new Locator(new Descriptor(DescriptorType.Window, new Property("Name", "FormWithComponents")), new Descriptor(DescriptorType.Component, new Property("Name", "menuStrip1")));
 
-                var menuStrip1 = WindowWalker.Locate(form, menuStrip1Locator) as MenuStrip;
+                var formWithComponentns = WindowWalker.LocateWindow(menuStrip1Locator);
+
+                var menuStrip1 = WindowWalker.Locate(formWithComponentns, menuStrip1Locator.GetRelativePath()) as MenuStrip;
 
                 Assert.IsNotNull(menuStrip1);
                  

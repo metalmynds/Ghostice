@@ -26,7 +26,6 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Assert.IsNotNull(textbox1);
 
-
                 var getTextRequest = ActionRequest.Get(nestedTextBoxLocator, "Text");
 
                 var appManager = new AutomationAvatar(String.Empty);

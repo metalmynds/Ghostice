@@ -110,11 +110,11 @@ namespace Ghostice.Core
 
                 var logArgsString = Request.HasParameters ? String.Join(", ", from parameter in Request.Parameters select parameter.Value.ToString()) : "None";
 
-                Descriptor windowDescriptor = null;
+                Locator windowLocator = Request.HasTarget ? Request.Target : null;
                 Locator controlPath = null;
 
-                //var controls = WindowManager.GetWindowChildControls(targetWindow);
-
+                var targetWindow = windowLocator != null ? WindowWalker.LocateWindow(windowLocator) : null;            
+                                             
                 switch (Request.Operation)
                 {
 
@@ -122,13 +122,9 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Target: {0} Get: {1}", Request.Target, Request.Name));
 
-                        windowDescriptor = Request.Target.Path[0];
-
                         controlPath = Request.Target.GetRelativePath();
-
-                        var getTargetWindow = WindowWalker.Locate(windowDescriptor);
-
-                        var getControl = WindowWalker.Locate(getTargetWindow, controlPath) as Control;
+                        
+                        var getControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (getControl != null)
                         {
@@ -138,7 +134,7 @@ namespace Ghostice.Core
                             break;
                         }
 
-                        var getComponent = WindowWalker.Locate(getTargetWindow, Request.Target) as Component;
+                        var getComponent = WindowWalker.Locate(targetWindow, Request.Target) as Component;
 
                         if (getComponent != null)
                         {
@@ -155,13 +151,9 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Target: {0} Set: {1} Value: {2}", Request.Target.ToString(), Request.Name, Request.Value));
 
-                        windowDescriptor = Request.Target.Path[0];
-
                         controlPath = Request.Target.GetRelativePath();
 
-                        var setTargetWindow = WindowWalker.Locate(windowDescriptor);
-
-                        var setControl = WindowWalker.Locate(setTargetWindow, controlPath) as Control;
+                        var setControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (setControl != null)
                         {
@@ -177,13 +169,9 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Target: {0} Execute: {1} Arguments: {2}", Request.Target.ToString(), Request.Name, logArgsString));
 
-                        windowDescriptor = Request.Target.Path[0];
-
                         controlPath = Request.Target.GetRelativePath();
 
-                        var executeTargetWindow = WindowWalker.Locate(windowDescriptor);
-
-                        var executeTarget = WindowWalker.Locate(executeTargetWindow, controlPath);
+                        var executeTarget = WindowWalker.Locate(targetWindow, controlPath);
 
                         if (executeTarget != null && executeTarget is Control)
                         {
@@ -205,13 +193,9 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Map: {0}", Request.Target.ToString()));
 
-                        windowDescriptor = Request.Target.Path[0];
-
                         controlPath = Request.Target.GetRelativePath();
 
-                        var mapTargetWindow = WindowWalker.Locate(windowDescriptor);
-
-                        var mapControl = WindowWalker.Locate(mapTargetWindow, controlPath) as Control;
+                        var mapControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (mapControl != null)
                         {
@@ -259,8 +243,6 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Ready: {0}", Request.Target.ToString()));
 
-                        windowDescriptor = Request.Target.Path[0];
-
                         controlPath = Request.Target.GetRelativePath();
 
                         int timeoutSeconds = 30;
@@ -283,7 +265,7 @@ namespace Ghostice.Core
 
                                 Application.DoEvents();
 
-                                var readyTargetWindow = WindowWalker.Locate(windowDescriptor);
+                                var readyTargetWindow = WindowWalker.LocateWindow(windowLocator);
 
                                 if (readyTargetWindow != null)
                                 {

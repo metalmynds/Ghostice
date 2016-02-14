@@ -212,7 +212,6 @@
     </None>
     <None Include="packages.config" />
     <None Include="tempdevkey.snk" />
-    <None Include="tempo.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ThirdParty\AustinHarris.JsonRpc.Client\AustinHarris.JsonRpc.Client.csproj">

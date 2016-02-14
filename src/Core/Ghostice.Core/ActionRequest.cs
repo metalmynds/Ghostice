@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace Ghostice.Core
 {
@@ -93,6 +94,10 @@ namespace Ghostice.Core
 
         public Locator Target { get; set; }
 
+        [XmlIgnore]
+        [JsonIgnore]
+        public Boolean HasTarget { get { return Target != null; } }
+
         public virtual String ToJson()
         {
             var serialiser = new Newtonsoft.Json.JsonSerializer();
@@ -125,7 +130,7 @@ namespace Ghostice.Core
 
         public static ActionRequest List(WindowInfo parent)
         {
-            return new ActionRequest(null, OperationType.List, ActionParameter.Create(parent) );
+            return new ActionRequest(null, OperationType.List, ActionParameter.Create(parent));
         }
 
         public static ActionRequest List(params String[] AditionalProperties)

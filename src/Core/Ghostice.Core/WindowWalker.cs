@@ -13,31 +13,61 @@ namespace Ghostice.Core
     {
         delegate Object UIThreadSafeLocate(Control Root, Locator Path);
 
-        public static Control Locate(Descriptor Description)
+        public static Control LocateWindow(Locator windowLocator)
         {
-            var targetWindows = WindowManager.GetWindowControls();
-
+            Control rootWindow = null;
             Control targetWindow = null;
 
-            var windowDescriptor = Description;
+            Descriptor rootWindowDescriptor = windowLocator.GetRootWindowDescriptor();
 
-            foreach (var window in targetWindows)
+            var topLevelWindows = WindowManager.GetWindowControls();
+
+            foreach (var topWindow in topLevelWindows)
             {
 
-                if (window != null)
+                if (WindowWalker.Compare(rootWindowDescriptor, topWindow))
                 {
-
-                    if (WindowWalker.Compare(windowDescriptor, window))
-                    {
-                        targetWindow = window;
-                        break;
-                    }
-
+                    rootWindow = topWindow;
+                    break;
                 }
             }
 
+            if (rootWindow != null)
+            {
+
+                foreach (var subWindowDesciptor in windowLocator.GetWindowPath(rootWindowDescriptor).Path)
+                {
+
+                    // MUST STOP THE ENUMCHILDWINDOWS GIVING EVERY THING!!!!  
+
+                    var childWindows = WindowManager.GetWindowsChildWindowControls(rootWindow);
+
+                    foreach (var subWindow in childWindows)
+                    {
+
+                        if (subWindow != null)
+                        {
+
+                            if (WindowWalker.Compare(subWindowDesciptor, subWindow))
+                            {
+                                targetWindow = subWindow;
+                                break;
+                            }
+
+                        }
+
+                    }
+
+
+                }
+
+                targetWindow = rootWindow;
+            }
+
             return targetWindow;
+
         }
+
 
         public static Object Locate(Control Root, Locator Target)
         {
@@ -175,7 +205,8 @@ namespace Ghostice.Core
                         {
                             return false;
                         }
-                    } else if (expected.HasValue)
+                    }
+                    else if (expected.HasValue)
                     {
                         return false;
                     }
@@ -183,7 +214,7 @@ namespace Ghostice.Core
             }
 
             return true;
-        }      
+        }
 
         public static PropertyCollection GetProperties(Object Target, params String[] Names)
         {
@@ -214,7 +245,9 @@ namespace Ghostice.Core
 
                     if (property != null && Names.Contains<String>(property.Name) || Names == null)
                     {
-                        var newProperty = new Property(property.Name, (String)property.GetValue(Target, null));
+                        var value = (String)property.GetValue(Target, null);
+
+                        var newProperty = Property.Create(property.Name, value);
 
                         propertiesCollection.List.Add(newProperty);
                     }

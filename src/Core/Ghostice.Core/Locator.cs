@@ -55,6 +55,28 @@ namespace Ghostice.Core
 
         }
 
+        public Locator GetWindowPath()
+        {
+            return new Locator((from descriptor in this.Path where descriptor.Type == DescriptorType.Window select descriptor).ToArray<Descriptor>());
+        }
+
+        public Locator GetWindowPath(Descriptor after)
+        {
+            var windowPath = this.GetWindowPath();
+
+            var afterPos = this.Path.IndexOf(after);
+
+            var newLocator = new Locator(windowPath.Path.Skip(afterPos).ToArray());
+
+            return newLocator;
+        }
+
+
+        public Descriptor GetRootWindowDescriptor()
+        {
+            return this.Path.Count > 0 ? this.Path[0] : null;
+        }
+
         //public Locator GetRelativePath(Descriptor From)
         //{
 
