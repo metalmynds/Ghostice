@@ -42,15 +42,15 @@ namespace Ghostice.Core
 
                     var childWindows = WindowManager.GetWindowsChildWindowControls(rootWindow);
 
-                    foreach (var subWindow in childWindows)
+                    foreach (var childWindow in childWindows)
                     {
 
-                        if (subWindow != null)
+                        if (childWindow != null)
                         {
 
-                            if (WindowWalker.Compare(subWindowDesciptor, subWindow))
+                            if (WindowWalker.Compare(subWindowDesciptor, childWindow))
                             {
-                                targetWindow = subWindow;
+                                targetWindow = childWindow;
                                 break;
                             }
 
