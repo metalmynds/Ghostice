@@ -23,7 +23,8 @@ namespace Ghostice.Core
             Execute,
             Map,
             Ready,
-            List
+            List,
+            Custom
         }
 
 
@@ -45,7 +46,7 @@ namespace Ghostice.Core
             this.Target = Target;
         }
 
-        public ActionRequest(Locator Target, OperationType Operation, ActionParameter[] Parameters)
+        public ActionRequest(Locator Target, OperationType Operation, params ActionParameter[] Parameters)
         {
             this.Operation = Operation;
             this.Name = Name;
@@ -63,7 +64,7 @@ namespace Ghostice.Core
         }
 
         [JsonConstructor]
-        public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType, ActionParameter[] Parameters)
+        public ActionRequest(Locator Target, OperationType Operation, String Name, String Value, Type ValueType, params ActionParameter[] Parameters)
         {
             this.Operation = Operation;
             this.Name = Name;
@@ -124,12 +125,12 @@ namespace Ghostice.Core
 
         public static ActionRequest List(WindowInfo parent)
         {
-            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent) });
+            return new ActionRequest(null, OperationType.List, ActionParameter.Create(parent) );
         }
 
-        public static ActionRequest List(String[] AditionalProperties)
+        public static ActionRequest List(params String[] AditionalProperties)
         {
-            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(AditionalProperties) });
+            return new ActionRequest(null, OperationType.List, ActionParameter.Create(AditionalProperties));
         }
 
         public static ActionRequest List(WindowInfo parent, String[] AditionalProperties)
@@ -138,7 +139,7 @@ namespace Ghostice.Core
         }
         public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
         {
-            return new ActionRequest(Target, OperationType.Ready, null, null, null, new ActionParameter[] { ActionParameter.Create(TimeoutSeconds) });
+            return new ActionRequest(Target, OperationType.Ready, ActionParameter.Create(TimeoutSeconds));
         }
 
         //public static ActionRequest Tell(Locator Target)
@@ -148,7 +149,7 @@ namespace Ghostice.Core
 
         public static ActionRequest Map(Locator Target, String[] Properties)
         {
-            return new ActionRequest(Target, OperationType.Map, "Map", null, null, new ActionParameter[] { ActionParameter.Create(Properties) });
+            return new ActionRequest(Target, OperationType.Map, "Map", null, null, ActionParameter.Create(Properties));
         }
 
         public static ActionRequest Execute(Locator Target, String Name)
@@ -156,7 +157,7 @@ namespace Ghostice.Core
             return new ActionRequest(Target, OperationType.Execute, Name);
         }
 
-        public static ActionRequest Execute(Locator Target, String Name, ActionParameter[] Parameters)
+        public static ActionRequest Execute(Locator Target, String Name, params ActionParameter[] Parameters)
         {
             return new ActionRequest(Target, OperationType.Execute, Name, null, null, Parameters);
         }
