@@ -15,59 +15,139 @@ namespace Ghostice.Core
 
         public static Control LocateWindow(Locator windowLocator)
         {
+
             Control rootWindow = null;
             Control targetWindow = null;
 
             Descriptor rootWindowDescriptor = windowLocator.GetRootWindowDescriptor();
 
-            var topLevelWindows = WindowManager.GetWindowControls();
-
-            foreach (var topWindow in topLevelWindows)
-            {
-
-                if (WindowWalker.Compare(rootWindowDescriptor, topWindow))
-                {
-                    rootWindow = topWindow;
-                    break;
-                }
-            }
+            rootWindow = LocateDesktopLevelWindow(rootWindowDescriptor);
 
             if (rootWindow != null)
             {
 
-                foreach (var subWindowDesciptor in windowLocator.GetWindowPath(rootWindowDescriptor).Path)
+                targetWindow = rootWindow;
+
+                var windowRelativePath = windowLocator.GetWindowPath(rootWindowDescriptor);
+
+                foreach (var windowDescriptor in windowRelativePath.Path)
                 {
+                    var processTopLevelWindow = LocateDesktopLevelWindows(rootWindow);
 
-                    // MUST STOP THE ENUMCHILDWINDOWS GIVING EVERY THING!!!!  
-
-                    var childWindows = WindowManager.GetWindowsChildWindowControls(rootWindow);
-
-                    foreach (var childWindow in childWindows)
+                    foreach (var ownedWindow in processTopLevelWindow)
                     {
+                        //targetWindow = LocateChildWindow(ownedWindow, windowDescriptor);
 
-                        if (childWindow != null)
+                        //if (targetWindow != null)
+                        //{
+                        //    break;
+                        //}
+                        if (WindowWalker.Compare(windowDescriptor, ownedWindow))
                         {
-
-                            if (WindowWalker.Compare(subWindowDesciptor, childWindow))
-                            {
-                                targetWindow = childWindow;
-                                break;
-                            }
-
+                            targetWindow = ownedWindow;
+                            break;
                         }
+                    }
+
+                    //var topLevelChildWindow = LocateDesktopLevelWindow(windowDescriptor);
+
+                    //if (topLevelChildWindow != null)
+                    //{
+
+                    //    targetWindow = LocateChildWindow(topLevelChildWindow, windowDescriptor);
+
+                    //}
+
+                    if (targetWindow == null)
+                    {
+                        targetWindow = LocateChildWindow(rootWindow, windowDescriptor);
 
                     }
 
-
                 }
 
-                targetWindow = rootWindow;
             }
 
             return targetWindow;
 
         }
 
+
+        //}
+
+        //foreach (var subWindowDesciptor in windowLocator.GetWindowPath(rootWindowDescriptor).Path)
+        //{
+
+
+
+        //    if (targetWindow == null)
+        //    {
+
+        //        foreach (var subWindow in topLevelWindows)
+        //        {
+
+        //            if (WindowWalker.Compare(rootWindowDescriptor, subWindow))
+        //            {
+        //                targetWindow = subWindow;
+        //                break;
+        //            }
+        //        }
+
+
+        //    }
+
+        //}
+
+        //    targetWindow = rootWindow;
+        //}
+
+        //return targetWindow;
+
+        //return null;
+
+
+
+        private static Control LocateChildWindow(Control parentWindow, Descriptor childWindowDescriptor)
+        {
+            var childWindows = WindowManager.GetChildWindowControls(parentWindow);
+
+            foreach (var childWindow in childWindows)
+            {
+
+                if (childWindow != null)
+                {
+
+                    if (WindowWalker.Compare(childWindowDescriptor, childWindow))
+                    {
+                        return childWindow;
+                    }
+
+                }
+            }
+
+            return null;
+        }
+
+        private static Control LocateDesktopLevelWindow(Descriptor windowDescriptor)
+        {
+            var topLevelWindows = WindowManager.GetProcessWindowControls();
+
+            foreach (var topWindow in topLevelWindows)
+            {
+
+                if (WindowWalker.Compare(windowDescriptor, topWindow))
+                {
+                    return topWindow;
+                }
+            }
+
+            return null;
+        }
+
+        private static List<Control> LocateDesktopLevelWindows(Control owner)
+        {
+            return WindowManager.GetDesktopWindowControls(owner);
+        }
 
         public static Object Locate(Control Root, Locator Target)
         {

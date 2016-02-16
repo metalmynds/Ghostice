@@ -65,11 +65,81 @@ namespace Ghostice.Core
             return null;
         }
 
-        public static List<Control> GetWindowControls()
+        public static List<Control> GetDesktopWindowControls()
         {
             var windows = new List<Control>();
 
-            var handles = EnumerateWindowHandles();
+            var handles = EnumerateDesktopWindowHandles();
+
+            // DO NOT REMOVE
+
+            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
+
+            if (mainWindowControl != null)
+            {
+
+                windows.Add(mainWindowControl);
+
+            }
+
+            // DO NOT REMOVE (Causes unit test failure trying to find nested control
+
+            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
+
+            foreach (var hwnd in handles)
+            {
+                var window = Control.FromChildHandle(hwnd);
+
+                if (window != null)
+
+                {
+                    windows.Add(window);
+                }
+            }
+
+            return windows;
+        }
+
+        public static List<Control> GetDesktopWindowControls(Control owner)
+        {
+            var windows = new List<Control>();
+
+            var handles = EnumerateDesktopWindowHandles(owner.Handle);
+
+            // DO NOT REMOVE
+
+            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
+
+            if (mainWindowControl != null)
+            {
+
+                windows.Add(mainWindowControl);
+
+            }
+
+            // DO NOT REMOVE (Causes unit test failure trying to find nested control
+
+            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
+
+            foreach (var hwnd in handles)
+            {
+                var window = Control.FromChildHandle(hwnd);
+
+                if (window != null)
+
+                {
+                    windows.Add(window);
+                }
+            }
+
+            return windows;
+        }
+
+        public static List<Control> GetProcessWindowControls()
+        {
+            var windows = new List<Control>();
+
+            var handles = EnumerateProcessWindowHandles();
 
             // DO NOT REMOVE
 
@@ -100,7 +170,7 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetWindowsChildWindowControls(Control parent)
+        public static List<Control> GetChildWindowControls(Control parent)
         {
             var controls = new List<Control>();
 
@@ -110,7 +180,7 @@ namespace Ghostice.Core
                 {
                     if (parent.InvokeRequired)
                     {
-                        return (List<Control>)parent.Invoke(new UIThreadSafeGetChildControls(GetWindowsChildWindowControls), new Object[] { parent });
+                        return (List<Control>)parent.Invoke(new UIThreadSafeGetChildControls(GetChildWindowControls), new Object[] { parent });
                     }
                     var handles = EnumChildWindowHandles(parent.Handle);
 
@@ -134,7 +204,36 @@ namespace Ghostice.Core
             return controls;
         }
 
-        private static IEnumerable<IntPtr> EnumerateWindowHandles()
+        private static IEnumerable<IntPtr> EnumerateDesktopWindowHandles()
+        {
+            var handles = new List<IntPtr>();
+
+            NativeMethods.EnumDesktopWindows(IntPtr.Zero, 
+                (hWnd, lParam) => { handles.Add(hWnd); return true; }
+            , IntPtr.Zero);
+
+            return handles;
+        }
+
+        private static IEnumerable<IntPtr> EnumerateDesktopWindowHandles(IntPtr ownerHandle)
+        {
+            var handles = new List<IntPtr>();
+
+            NativeMethods.EnumDesktopWindows(IntPtr.Zero,
+                (hWnd, lParam) => 
+                {
+                    if ((NativeMethods.GetWindow(hWnd, NativeMethods.GetWindowCommand.GW_OWNER)) == ownerHandle)
+                    {
+                        handles.Add(hWnd);
+                    }
+                    return true;
+                }
+            , IntPtr.Zero);
+
+            return handles;
+        }
+
+        private static IEnumerable<IntPtr> EnumerateProcessWindowHandles()
         {
             var handles = new List<IntPtr>();
 
@@ -145,7 +244,7 @@ namespace Ghostice.Core
             return handles;
         }
 
-        private static List<IntPtr> EnumChildWindowHandles(IntPtr MainWindowHandle)
+        private static List<IntPtr> EnumChildWindowHandles(IntPtr TopLevelHandle)
         {
             List<IntPtr> childHandles = new List<IntPtr>();
 
@@ -155,7 +254,7 @@ namespace Ghostice.Core
             try
             {
                 NativeMethods.EnumWindowProc childProc = new NativeMethods.EnumWindowProc(EnumWindow);
-                NativeMethods.EnumChildWindows(MainWindowHandle, childProc, pointerChildHandlesList);
+                NativeMethods.EnumChildWindows(TopLevelHandle, childProc, pointerChildHandlesList);
             }
             finally
             {

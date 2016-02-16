@@ -63,7 +63,7 @@ namespace Ghostice.Core
 
                     LogTo.Debug("Begin Window List");
 
-                    var windowList = WindowManager.GetWindowControls();
+                    var windowList = WindowManager.GetProcessWindowControls();
 
                     foreach (var window in windowList)
                     {
@@ -76,7 +76,7 @@ namespace Ghostice.Core
 
                     LogTo.Debug("End Window List Count: {0}", windowList.Count);
 
-                    applicationReady = WindowManager.GetWindowControls().FindAll(
+                    applicationReady = WindowManager.GetProcessWindowControls().FindAll(
                         (control) => control != null).Count > 0;
 
                     if (started.AddSeconds(StartupTimeOutSeconds) <= DateTime.Now)

@@ -104,6 +104,8 @@
     <Compile Include="AccessoriesTabPage.cs" />
     <Compile Include="BasketAccessoriesTabControl.cs" />
     <Compile Include="BasketTabPage.cs" />
+    <Compile Include="ParentTopLevelChildWindow.cs" />
+    <Compile Include="ParentFormWindow.cs" />
     <Compile Include="MainFormWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HistoryTabPage.cs" />

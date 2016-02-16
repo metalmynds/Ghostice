@@ -119,7 +119,7 @@ namespace AustinHarris.JsonRpc
                             catch (Exception ex)
                             {
                                 Debug.WriteLine(ex.Message);
-                                Debugger.Break();
+                                //Debugger.Break();
                             }
 
                             if (rjson == null)

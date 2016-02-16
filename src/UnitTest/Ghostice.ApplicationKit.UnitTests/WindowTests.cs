@@ -9,9 +9,15 @@ namespace Ghostice.ApplicationKit.UnitTests
     [TestClass]
     public class WindowTests
     {
+        [TestMethod]
+        public void ListDesktopWindows()
+        {
+           List<Control> windows = WindowManager.GetDesktopWindowControls();
+        }
+
         [TestMethod]    
         public void ListOpenWindows()
-        {
+        {  
 
             using (var windowA = new FormComplex())
             {
@@ -65,7 +71,7 @@ namespace Ghostice.ApplicationKit.UnitTests
             {
                 aWindow.Show();
 
-                var children = WindowManager.GetWindowsChildWindowControls(aWindow);
+                var children = WindowManager.GetChildWindowControls(aWindow);
 
                 Assert.IsNotNull(children);
 
@@ -84,7 +90,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Application.DoEvents();
 
-                var childWindows = WindowManager.GetWindowsChildWindowControls(mdiParent);
+                var childWindows = WindowManager.GetChildWindowControls(mdiParent);
 
                 Assert.IsNotNull(childWindows);
 

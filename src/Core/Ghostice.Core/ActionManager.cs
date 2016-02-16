@@ -258,13 +258,13 @@ namespace Ghostice.Core
                             {
                                 var windowParent = Control.FromHandle(parentWindowInfo.Handle);
 
-                                windowList = from window in WindowManager.GetWindowsChildWindowControls(windowParent) where window != null select window;
+                                windowList = from window in WindowManager.GetChildWindowControls(windowParent) where window != null select window;
                             }
 
                         }
                         else
                         {
-                            windowList = from window in WindowManager.GetWindowControls() where window != null select window;
+                            windowList = from window in WindowManager.GetProcessWindowControls() where window != null select window;
 
                         }
 

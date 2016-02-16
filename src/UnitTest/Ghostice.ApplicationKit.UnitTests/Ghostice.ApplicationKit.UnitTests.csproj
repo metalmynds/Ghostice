@@ -228,6 +228,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Examples\WinForms\Example.PetShop.WinForms.exe" />
+    <Content Include="Examples\WinForms\WindowsFormTopLevelWindows.exe" />
+    <Content Include="Examples\WinForms\WindowsFormTopLevelWindows.pdb" />
     <Content Include="Examples\Wpf\Example.PetShop.exe" />
     <Content Include="Examples\Wpf\Example.PetShop.XML" />
     <Content Include="Examples\Wpf\Microsoft.Practices.Composite.dll" />
@@ -246,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Examples\WinForms\Example.PetShop.WinForms.exe.config" />
+    <None Include="Examples\WinForms\WindowsFormTopLevelWindows.exe.config" />
     <None Include="Examples\Wpf\Example.PetShop.exe.config" />
     <None Include="packages.config" />
     <None Include="tempdevkey.snk" />

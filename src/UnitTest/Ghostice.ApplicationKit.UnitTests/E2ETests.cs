@@ -20,6 +20,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         //public const String WINFORMS_TEST_SUT = @"Example\WinForms\Example.PetShop.WinForms.exe";
         public const String WINFORMS_TEST_SUT = @"Example.PetShop.WinForms.exe";
+        public const String WINFORMS_MULTI_TEST_SUT = @"WindowsFormTopLevelWindows.exe";
 
         //private Process ghostiseServer;
 
@@ -123,6 +124,61 @@ namespace Ghostice.ApplicationKit.UnitTests
             }
         }
 
+        [TestMethod]
+        public void StartMultipleWindowExampleInServerAndCloseWindowThem()
+        {
+
+            Process ghostiseServer = null;
+
+            try
+            {
+
+                ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
+                serverStartupInfo.Arguments = "-e http://localhost:21555";
+
+                ghostiseServer = Process.Start(serverStartupInfo);
+
+                Assert.IsNotNull(ghostiseServer);
+
+                ghostiseServer.WaitForInputIdle();
+
+                GhosticeClient client = new GhosticeClient();
+
+                Assert.IsNotNull(client);
+
+                client.Connect("http://localhost:21555");
+
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_MULTI_TEST_SUT);
+
+                var application = client.Start(applicationPath, String.Empty, 15);
+
+                var parentWindow = InterfaceControlFactory.Create<ParentFormWindow>(client.Application);
+
+                // MOVE THIS CALL INSIDE THE PARENT FORM WINDOW (THEN WILL HAVE CONTEXT)
+
+                var child = InterfaceControlFactory.Create<ParentTopLevelChildWindow>(parentWindow);
+
+                child.TextBox.Text = "Hello Wurld!";
+
+                Assert.IsNotNull(parentWindow);
+
+                parentWindow.WaitForReady(30);
+
+                parentWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (ghostiseServer != null)
+                {
+                    ghostiseServer.Kill();
+                }
+            }
+        }
         [TestMethod]
         public void StartExampleInServerSelectMenuFromMainMenuComponentAndCloseWindow()
         {

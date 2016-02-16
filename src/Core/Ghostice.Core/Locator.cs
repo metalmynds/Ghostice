@@ -62,11 +62,22 @@ namespace Ghostice.Core
 
         public Locator GetWindowPath(Descriptor after)
         {
+
+            Locator newLocator;
+
             var windowPath = this.GetWindowPath();
 
             var afterPos = this.Path.IndexOf(after);
 
-            var newLocator = new Locator(windowPath.Path.Skip(afterPos).ToArray());
+            if (afterPos + 2 > this.Path.Count)
+            {
+                newLocator = new Locator();
+            }
+            else
+            {
+                newLocator = new Locator(windowPath.Path.Skip(afterPos + 1).ToArray());
+            }
+
 
             return newLocator;
         }
