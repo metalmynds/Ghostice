@@ -24,8 +24,8 @@ namespace Ghostice.Core
         {
             MaxDepth = 10,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Error = new EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>(handleJsonError),            
-            ContractResolver = ignorableJsonResolver, 
+            Error = new EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>(handleJsonError),
+            ContractResolver = ignorableJsonResolver,
         };
 
         static void handleJsonError(Object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args)
@@ -246,6 +246,8 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.List:
 
+                        var windowInfoList = new List<WindowInfo>();
+
                         IEnumerable<Control> windowList = null;
 
                         List<String> propertyNames = new List<string>();
@@ -268,7 +270,25 @@ namespace Ghostice.Core
 
                         }
 
-                        var windowInfoList = new List<WindowInfo>();
+                        var listArray = windowList.ToArray();
+
+                        foreach (var window in listArray)
+                        {
+                            var topLevelList = WindowManager.GetDesktopWindowControls(window);
+
+                            foreach (var topLevel in topLevelList)
+                            {
+                                var subTopLevel = WindowManager.GetChildWindowControls(topLevel);
+
+                                foreach (var subWindow in subTopLevel)
+                                {
+                                    windowInfoList.Add(WindowInfo.Create(subWindow));
+                                }
+
+
+                            }
+                        }
+
 
                         if ((Request.HasParameters) && (Request.Parameters.Count() > 1 && Request.Parameters[1].Value is String[]))
                         {
@@ -413,28 +433,28 @@ namespace Ghostice.Core
                         return ActionResult.Failed(Target.Describe(), ex);
                     }
 
-                //case ActionRequest.OperationType.Tell:
+                    //case ActionRequest.OperationType.Tell:
 
-                //    try
-                //    {
+                    //    try
+                    //    {
 
-                //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
+                    //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
 
-                //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
+                    //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
 
-                //    }
-                //    catch (Exception ex)
-                //    {
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
 
-                //        return ActionResult.Failed(Target.Describe(), ex);
-                //    }
+                    //        return ActionResult.Failed(Target.Describe(), ex);
+                    //    }
 
 
 
             }
             return null;
         }
-      
+
     }
 
 

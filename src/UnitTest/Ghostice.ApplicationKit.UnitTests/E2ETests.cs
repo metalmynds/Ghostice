@@ -153,6 +153,8 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var application = client.Start(applicationPath, String.Empty, 15);
 
+                var windows = client.Application.GetWindows();
+
                 var parentWindow = InterfaceControlFactory.Create<ParentFormWindow>(client.Application);
 
                 // MOVE THIS CALL INSIDE THE PARENT FORM WINDOW (THEN WILL HAVE CONTEXT)
