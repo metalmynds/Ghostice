@@ -248,7 +248,7 @@ namespace Ghostice.Core
 
                         var windowInfoList = new List<WindowInfo>();
 
-                        IEnumerable<Control> windowList = null;
+                        List<Control> windowList = null;
 
                         List<String> propertyNames = new List<string>();
 
@@ -260,33 +260,22 @@ namespace Ghostice.Core
                             {
                                 var windowParent = Control.FromHandle(parentWindowInfo.Handle);
 
-                                windowList = from window in WindowManager.GetChildWindowControls(windowParent) where window != null select window;
+                                windowList = (from window in WindowManager.GetWindowControls(windowParent) where window != null select window).ToList();
                             }
 
                         }
                         else
                         {
-                            windowList = from window in WindowManager.GetProcessWindowControls() where window != null select window;
-
+                            windowList = (from window in WindowManager.GetProcessWindowControls() where window != null select window).ToList();
                         }
 
                         var listArray = windowList.ToArray();
 
                         foreach (var window in listArray)
                         {
-                            var topLevelList = WindowManager.GetDesktopWindowControls(window);
+                            var childWindows = WindowManager.GetChildWindowControls(window);
 
-                            foreach (var topLevel in topLevelList)
-                            {
-                                var subTopLevel = WindowManager.GetChildWindowControls(topLevel);
-
-                                foreach (var subWindow in subTopLevel)
-                                {
-                                    windowInfoList.Add(WindowInfo.Create(subWindow));
-                                }
-
-
-                            }
+                            windowList.AddRange(childWindows);
                         }
 
 

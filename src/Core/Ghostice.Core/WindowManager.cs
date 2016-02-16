@@ -71,27 +71,11 @@ namespace Ghostice.Core
 
             var handles = EnumerateDesktopWindowHandles();
 
-            // DO NOT REMOVE
-
-            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
-
-            if (mainWindowControl != null)
-            {
-
-                windows.Add(mainWindowControl);
-
-            }
-
-            // DO NOT REMOVE (Causes unit test failure trying to find nested control
-
-            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
-
             foreach (var hwnd in handles)
             {
                 var window = Control.FromChildHandle(hwnd);
 
                 if (window != null)
-
                 {
                     windows.Add(window);
                 }
@@ -100,26 +84,35 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetDesktopWindowControls(Control owner)
+
+        //public static List<Control> GetOwnedWindows(Control owner)
+        //{
+        //    var windows = new List<Control>();
+
+        //    var handles = EnumerateOwnerWindowHandles(owner.Handle);
+
+        //    foreach (var hwnd in handles)
+        //    {
+        //        var window = Control.FromHandle(hwnd);
+
+        //        if (window != null)
+
+        //        {
+                    
+        //            windows.Add(window);
+
+        //            windows.AddRange(GetChildWindowControls(window));
+        //        }
+        //    }
+
+        //    return windows;
+        //}
+
+        public static List<Control> GetWindowControls(Control owner)
         {
             var windows = new List<Control>();
 
-            var handles = EnumerateDesktopWindowHandles(owner.Handle);
-
-            // DO NOT REMOVE
-
-            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
-
-            if (mainWindowControl != null)
-            {
-
-                windows.Add(mainWindowControl);
-
-            }
-
-            // DO NOT REMOVE (Causes unit test failure trying to find nested control
-
-            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
+            var handles = EnumerateOwnerWindowHandles(owner.Handle);
 
             foreach (var hwnd in handles)
             {
@@ -140,21 +133,6 @@ namespace Ghostice.Core
             var windows = new List<Control>();
 
             var handles = EnumerateProcessWindowHandles();
-
-            // DO NOT REMOVE
-
-            var mainWindowControl = Control.FromHandle(_process.MainWindowHandle);
-
-            if (mainWindowControl != null)
-            {
-
-                windows.Add(mainWindowControl);
-
-            }
-
-            // DO NOT REMOVE (Causes unit test failure trying to find nested control
-
-            //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);            
 
             foreach (var hwnd in handles)
             {
@@ -183,8 +161,6 @@ namespace Ghostice.Core
                         return (List<Control>)parent.Invoke(new UIThreadSafeGetChildControls(GetChildWindowControls), new Object[] { parent });
                     }
                     var handles = EnumChildWindowHandles(parent.Handle);
-
-                    //var handles = EnumChildWindowHandles(Process.GetCurrentProcess().MainWindowHandle);
 
                     foreach (var hwnd in handles)
                     {
@@ -215,7 +191,7 @@ namespace Ghostice.Core
             return handles;
         }
 
-        private static IEnumerable<IntPtr> EnumerateDesktopWindowHandles(IntPtr ownerHandle)
+        private static IEnumerable<IntPtr> EnumerateOwnerWindowHandles(IntPtr ownerHandle)
         {
             var handles = new List<IntPtr>();
 

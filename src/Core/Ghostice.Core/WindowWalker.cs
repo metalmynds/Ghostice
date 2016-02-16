@@ -21,7 +21,7 @@ namespace Ghostice.Core
 
             Descriptor rootWindowDescriptor = windowLocator.GetRootWindowDescriptor();
 
-            rootWindow = LocateDesktopLevelWindow(rootWindowDescriptor);
+            rootWindow = LocateRootLevelWindow(rootWindowDescriptor);
 
             if (rootWindow != null)
             {
@@ -30,18 +30,13 @@ namespace Ghostice.Core
 
                 var windowRelativePath = windowLocator.GetWindowPath(rootWindowDescriptor);
 
+                var allWindowControls = WindowManager.GetWindowControls(rootWindow);
+
                 foreach (var windowDescriptor in windowRelativePath.Path)
-                {
-                    var processTopLevelWindow = LocateDesktopLevelWindows(rootWindow);
+                {                    
 
-                    foreach (var ownedWindow in processTopLevelWindow)
+                    foreach (var ownedWindow in allWindowControls)
                     {
-                        //targetWindow = LocateChildWindow(ownedWindow, windowDescriptor);
-
-                        //if (targetWindow != null)
-                        //{
-                        //    break;
-                        //}
                         if (WindowWalker.Compare(windowDescriptor, ownedWindow))
                         {
                             targetWindow = ownedWindow;
@@ -49,18 +44,9 @@ namespace Ghostice.Core
                         }
                     }
 
-                    //var topLevelChildWindow = LocateDesktopLevelWindow(windowDescriptor);
-
-                    //if (topLevelChildWindow != null)
-                    //{
-
-                    //    targetWindow = LocateChildWindow(topLevelChildWindow, windowDescriptor);
-
-                    //}
-
                     if (targetWindow == null)
                     {
-                        targetWindow = LocateChildWindow(rootWindow, windowDescriptor);
+                        targetWindow = FindWindow(rootWindow, windowDescriptor);
 
                     }
 
@@ -72,42 +58,7 @@ namespace Ghostice.Core
 
         }
 
-
-        //}
-
-        //foreach (var subWindowDesciptor in windowLocator.GetWindowPath(rootWindowDescriptor).Path)
-        //{
-
-
-
-        //    if (targetWindow == null)
-        //    {
-
-        //        foreach (var subWindow in topLevelWindows)
-        //        {
-
-        //            if (WindowWalker.Compare(rootWindowDescriptor, subWindow))
-        //            {
-        //                targetWindow = subWindow;
-        //                break;
-        //            }
-        //        }
-
-
-        //    }
-
-        //}
-
-        //    targetWindow = rootWindow;
-        //}
-
-        //return targetWindow;
-
-        //return null;
-
-
-
-        private static Control LocateChildWindow(Control parentWindow, Descriptor childWindowDescriptor)
+        private static Control FindWindow(Control parentWindow, Descriptor childWindowDescriptor)
         {
             var childWindows = WindowManager.GetChildWindowControls(parentWindow);
 
@@ -128,7 +79,7 @@ namespace Ghostice.Core
             return null;
         }
 
-        private static Control LocateDesktopLevelWindow(Descriptor windowDescriptor)
+        private static Control LocateRootLevelWindow(Descriptor windowDescriptor)
         {
             var topLevelWindows = WindowManager.GetProcessWindowControls();
 
@@ -142,11 +93,6 @@ namespace Ghostice.Core
             }
 
             return null;
-        }
-
-        private static List<Control> LocateDesktopLevelWindows(Control owner)
-        {
-            return WindowManager.GetDesktopWindowControls(owner);
         }
 
         public static Object Locate(Control Root, Locator Target)
