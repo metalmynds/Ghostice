@@ -116,7 +116,7 @@ namespace Ghostice.Core
             }
             else
             {
-                //return (T)Convert.ChangeType(Result.ReturnValue, Result.ReturnType);                 
+
                 try
                 {
                     return JsonConvert.DeserializeObject<T>(Result.ReturnValue);

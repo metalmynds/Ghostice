@@ -357,6 +357,63 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
 
+                serverStartupInfo.Arguments = "-e http://localhost:21700";
+
+                ghostiseServer = Process.Start(serverStartupInfo);
+
+                Assert.IsNotNull(ghostiseServer);
+
+                ghostiseServer.WaitForInputIdle();
+
+
+                // Start Client
+
+                GhosticeClient client = new GhosticeClient();
+
+                Assert.IsNotNull(client);
+
+                client.Connect("http://localhost:21700");
+
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_TEST_SUT);
+
+                client.Start(applicationPath, String.Empty, 15);
+
+                // Find and Map Form
+
+                var mainFormLocator = new Locator(Descriptor.Window("Name=FormMain"));
+
+                var mainFormMap = client.Application.Map(mainFormLocator);
+
+                Assert.IsNotNull(mainFormMap);
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (ghostiseServer != null)
+                {
+                    ghostiseServer.Kill();
+                }
+            }
+
+        }
+
+        [TestMethod]
+        public void StartExampleInServerAndPrintMainFormControlTree()
+        {
+            Process ghostiseServer = null;
+
+            try
+            {
+
+
+                // Start Server
+
+                ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
                 serverStartupInfo.Arguments = "-e http://localhost:21600";
 
                 ghostiseServer = Process.Start(serverStartupInfo);
@@ -386,11 +443,11 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Map Controls on Form
 
-                var mainWindowMap = mainWindow.PrintTree();
+                var controlTree = mainWindow.PrintTree();
 
-                Assert.IsNotNull(mainWindowMap);
+                Assert.IsNotNull(controlTree);
 
-                Assert.IsTrue(mainWindowMap.Children.Count > 0);
+                Assert.IsTrue(controlTree.Children.Count > 0);
 
                 mainWindow.Close();
 

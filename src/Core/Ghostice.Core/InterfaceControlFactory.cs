@@ -41,7 +41,7 @@ namespace Ghostice.Core
 
             window = (T)ctor.Invoke(new object[] { parent });
 
-            var windowDescriptor = GetDescriptor(typeof(T));
+            var windowDescriptor = GetDescriptorFor(typeof(T));
 
             if (windowDescriptor != null)
             {
@@ -81,7 +81,7 @@ namespace Ghostice.Core
 
             window = ctor.Invoke(new object[] { root });
 
-            var windowDescriptor = GetDescriptor(ControlType);
+            var windowDescriptor = GetDescriptorFor(ControlType);
 
             if (windowDescriptor != null)
             {
@@ -221,7 +221,7 @@ namespace Ghostice.Core
             return null;
         }
 
-        private static Descriptor GetDescriptor(Type Class)
+        private static Descriptor GetDescriptorFor(Type Class)
         {
             var locators = new List<UIProperty>();
 
