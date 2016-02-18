@@ -21,19 +21,19 @@ namespace Ghostice.Core
 
         private static Process _process;
 
-        private static IntPtr _hostMainWindow;
+        //private static IntPtr _hostMainWindow;
 
         static WindowManager()
         {
 
             _process = Process.GetCurrentProcess();
 
-            _hostMainWindow = _process.MainWindowHandle;
+            //_hostMainWindow = _process.MainWindowHandle;
 
-            if (_hostMainWindow == IntPtr.Zero)
-            {
-                LogTo.Error("Failed to Get Window Manager Host Process Main Window Handle!");
-            }
+            //if (_hostMainWindow == IntPtr.Zero)
+            //{
+            //    LogTo.Error("Failed to Get Window Manager Host Process Main Window Handle!");
+            //}
 
         }
 
@@ -83,30 +83,6 @@ namespace Ghostice.Core
 
             return windows;
         }
-
-
-        //public static List<Control> GetOwnedWindows(Control owner)
-        //{
-        //    var windows = new List<Control>();
-
-        //    var handles = EnumerateOwnerWindowHandles(owner.Handle);
-
-        //    foreach (var hwnd in handles)
-        //    {
-        //        var window = Control.FromHandle(hwnd);
-
-        //        if (window != null)
-
-        //        {
-                    
-        //            windows.Add(window);
-
-        //            windows.AddRange(GetChildWindowControls(window));
-        //        }
-        //    }
-
-        //    return windows;
-        //}
 
         public static List<Control> GetWindowControls(Control owner)
         {
@@ -215,7 +191,7 @@ namespace Ghostice.Core
 
             foreach (ProcessThread thread in _process.Threads)
                 NativeMethods.EnumThreadWindows(thread.Id,
-                    (hWnd, lParam) => { if (hWnd != _hostMainWindow) handles.Add(hWnd); return true; }, IntPtr.Zero);
+                    (hWnd, lParam) => { /*if (hWnd != _hostMainWindow)*/ handles.Add(hWnd); return true; }, IntPtr.Zero);
 
             return handles;
         }
