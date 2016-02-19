@@ -49,7 +49,7 @@ namespace Ghostice.Core
 
         public override string ToString()
         {
-            return String.Format("Windows [Name: {0} Title: {1} Handle: {2}]", Name, Title, Convert.ToString((Handle)));
+            return String.Format("Windows [Name: {0} Title: {1} Handle: {2}]", Name, Title, Convert.ToString(Handle));
         }
 
         public static WindowInfo Create(Control Window)
@@ -81,7 +81,7 @@ namespace Ghostice.Core
 
                     //var propertyValue = ReflectionManager.Get(Window, propertyName);
 
-                    additionalPropertyValues.Add(propertyName, Convert.ToString(propertyValue));
+                    additionalPropertyValues.Add(propertyName, ValueConvert.ToString(propertyValue));
                 }
 
                 return new WindowInfo(Window.Handle, Window.GetType().FullName, Window.Name, Window.Text, Window.Tag == null ? "null" : Window.Tag.ToString(), additionalPropertyValues);

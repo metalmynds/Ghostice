@@ -200,6 +200,7 @@
     <Compile Include="ReflectionManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ValueConvert.cs" />
     <Compile Include="WindowDescriptorAttribute.cs" />
     <Compile Include="WindowInfo.cs" />
     <Compile Include="WindowManager.cs" />

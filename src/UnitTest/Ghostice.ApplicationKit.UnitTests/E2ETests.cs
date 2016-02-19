@@ -181,6 +181,75 @@ namespace Ghostice.ApplicationKit.UnitTests
                 }
             }
         }
+
+        [TestMethod]
+        public void StartMultipleWindowExampleInServerAndLocateChildWindowByHandleThem()
+        {
+
+            Process ghostiseServer = null;
+
+            try
+            {
+
+                ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
+                serverStartupInfo.Arguments = "-e http://localhost:21508";
+
+                ghostiseServer = Process.Start(serverStartupInfo);
+
+                Assert.IsNotNull(ghostiseServer);
+
+                ghostiseServer.WaitForInputIdle();
+
+                GhosticeClient client = new GhosticeClient();
+
+                Assert.IsNotNull(client);
+
+                client.Connect("http://localhost:21508");
+
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_MULTI_TEST_SUT);
+
+                var application = client.Start(applicationPath, String.Empty, 15);
+
+                var windows = client.Application.GetWindows();
+
+                WindowInfo childWindowInfo = null;
+
+                foreach (var window in windows)
+                {
+                    if (window.Name == "FormTopLevelChild")
+                    {
+                        childWindowInfo = window;
+                    }
+                }
+
+                Assert.IsNotNull(childWindowInfo);
+
+                var parentWindow = InterfaceControlFactory.Create<ParentFormWindow>(client.Application);
+
+                //var child = InterfaceControlFactory.Create<ParentTopLevelChildWindow>(parentWindow);
+
+                var childLocator = new Locator(parentWindow.Description, Descriptor.Window(String.Format("Handle={0}", ValueConvert.ToString(childWindowInfo.Handle))));
+
+                var childWindMap = client.Application.Map(childLocator);
+
+                Assert.IsNotNull(childWindMap);
+
+                parentWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (ghostiseServer != null)
+                {
+                    ghostiseServer.Kill();
+                }
+            }
+        }        
+
         [TestMethod]
         public void StartExampleInServerSelectMenuFromMainMenuComponentAndCloseWindow()
         {

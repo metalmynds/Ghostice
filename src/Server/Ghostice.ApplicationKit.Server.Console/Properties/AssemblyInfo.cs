@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MetalMynds")]
 [assembly: AssemblyProduct("Ghostice")]
-[assembly: AssemblyCopyright("Copyright © Ghostice Server 2015")]
+[assembly: AssemblyCopyright("Copyright © MetalMynds 2015")]
 [assembly: AssemblyTrademark("Today is the yesterday of tomorrow.")]
 [assembly: AssemblyCulture("")]
 

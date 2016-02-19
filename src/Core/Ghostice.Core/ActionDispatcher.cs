@@ -143,7 +143,7 @@ namespace Ghostice.Core
 
             foreach (String key in pairs.Keys)
             {
-                listBuilder.AppendFormat("{0} = {1}\r\n", key, Convert.ToString(pairs[key]));
+                listBuilder.AppendFormat("{0} = {1}\r\n", key, ValueConvert.ToString(pairs[key]));
             }
 
             return listBuilder.ToString();
