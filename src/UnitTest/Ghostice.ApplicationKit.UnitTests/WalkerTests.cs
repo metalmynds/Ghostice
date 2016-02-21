@@ -180,27 +180,8 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         }
 
-        [TestMethod]
-        public void LocateTopLevelRelatedChildControls()
-        {
+       
 
-            using (var parentWindow = new FormWithComponents())
-            {
-                parentWindow.ShowInTaskbar = true;
-                parentWindow.Show();
-
-                using (var topLevelChildWindow = new FormSimpleUserControl())
-                {
-
-                    topLevelChildWindow.ShowInTaskbar = true;
-                    topLevelChildWindow.Show();
-
-
-                }
-
-            }
-
-        }
     }
-
 }
+

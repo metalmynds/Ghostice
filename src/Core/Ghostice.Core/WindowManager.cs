@@ -19,21 +19,10 @@ namespace Ghostice.Core
 
         private delegate List<Control> UIThreadSafeGetChildControls(Control parent);
 
-        private static Process _process;
-
-        //private static IntPtr _hostMainWindow;
-
         static WindowManager()
         {
 
-            _process = Process.GetCurrentProcess();
-
-            //_hostMainWindow = _process.MainWindowHandle;
-
-            //if (_hostMainWindow == IntPtr.Zero)
-            //{
-            //    LogTo.Error("Failed to Get Window Manager Host Process Main Window Handle!");
-            //}
+            
 
         }
 
@@ -84,7 +73,7 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetWindowControls(Control owner)
+        public static List<Control> GetOwnedWindows(Control owner)
         {
             var windows = new List<Control>();
 
@@ -95,7 +84,6 @@ namespace Ghostice.Core
                 var window = Control.FromChildHandle(hwnd);
 
                 if (window != null)
-
                 {
                     windows.Add(window);
                 }
@@ -104,7 +92,7 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetProcessWindowControls()
+        public static List<Control> GetApplicationWindows()
         {
             var windows = new List<Control>();
 
@@ -115,7 +103,6 @@ namespace Ghostice.Core
                 var window = Control.FromHandle(hwnd);
 
                 if (window != null)
-
                 {
                     windows.Add(window);
                 }
@@ -124,19 +111,19 @@ namespace Ghostice.Core
             return windows;
         }
 
-        public static List<Control> GetChildWindowControls(Control parent)
+        public static List<Control> GetWindowsChildren(Control child)
         {
             var controls = new List<Control>();
 
             try
             {
-                if (parent != null && !parent.IsDisposed)
+                if (child != null && !child.IsDisposed)
                 {
-                    if (parent.InvokeRequired)
+                    if (child.InvokeRequired)
                     {
-                        return (List<Control>)parent.Invoke(new UIThreadSafeGetChildControls(GetChildWindowControls), new Object[] { parent });
+                        return (List<Control>)child.Invoke(new UIThreadSafeGetChildControls(GetWindowsChildren), new Object[] { child });
                     }
-                    var handles = EnumChildWindowHandles(parent.Handle);
+                    var handles = EnumChildWindowHandles(child.Handle);
 
                     foreach (var hwnd in handles)
                     {
@@ -189,7 +176,7 @@ namespace Ghostice.Core
         {
             var handles = new List<IntPtr>();
 
-            foreach (ProcessThread thread in _process.Threads)
+            foreach (ProcessThread thread in Process.GetCurrentProcess().Threads)
                 NativeMethods.EnumThreadWindows(thread.Id,
                     (hWnd, lParam) => { /*if (hWnd != _hostMainWindow)*/ handles.Add(hWnd); return true; }, IntPtr.Zero);
 

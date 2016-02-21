@@ -13,6 +13,10 @@ namespace Ghostice.Core
     {
         delegate Object UIThreadSafeLocate(Control Root, Locator Path);
 
+        delegate Boolean UIThreadSafeTryLocate(Control Root, Descriptor Description, out Control Found);
+
+        delegate PropertyCollection UIThreadSafeGetProperties(Control Target, params String[] Names);
+
         public static Control LocateWindow(Locator windowLocator)
         {
 
@@ -30,10 +34,11 @@ namespace Ghostice.Core
 
                 var windowRelativePath = windowLocator.GetWindowPath(rootWindowDescriptor);
 
-                var allWindowControls = WindowManager.GetWindowControls(rootWindow);
+                //var allWindowControls = WindowManager.GetOwnedWindows(rootWindow);
+                var allWindowControls = WindowManager.GetApplicationWindows();
 
                 foreach (var windowDescriptor in windowRelativePath.Path)
-                {                    
+                {
 
                     foreach (var ownedWindow in allWindowControls)
                     {
@@ -60,7 +65,7 @@ namespace Ghostice.Core
 
         private static Control FindWindow(Control parentWindow, Descriptor childWindowDescriptor)
         {
-            var childWindows = WindowManager.GetChildWindowControls(parentWindow);
+            var childWindows = WindowManager.GetWindowsChildren(parentWindow);
 
             foreach (var childWindow in childWindows)
             {
@@ -81,7 +86,7 @@ namespace Ghostice.Core
 
         private static Control LocateRootLevelWindow(Descriptor windowDescriptor)
         {
-            var topLevelWindows = WindowManager.GetProcessWindowControls();
+            var topLevelWindows = WindowManager.GetApplicationWindows();
 
             foreach (var topWindow in topLevelWindows)
             {
@@ -146,7 +151,7 @@ namespace Ghostice.Core
                         foreach (var field in currentFields)
                         {
 
-                            var childComponent = field.GetValue(form);
+                            var childComponent = field.GetValue(form) as Component;
 
                             if (childComponent != null)
                             {
@@ -175,39 +180,57 @@ namespace Ghostice.Core
             return currentControl;
         }
 
-        private static Boolean TryLocate(Object Root, Descriptor Description, out Control Found)
+        private static Boolean TryLocate(Control Root, Descriptor Description, out Control Found)
         {
 
-            if (Root is Control)
+            if (Root.InvokeRequired)
             {
-                var root = Root as Control;
+                Control found = null;
 
-                var properties = GetProperties(root, Description.RequiredProperties);
+                var parameters = new Object[] { Root, Description, found };
 
-                if (Compare(Description, properties))
-                {
-                    Found = root;
-                    return true;
+                var result = (Boolean)Root.Invoke(new UIThreadSafeTryLocate(TryLocate), parameters);
 
-                }
+                Found = found;
 
-                foreach (Control control in root.Controls)
-                {
-
-                    if (TryLocate(control, Description, out Found))
-                    {
-                        return true;
-                    }
-                }
-
-                Found = null;
-                return false;
+                return result;
 
             }
             else
             {
-                Found = null;
-                return false;
+
+
+                if (Root is Control)
+                {
+                    var root = Root as Control;
+
+                    var properties = GetProperties(root, Description.RequiredProperties);
+
+                    if (Compare(Description, properties))
+                    {
+                        Found = root;
+                        return true;
+
+                    }
+
+                    foreach (Control control in root.Controls)
+                    {
+
+                        if (TryLocate(control, Description, out Found))
+                        {
+                            return true;
+                        }
+                    }
+
+                    Found = null;
+                    return false;
+
+                }
+                else
+                {
+                    Found = null;
+                    return false;
+                }
             }
         }
 
@@ -242,8 +265,60 @@ namespace Ghostice.Core
             return true;
         }
 
-        public static PropertyCollection GetProperties(Object Target, params String[] Names)
+        public static PropertyCollection GetProperties(Control Target, params String[] Names)
         {
+
+            if (Target.InvokeRequired)
+            {
+                return (PropertyCollection)Target.Invoke(new UIThreadSafeGetProperties(GetProperties), new Object[] { Target, Names });
+            }
+            else
+            {
+
+                var propertiesCollection = new PropertyCollection();
+
+                //var controlProperties = Path.GetType().GetProperties();
+
+                foreach (var propertyName in Names)
+                {
+
+                    if (propertyName.Equals("Type", StringComparison.InvariantCultureIgnoreCase) || propertyName.Equals("Class", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var newProperty = new Property(propertyName, (String)Target.GetType().Name);
+
+                        propertiesCollection.List.Add(newProperty);
+
+                    }
+                    else if (propertyName.Equals("FullType", StringComparison.InvariantCultureIgnoreCase) || propertyName.Equals("FullClass", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var newProperty = new Property(propertyName, (String)Target.GetType().FullName);
+
+                        propertiesCollection.List.Add(newProperty);
+                    }
+                    else
+                    {
+
+                        var property = Target.GetType().GetProperty(propertyName);
+
+                        if (property != null && Names.Contains<String>(property.Name) || Names == null)
+                        {
+                            var value = ValueConvert.ToString(property.GetValue(Target, null));
+                            var newProperty = Property.Create(property.Name, value);
+
+                            propertiesCollection.List.Add(newProperty);
+                        }
+                    }
+                }
+
+                return propertiesCollection;
+
+            }
+
+        }
+
+        public static PropertyCollection GetProperties(Component Target, params String[] Names)
+        {
+
             var propertiesCollection = new PropertyCollection();
 
             //var controlProperties = Path.GetType().GetProperties();
@@ -271,8 +346,7 @@ namespace Ghostice.Core
 
                     if (property != null && Names.Contains<String>(property.Name) || Names == null)
                     {
-                        var value = (String)property.GetValue(Target, null);
-
+                        var value = ValueConvert.ToString(property.GetValue(Target, null));
                         var newProperty = Property.Create(property.Name, value);
 
                         propertiesCollection.List.Add(newProperty);

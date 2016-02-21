@@ -254,26 +254,26 @@ namespace Ghostice.Core
 
                         if (Request.HasParameters && Request.Parameters[0].Value is WindowInfo)
                         {
-                            var parentWindowInfo = Request.Parameters[0].Value as WindowInfo;
+                            var ownerWindowInfo = Request.Parameters[0].Value as WindowInfo;
 
-                            if (parentWindowInfo != null)
+                            if (ownerWindowInfo != null)
                             {
-                                var windowParent = Control.FromHandle(parentWindowInfo.Handle);
+                                var owningWindow = Control.FromHandle(ownerWindowInfo.Handle);
 
-                                windowList = (from window in WindowManager.GetWindowControls(windowParent) where window != null select window).ToList();
+                                windowList = WindowManager.GetOwnedWindows(owningWindow);
                             }
 
                         }
                         else
                         {
-                            windowList = (from window in WindowManager.GetProcessWindowControls() where window != null select window).ToList();
+                            windowList = WindowManager.GetApplicationWindows();
                         }
 
                         var listArray = windowList.ToArray();
 
                         foreach (var window in listArray)
                         {
-                            var childWindows = WindowManager.GetChildWindowControls(window);
+                            var childWindows = WindowManager.GetWindowsChildren(window);
 
                             windowList.AddRange(childWindows);
                         }

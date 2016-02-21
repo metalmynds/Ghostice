@@ -183,7 +183,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         }
 
         [TestMethod]
-        public void StartMultipleWindowExampleInServerAndLocateChildWindowByHandleThem()
+        public void StartMultipleWindowExampleInServerAndLocateChildWindowByHandle()
         {
 
             Process ghostiseServer = null;
@@ -225,17 +225,12 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Assert.IsNotNull(childWindowInfo);
 
-                var parentWindow = InterfaceControlFactory.Create<ParentFormWindow>(client.Application);
-
-                //var child = InterfaceControlFactory.Create<ParentTopLevelChildWindow>(parentWindow);
-
-                var childLocator = new Locator(parentWindow.Description, Descriptor.Window(String.Format("Handle={0}", ValueConvert.ToString(childWindowInfo.Handle))));
+                var childLocator = new Locator(Descriptor.Window(String.Format("Handle={0}", ValueConvert.ToString(childWindowInfo.Handle))));
 
                 var childWindMap = client.Application.Map(childLocator);
 
                 Assert.IsNotNull(childWindMap);
 
-                parentWindow.Close();
             }
             catch (Exception ex)
             {

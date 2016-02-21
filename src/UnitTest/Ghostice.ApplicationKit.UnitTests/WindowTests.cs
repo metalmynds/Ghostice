@@ -71,7 +71,7 @@ namespace Ghostice.ApplicationKit.UnitTests
             {
                 aWindow.Show();
 
-                var children = WindowManager.GetChildWindowControls(aWindow);
+                var children = WindowManager.GetWindowsChildren(aWindow);
 
                 Assert.IsNotNull(children);
 
@@ -90,7 +90,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Application.DoEvents();
 
-                var childWindows = WindowManager.GetChildWindowControls(mdiParent);
+                var childWindows = WindowManager.GetWindowsChildren(mdiParent);
 
                 Assert.IsNotNull(childWindows);
 
@@ -99,7 +99,6 @@ namespace Ghostice.ApplicationKit.UnitTests
                 Assert.IsTrue(childWindows[1].Text == "FormMdiChild");
             }
         }
-
 
     }
 }
