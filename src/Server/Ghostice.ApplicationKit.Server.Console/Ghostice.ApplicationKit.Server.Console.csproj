@@ -138,9 +138,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="FodyWeavers.xml" />
-    <Content Include="Ghostice.exe.log4net">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
