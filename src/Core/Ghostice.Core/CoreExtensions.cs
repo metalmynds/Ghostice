@@ -11,31 +11,42 @@ namespace Ghostice.Core
     public static class CoreExtensions
     {
 
+        delegate String UIThreadSafeDescribe(Control Target);
+
         public static String Describe(this Control Target)
         {
 
             if (Target != null)
             {
 
-                StringBuilder descriptionBuilder = new StringBuilder();
-
-                try
+                if (Target.InvokeRequired)
                 {
-                    descriptionBuilder.AppendFormat("Control Name: {0} Handle: [{1}] Type: [{2}]", Target.Name, Target.Handle, Target.GetType().FullName);
-
+                    return (String)Target.Invoke(new UIThreadSafeDescribe(Describe), new Object[] {Target});
                 }
-                catch (ObjectDisposedException)
+                else
                 {
+                    StringBuilder descriptionBuilder = new StringBuilder();
 
-                    descriptionBuilder.AppendFormat("Control Has Been Disposed");
+                    try
+                    {
+                        descriptionBuilder.AppendFormat("Control Name: {0} Handle: [{1}] Type: [{2}]", Target.Name,
+                            Target.Handle, Target.GetType().FullName);
+
+                    }
+                    catch (ObjectDisposedException)
+                    {
+
+                        descriptionBuilder.AppendFormat("Control Has Been Disposed");
+                    }
+                    catch (Exception ex)
+                    {
+
+                        descriptionBuilder.AppendFormat(
+                            "Exception Describing Control!\r\nError: {0}\r\nStack Trace: {1}", ex.Message, ex.StackTrace);
+                    }
+
+                    return descriptionBuilder.ToString();
                 }
-                catch (Exception ex)
-                {
-
-                    descriptionBuilder.AppendFormat("Exception Describing Control!\r\nError: {0}\r\nStack Trace: {1}", ex.Message, ex.StackTrace);
-                }
-
-                return descriptionBuilder.ToString();
             }
             else
             {

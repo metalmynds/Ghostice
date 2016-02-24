@@ -139,7 +139,7 @@ namespace Ghostice.Core
                         if (getComponent != null)
                         {
 
-                            result = ActionManager.Execute(getComponent, Request);
+                            result = ActionManager.Execute(targetWindow, getComponent, Request);
                             break;
 
                         }
@@ -183,7 +183,7 @@ namespace Ghostice.Core
                         if (executeTarget != null && executeTarget is Component)
                         {
 
-                            result = ActionManager.Execute((Component)executeTarget, Request);
+                            result = ActionManager.Execute(targetWindow, (Component)executeTarget, Request);
                             break;
                         }
 

@@ -16,7 +16,9 @@ namespace Ghostice.Core
     public static class ActionManager
     {
 
-        delegate ActionResult UIThreadSafePerform(Control Target, ActionRequest Action);
+        delegate ActionResult UIThreadSafeControlExecute(Control Target, ActionRequest Action);
+
+        delegate ActionResult UIThreadSafeComponentExecute(Control Parent, Component Target, ActionRequest Request);
 
         static IgnorableSerializerContractResolver ignorableJsonResolver = new IgnorableSerializerContractResolver();
 
@@ -46,7 +48,7 @@ namespace Ghostice.Core
         {
             if (Target != null && Target.InvokeRequired)
             {
-                return (ActionResult)Target.Invoke(new UIThreadSafePerform(Execute), new Object[] { Target, Request });
+                return (ActionResult)Target.Invoke(new UIThreadSafeControlExecute(Execute), new Object[] { Target, Request });
 
             }
             else
@@ -168,7 +170,7 @@ namespace Ghostice.Core
 
                         var visibleEvent = new AutoResetEvent(Target.Visible);
 
-                        EventHandler visibleHandler = delegate (Object sender, EventArgs e)
+                        EventHandler visibleHandler = delegate(Object sender, EventArgs e)
                         {
                             if (((Control)sender).Visible)
                             {
@@ -176,7 +178,7 @@ namespace Ghostice.Core
                             }
                         };
 
-                        EventHandler enabledHandler = delegate (Object sender, EventArgs e)
+                        EventHandler enabledHandler = delegate(Object sender, EventArgs e)
                         {
                             if (((Control)sender).Enabled)
                             {
@@ -350,77 +352,87 @@ namespace Ghostice.Core
         }
 
 
-        public static ActionResult Execute(Component Target, ActionRequest Request)
+        public static ActionResult Execute(Control Parent, Component Target, ActionRequest Request)
         {
-
-            switch (Request.Operation)
+            if (Parent != null && Parent.InvokeRequired)
             {
-                case ActionRequest.OperationType.Get:
+                return (ActionResult)Parent.Invoke(new UIThreadSafeComponentExecute(Execute), new Object[] { Parent, Target, Request });
+
+            }
+            else
+            {
 
 
-                    try
-                    {
-                        var output = ReflectionManager.Get(Target, Request.Name);
-
-                        var outputSerialised = JsonConvert.SerializeObject(output, commonJsonSettings);
-
-                        return ActionResult.Successful(Target.Describe(), output != null ? output.GetType() : null, outputSerialised);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        return ActionResult.Failed(Target.Describe(), ex);
-                    }
+                switch (Request.Operation)
+                {
+                    case ActionRequest.OperationType.Get:
 
 
-                case ActionRequest.OperationType.Set:
-
-                    try
-                    {
-                        var typedValue = Convert.ChangeType(Request.Value, Request.ValueType);
-
-                        ReflectionManager.Set(Target, Request.Name, typedValue);
-
-                        return ActionResult.Successful(Target.Describe());
-
-                    }
-                    catch (Exception ex)
-                    {
-                        return ActionResult.Failed(Target.Describe(), ex);
-                    }
-
-
-                case ActionRequest.OperationType.Execute:
-
-                    try
-                    {
-                        //var arguments = new Object[] { };
-
-                        //if (Request.HasParameters)
-                        //{
-                        //    arguments = (from ActionParameter argument in arguments select argument.Value).ToArray();
-                        //}
-
-                        var actualParameters = Request.HasParameters ? GetTypedParameters(Request.Parameters) : null;
-
-                        var result = ReflectionManager.Execute(Target, Request.Name, actualParameters);
-
-                        if (result != null)
+                        try
                         {
-                            var resultSerialised = JsonConvert.SerializeObject(result, commonJsonSettings);
+                            var output = ReflectionManager.Get(Target, Request.Name);
 
-                            return ActionResult.Successful(Target.Describe(), result != null ? result.GetType() : null, resultSerialised);
+                            var outputSerialised = JsonConvert.SerializeObject(output, commonJsonSettings);
+
+                            return ActionResult.Successful(Target.Describe(), output != null ? output.GetType() : null,
+                                outputSerialised);
+
                         }
-                        else
+                        catch (Exception ex)
                         {
+                            return ActionResult.Failed(Target.Describe(), ex);
+                        }
+
+
+                    case ActionRequest.OperationType.Set:
+
+                        try
+                        {
+                            var typedValue = Convert.ChangeType(Request.Value, Request.ValueType);
+
+                            ReflectionManager.Set(Target, Request.Name, typedValue);
+
                             return ActionResult.Successful(Target.Describe());
-                        }
-                    }
-                    catch (Exception ex)
-                    {
 
-                        return ActionResult.Failed(Target.Describe(), ex);
-                    }
+                        }
+                        catch (Exception ex)
+                        {
+                            return ActionResult.Failed(Target.Describe(), ex);
+                        }
+
+
+                    case ActionRequest.OperationType.Execute:
+
+                        try
+                        {
+                            //var arguments = new Object[] { };
+
+                            //if (Request.HasParameters)
+                            //{
+                            //    arguments = (from ActionParameter argument in arguments select argument.Value).ToArray();
+                            //}
+
+                            var actualParameters = Request.HasParameters ? GetTypedParameters(Request.Parameters) : null;
+
+                            var result = ReflectionManager.Execute(Target, Request.Name, actualParameters);
+
+                            if (result != null)
+                            {
+                                var resultSerialised = JsonConvert.SerializeObject(result, commonJsonSettings);
+
+                                return ActionResult.Successful(Target.Describe(),
+                                    result != null ? result.GetType() : null, resultSerialised);
+                            }
+                            else
+                            {
+                                return ActionResult.Successful(Target.Describe());
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                            return ActionResult.Failed(Target.Describe(), ex);
+                        }
 
                     //case ActionRequest.OperationType.Tell:
 
@@ -439,7 +451,7 @@ namespace Ghostice.Core
                     //    }
 
 
-
+                }
             }
             return null;
         }

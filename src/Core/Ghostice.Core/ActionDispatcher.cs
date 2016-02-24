@@ -69,7 +69,7 @@ namespace Ghostice.Core
             }
             else if (serverResponse.Error != null)
             {
-                throw new ServerExecuteActionFailedException(Request, serverResponse.Error.Message, serverResponse.Error.Data, serverResponse.Error.StackTrace, serverResponse.Error.InnerException);
+                throw new ServerExecuteActionFailedException(Request, serverResponse.Error.Message, serverResponse.Error.Data, serverResponse.Error.data.ToString(), serverResponse.Error.InnerException);
             }
 
             return serverResponse.Result;

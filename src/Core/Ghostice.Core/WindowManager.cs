@@ -17,7 +17,9 @@ namespace Ghostice.Core
     public static class WindowManager
     {
 
-        private delegate List<Control> UIThreadSafeGetChildControls(Control parent);
+        delegate List<Control> UIThreadSafeGetChildControls(Control parent);
+
+        delegate List<Control> UIThreadSafeGetOwnedWindows(Control owner);
 
         static WindowManager()
         {
@@ -75,6 +77,15 @@ namespace Ghostice.Core
 
         public static List<Control> GetOwnedWindows(Control owner)
         {
+
+            if (owner.InvokeRequired)
+            {
+
+                return
+                    (List<Control>) owner.Invoke(new UIThreadSafeGetOwnedWindows(GetOwnedWindows), new Object[] {owner});
+
+            }
+
             var windows = new List<Control>();
 
             var handles = EnumerateOwnerWindowHandles(owner.Handle);
@@ -123,6 +134,7 @@ namespace Ghostice.Core
                     {
                         return (List<Control>)child.Invoke(new UIThreadSafeGetChildControls(GetWindowsChildren), new Object[] { child });
                     }
+
                     var handles = EnumChildWindowHandles(child.Handle);
 
                     foreach (var hwnd in handles)

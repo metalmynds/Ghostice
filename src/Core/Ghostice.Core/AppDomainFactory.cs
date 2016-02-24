@@ -57,15 +57,11 @@ namespace Ghostice.Core
             appDomain.Load(Assembly.GetCallingAssembly().GetName());           
             appDomain.Load(typeof(NLog.LogFactory).Assembly.GetName());
 
-            if (resolver != null)
-            {
-                _assemblyResolver = resolver;
+            _assemblyResolver = resolver;
 
+            if (_assemblyResolver != null)
+            {                
                 appDomain.AssemblyResolve += AppDomain_AssemblyResolve;
-            }
-            else
-            {
-                _assemblyResolver = null;
             }
 
             return (T)Activator.CreateInstanceFrom(appDomain,

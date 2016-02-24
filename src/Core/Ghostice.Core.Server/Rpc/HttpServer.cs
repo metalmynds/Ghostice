@@ -27,14 +27,10 @@ namespace Ghostice.Core.Server.Rpc
         {
             var address = endPoint.ToString();
 
-            this.EndPoint = new Uri(address.EndsWith("/") ? address : address += "/");           
+            this.EndPoint = new Uri(address.EndsWith("/") ? address : address += "/");
         }
 
-        public Uri EndPoint
-        {
-            get;
-            protected set;
-        }
+        public Uri EndPoint { get; protected set; }
 
         public void Shutdown()
         {
@@ -67,30 +63,31 @@ namespace Ghostice.Core.Server.Rpc
             //{
             //var tcs = new TaskCompletionSource<object>();
 
-                //listener.GetContextAsync().ContinueWith(async t =>
-                //{
-                //    try
-                //    {
-                //        while (true)
-                //        {
-                //            var context = await t;
-                //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
-                //            t = listener.GetContextAsync();
-                //        }
-                //    }
-                //    catch (Exception e)
-                //    {
-                //        listener.Close();
-                //        tcs.TrySetException(e);
-                //    }
-                //});
+            //listener.GetContextAsync().ContinueWith(async t =>
+            //{
+            //    try
+            //    {
+            //        while (true)
+            //        {
+            //            var context = await t;
+            //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+            //            t = listener.GetContextAsync();
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        listener.Close();
+            //        tcs.TrySetException(e);
+            //    }
+            //});
             //}
         }
 
         protected void ServerThread()
         {
 
-            try {
+            try
+            {
 
                 using (var listener = new HttpListener())
                 {
@@ -123,13 +120,19 @@ namespace Ghostice.Core.Server.Rpc
                     }
 
                 }
-            } catch (Exception ex)
+            }
+            catch (ThreadAbortException)
+            {
+                return;
+            }
+            catch (Exception ex)
             {
                 throw new HttpServerStartupFailedException(this.EndPoint.ToString(), ex);
             }
         }
+    
 
-        protected void ListenerCallback(IAsyncResult result)
+    protected void ListenerCallback(IAsyncResult result)
         {
             var listener = result.AsyncState as HttpListener;
 
