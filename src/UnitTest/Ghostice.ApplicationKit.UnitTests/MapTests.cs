@@ -18,7 +18,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var locator = new Locator(new Descriptor(DescriptorType.Window, "Name=FormSimpleWalk"));
 
-                var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position" });
+                var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Location" });
 
                 var result = ActionManager.Execute(form, mapRequest);
 

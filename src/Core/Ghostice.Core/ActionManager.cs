@@ -144,10 +144,7 @@ namespace Ghostice.Core
 
                             if (Request.HasParameters)
                             {
-                                var arguments = from argument in Request.Parameters select argument.ToString();
-
-                                properties = arguments.ToList<String>().ToArray();
-
+                                properties = (String[])Request.Parameters[0].Value;
                             }
 
                             var tree = ControlNode.GetControlHierarchy(Target, properties);

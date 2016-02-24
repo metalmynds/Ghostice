@@ -81,7 +81,7 @@ namespace Ghostice.Core
 
         public ControlNode Map(Locator Target)
         {
-            return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(Target, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" })));
+            return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(Target, new String[] { "Text", "Value", "Location", "Size", "TopMost", "Selected", "Focused" })));
         }
 
         //public JObject Tell(Locator Target)
