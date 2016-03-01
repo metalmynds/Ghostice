@@ -142,9 +142,15 @@ namespace Ghostice.Core
         {
             return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent), ActionParameter.Create(AditionalProperties) });
         }
+        
         public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
         {
             return new ActionRequest(Target, OperationType.Ready, ActionParameter.Create(TimeoutSeconds));
+        }
+
+        public static ActionRequest Ready(Locator Target, int TimeoutSeconds, String value, bool anyValue)
+        {
+            return new ActionRequest(Target, OperationType.Ready, ActionParameter.Create(TimeoutSeconds), ActionParameter.Create(value), ActionParameter.Create(anyValue));
         }
 
         //public static ActionRequest Tell(Locator Target)

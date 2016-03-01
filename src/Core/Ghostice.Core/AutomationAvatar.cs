@@ -108,7 +108,7 @@ namespace Ghostice.Core
             try
             {
 
-                var logArgsString = Request.HasParameters ? String.Join(", ", from parameter in Request.Parameters select parameter.Value.ToString()) : "None";
+                var logArgsString = Request.HasParameters ? String.Join(", ", from parameter in Request.Parameters select parameter.Value != null ? parameter.Value.ToString() : "null") : "None";
 
                 Locator windowLocator = Request.HasTarget ? Request.Target : null;
                 Locator controlPath = null;
@@ -241,6 +241,8 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Ready:
 
+                        // Find the Control
+
                         LogTo.Info(String.Format("Ready: {0}", Request.Target.ToString()));
 
                         controlPath = Request.Target.GetRelativePath();
@@ -282,7 +284,7 @@ namespace Ghostice.Core
 
                         if (targetControl != null)
                         {
-
+                            // Check Ready State
                             result = ActionManager.Execute(targetControl, Request);
                             break;
 

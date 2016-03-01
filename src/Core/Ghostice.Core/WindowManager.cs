@@ -141,6 +141,11 @@ namespace Ghostice.Core
                     {
                         var window = Control.FromChildHandle(hwnd);
 
+                        //if (window == null)
+                        //{
+                        //    window = Control.FromHandle(hwnd);
+                        //}
+
                         if (window != null)
                         { controls.Add(window); }
                     }

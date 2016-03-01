@@ -144,7 +144,9 @@ namespace Ghostice.Core
 
                             if (Request.HasParameters)
                             {
+
                                 properties = (String[])Request.Parameters[0].Value;
+
                             }
 
                             var tree = ControlNode.GetControlHierarchy(Target, properties);
@@ -167,6 +169,8 @@ namespace Ghostice.Core
 
                         var visibleEvent = new AutoResetEvent(Target.Visible);
 
+                        var valueEvent = new AutoResetEvent(false);
+
                         EventHandler visibleHandler = delegate(Object sender, EventArgs e)
                         {
                             if (((Control)sender).Visible)
@@ -183,20 +187,35 @@ namespace Ghostice.Core
                             }
                         };
 
+                        EventHandler textChangedHandler = delegate(Object sender, EventArgs e)
+                        {
+                            valueEvent.Set();
+                        };
+
                         try
                         {
-                            int timeoutSeconds = 30;
+                            int timeoutSeconds = 30; // Default only used if parameter is missing
+                            String value = null;
+                            bool anyValue = false;
+                            bool valueFound = false;
 
                             if (Request.HasParameters)
                             {
 
                                 int.TryParse(Request.Parameters[0].ToString(), out timeoutSeconds);
 
+                                if (Request.Parameters.Count() == 3)
+                                {
+                                    value = Request.Parameters[1].ToString();
+                                    bool.TryParse(Request.Parameters[2].ToString(), out anyValue);
+                                }
                             }
 
                             Target.VisibleChanged += visibleHandler;
 
                             Target.EnabledChanged += enabledHandler;
+
+                            Target.TextChanged += textChangedHandler;
 
                             if (!visibleEvent.WaitOne(timeoutSeconds))
                             {
@@ -208,13 +227,40 @@ namespace Ghostice.Core
                                 return ActionResult.Failed(Target.Describe(), String.Format("Timed Out Waiting for Control to be Enabled!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
                             }
 
-                            if (Target.Enabled && Target.Visible)
+                            if (value != null && value != "null")
+                            {
+                                if (!valueEvent.WaitOne(timeoutSeconds))
+                                {
+                                    return ActionResult.Failed(Target.Describe(),
+                                        String.Format(
+                                            "Timed Out Waiting for Text Value!\r\nTimeout: {0}\r\nValue: [{1}]",
+                                            timeoutSeconds, value), typeof (Boolean), "false");
+                                }
+                                else
+                                {
+                                    if (anyValue && !String.IsNullOrWhiteSpace(Target.Text))
+                                    {
+                                        valueFound = true;
+                                    }
+                                    else
+                                    {
+                                        if (Target.Text.Equals(value))
+                                        {
+                                            valueFound = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (Target.Enabled && Target.Visible && value != null && valueFound || Target.Enabled && Target.Visible)
                             {
                                 return ActionResult.Successful(Target.Describe(), typeof(Boolean), "true");
                             }
                             else
                             {
-                                return ActionResult.Failed(Target.Describe(), String.Format("Control failed to become Enabled & Visible!"), typeof(Boolean), "false");
+                                return ActionResult.Failed(Target.Describe(),
+                                    String.Format("Control failed to become Enabled & Visible!"), typeof(Boolean),
+                                    "false");
                             }
 
                         }
@@ -236,6 +282,14 @@ namespace Ghostice.Core
                             try
                             {
                                 Target.EnabledChanged -= enabledHandler;
+                            }
+                            catch
+                            {
+
+                            }
+                            try
+                            {
+                                Target.TextChanged -= textChangedHandler;
                             }
                             catch
                             {

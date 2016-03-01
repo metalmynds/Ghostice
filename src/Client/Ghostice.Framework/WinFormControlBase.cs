@@ -28,5 +28,14 @@ namespace Ghostice.Framework
             return result;
 
         }
+
+        public Boolean WaitForReady(int TimeoutSeconds, String value, bool anyValue)
+        {
+
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Ready(this.Path, TimeoutSeconds, value, anyValue)));
+
+            return result;
+
+        }
     }
 }

@@ -73,7 +73,7 @@ namespace Ghostice.Core
             {
                 LogTo.ErrorException(String.Format("Load Extensions Failed!\r\nPath: {0}", Path), ex);
             }
-         
+
         }
 
         public static void AddExtension(Type Target, Type Extension)
@@ -110,20 +110,48 @@ namespace Ghostice.Core
             return Extensions.Count > 0;
         }
 
-        public static List<Type> GetExtensions(Type ControlType)
+        public static List<Type> GetExtensions(Type controlType)
         {
-            return _extensions[ControlType];
+            var extensionType = GetAssignableType(controlType);
+
+            if (extensionType != null)
+            {
+                controlType = extensionType;
+            }
+
+            return _extensions[controlType];
 
         }
 
-        public static Boolean ExtensionExists<T>()
+        public static Type GetAssignableType(Type controlType)
         {
-            return _extensions.Keys.Contains(typeof(T));
+            foreach (var extendedType in _extensions.Keys)
+            {
+
+                if (extendedType.IsAssignableFrom(controlType))
+                {
+                    return extendedType;                                        
+                }
+
+            }
+
+            return null;
         }
 
-        public static Boolean HasExtension(Type ControlType)
+        //public static Boolean ExtensionExists<T>()
+        //{
+        //    return _extensions.Keys.Contains(typeof(T));
+        //}
+
+        public static Boolean HasExtension(Type controlType)
         {
-            return _extensions.Keys.Contains(ControlType);
+
+            // Direct Check
+            if (_extensions.Keys.Contains(controlType)) return true;
+
+            // Decendant Check
+            return GetAssignableType(controlType) != null;
+
         }
     }
 }
