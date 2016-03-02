@@ -21,6 +21,8 @@ namespace Ghostice.Core
 
         delegate List<Control> UIThreadSafeGetOwnedWindows(Control owner);
 
+        delegate Object UIThreadSafeGetNestedControlPropertyValue(Control root, String name);
+
         static WindowManager()
         {
 
@@ -31,24 +33,32 @@ namespace Ghostice.Core
         public static Object GetNestedControlPropertyValue(Control root, String name)
         {
 
-            var property = root.GetType().GetProperty(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-
-            if (property != null)
+            if (root.InvokeRequired)
             {
-                var value = property.GetValue(root, null);
-
-                return value;
-
+                return root.Invoke(new UIThreadSafeGetNestedControlPropertyValue(GetNestedControlPropertyValue), new Object[] { root, name });
             }
             else
             {
-                foreach (Control subControl in root.Controls)
-                {
-                    var subValue = GetNestedControlPropertyValue(subControl, name);
 
-                    if (subValue != null)
+                var property = root.GetType().GetProperty(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+                if (property != null)
+                {
+                    var value = property.GetValue(root, null);
+
+                    return value;
+
+                }
+                else
+                {
+                    foreach (Control subControl in root.Controls)
                     {
-                        return subValue;
+                        var subValue = GetNestedControlPropertyValue(subControl, name);
+
+                        if (subValue != null)
+                        {
+                            return subValue;
+                        }
                     }
                 }
             }
