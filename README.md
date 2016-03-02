@@ -17,17 +17,7 @@ Well why should GUI automation be so very slow and so expensive that a return on
 
 If you include the tooling costs it's nearly test negative equity when you calculate the ROI!
 
-If you’re interested I suggest taking a look at the unit tests, the E2E tests show the whole lifecycle.
-
-
 Off Soap Box ;)
 
 
-
-
-
-
-Known Issue(s)
-
-E2E Unit test failure. 
-Please See Issue 1 it's probably a blocked files.
+If you’re interested I suggest taking a look at the unit tests, the E2E tests show the whole lifecycle.
