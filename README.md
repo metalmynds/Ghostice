@@ -11,9 +11,9 @@ Its design is based up the very popular WebDriver/Selenium 2 model with a Server
 It includes a factory pattern model for producing coded window models or WOMS based on annotation (.net attributes).
 
 
-Why this project got started because well... 
+Why this project got started because....
 
-Why should GUI automation be so very slow and so expensive that a return on investment is so very hard to produce let alone maintain?
+Well why should GUI automation be so very slow and so expensive that a return on investment is so very hard to produce let alone maintain?
 
 If you include the tooling costs it's nearly test negative equity when you calculate the ROI!
 
