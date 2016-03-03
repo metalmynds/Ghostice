@@ -238,6 +238,20 @@ namespace Ghostice.Core
 
                     //    break;
 
+                    case ActionRequest.OperationType.Evaluate:
+
+                        LogTo.Info(String.Format("Evaluate: {0}", Request.Target.ToString()));
+
+                        // Dynamic Expression Evaluation
+                        var evaluateTarget = WindowWalker.Locate(targetWindow, controlPath);
+
+                        if (evaluateTarget != null && evaluateTarget is Control)
+                        {
+
+                            result = ActionManager.Execute((Control)evaluateTarget, Request);
+
+                        }
+                        break;
 
                     case ActionRequest.OperationType.Ready:
 

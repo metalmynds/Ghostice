@@ -135,6 +135,13 @@ namespace Ghostice.Core
                     //        return ActionResult.Failed(Target.Describe(), ex);
                     //    }
 
+                    case ActionRequest.OperationType.Evaluate:
+
+
+                        // Dynamic C# Expression Evaluation
+                        return ActionResult.Failed(Target.Describe(),"Not Implemented!");
+
+
                     case ActionRequest.OperationType.Map:
 
                         try

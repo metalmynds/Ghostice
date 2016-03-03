@@ -25,6 +25,7 @@ namespace Ghostice.Core
             Map,
             Ready,
             List,
+            Evaluate,
             Custom
         }
 
