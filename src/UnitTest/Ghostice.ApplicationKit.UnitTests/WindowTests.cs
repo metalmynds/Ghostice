@@ -30,7 +30,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                     var listRequest = ActionRequest.List();
 
-                    var result = ActionManager.Execute(null, listRequest);
+                    var result = ActionManager.Perform(null, listRequest);
 
                     Assert.IsNotNull(result);
 
@@ -54,7 +54,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                     var listRequest = ActionRequest.List(new String[] { "ForeColor", "BackColor", "WindowState" });
 
-                    var result = ActionManager.Execute(null, listRequest);
+                    var result = ActionManager.Perform(null, listRequest);
 
                     Assert.IsNotNull(result);
 

@@ -25,8 +25,8 @@ namespace Ghostice.Core
             Map,
             Ready,
             List,
-            Evaluate,
-            Custom
+            Wait,
+            //Custom
         }
 
 
@@ -113,9 +113,9 @@ namespace Ghostice.Core
 
         }
 
-        public static ActionRequest FromJson(String JsonRequest)
+        public static ActionRequest FromJson(String jsonRequest)
         {
-            return JsonConvert.DeserializeObject<ActionRequest>(JsonRequest);
+            return JsonConvert.DeserializeObject<ActionRequest>(jsonRequest);
         }
 
         public override string ToString()
@@ -134,24 +134,29 @@ namespace Ghostice.Core
             return new ActionRequest(null, OperationType.List, ActionParameter.Create(parent));
         }
 
-        public static ActionRequest List(params String[] AditionalProperties)
+        public static ActionRequest List(params String[] additionalProperties)
         {
-            return new ActionRequest(null, OperationType.List, ActionParameter.Create(AditionalProperties));
+            return new ActionRequest(null, OperationType.List, ActionParameter.Create(additionalProperties));
         }
 
-        public static ActionRequest List(WindowInfo parent, String[] AditionalProperties)
+        public static ActionRequest List(WindowInfo parent, String[] additionalProperties)
         {
-            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent), ActionParameter.Create(AditionalProperties) });
-        }
-        
-        public static ActionRequest Ready(Locator Target, int TimeoutSeconds)
-        {
-            return new ActionRequest(Target, OperationType.Ready, ActionParameter.Create(TimeoutSeconds));
+            return new ActionRequest(null, OperationType.List, new ActionParameter[] { ActionParameter.Create(parent), ActionParameter.Create(additionalProperties) });
         }
 
-        public static ActionRequest Ready(Locator Target, int TimeoutSeconds, String value, bool anyValue)
+        public static ActionRequest Ready(Locator target, int timeoutSeconds)
         {
-            return new ActionRequest(Target, OperationType.Ready, ActionParameter.Create(TimeoutSeconds), ActionParameter.Create(value), ActionParameter.Create(anyValue));
+            return new ActionRequest(target, OperationType.Ready, ActionParameter.Create(timeoutSeconds));
+        }
+
+        public static ActionRequest Ready(Locator target, int timeoutSeconds, String value, bool anyValue)
+        {
+            return new ActionRequest(target, OperationType.Ready, ActionParameter.Create(timeoutSeconds), ActionParameter.Create(value), ActionParameter.Create(anyValue));
+        }
+
+        public static ActionRequest Wait(Locator target, string type, String expression, int timeoutSeconds, int interval)
+        {
+            return new ActionRequest(target, OperationType.Wait, ActionParameter.Create(type), ActionParameter.Create(expression), ActionParameter.Create(timeoutSeconds), ActionParameter.Create(interval));
         }
 
         //public static ActionRequest Tell(Locator Target)
@@ -159,29 +164,29 @@ namespace Ghostice.Core
         //    return new ActionRequest(Target, OperationType.Tell);
         //}
 
-        public static ActionRequest Map(Locator Target, String[] Properties)
+        public static ActionRequest Map(Locator target, String[] properties)
         {
-            return new ActionRequest(Target, OperationType.Map, "Map", null, null, ActionParameter.Create(Properties));
+            return new ActionRequest(target, OperationType.Map, "Map", null, null, ActionParameter.Create(properties));
         }
 
-        public static ActionRequest Execute(Locator Target, String Name)
+        public static ActionRequest Execute(Locator target, String name)
         {
-            return new ActionRequest(Target, OperationType.Execute, Name);
+            return new ActionRequest(target, OperationType.Execute, name);
         }
 
-        public static ActionRequest Execute(Locator Target, String Name, params ActionParameter[] Parameters)
+        public static ActionRequest Execute(Locator target, String name, params ActionParameter[] parameters)
         {
-            return new ActionRequest(Target, OperationType.Execute, Name, null, null, Parameters);
+            return new ActionRequest(target, OperationType.Execute, name, null, null, parameters);
         }
 
-        public static ActionRequest Get(Locator Target, String Name)
+        public static ActionRequest Get(Locator target, String name)
         {
-            return new ActionRequest(Target, OperationType.Get, Name);
+            return new ActionRequest(target, OperationType.Get, name);
         }
 
-        public static ActionRequest Set(Locator Target, String Name, String Value, Type ValueType)
+        public static ActionRequest Set(Locator target, String name, String value, Type valueType)
         {
-            return new ActionRequest(Target, OperationType.Set, Name, Value, ValueType);
+            return new ActionRequest(target, OperationType.Set, name, value, valueType);
         }
 
     }

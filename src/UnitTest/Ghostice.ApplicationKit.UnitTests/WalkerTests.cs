@@ -79,13 +79,13 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var textbox1 = WindowWalker.Locate(form, setAction.Target) as Control;
 
-                var setResult = ActionManager.Execute(textbox1, setAction);
+                var setResult = ActionManager.Perform(textbox1, setAction);
 
                 var getAction = ActionRequest.Get(text1Locator, "Text");
 
                 Assert.IsTrue(setResult.Status == ActionResult.ActionStatus.Successful);
 
-                var getResult = ActionManager.Execute(textbox1, getAction);
+                var getResult = ActionManager.Perform(textbox1, getAction);
 
                 Assert.IsTrue(getResult.Status == ActionResult.ActionStatus.Successful);
 

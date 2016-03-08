@@ -20,7 +20,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position" });
 
-                var result = ActionManager.Execute(form, mapRequest);
+                var result = ActionManager.Perform(form, mapRequest);
 
                 Assert.IsNotNull(result);
 
@@ -43,7 +43,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Position" });
 
-                var result = ActionManager.Execute(form, mapRequest);
+                var result = ActionManager.Perform(form, mapRequest);
 
                 Assert.IsNotNull(result);
 
@@ -68,7 +68,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var mapRequest = ActionRequest.Map(locator, new String[] { "Name", "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" });
 
-                var result = ActionManager.Execute(form, mapRequest);
+                var result = ActionManager.Perform(form, mapRequest);
 
                 Assert.IsNotNull(result);
 

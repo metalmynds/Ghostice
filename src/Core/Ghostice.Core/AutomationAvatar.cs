@@ -21,20 +21,20 @@ namespace Ghostice.Core
         private Thread _applicationThread;
         private Assembly _application;
 
-        public AutomationAvatar(String ExtensionsPath)
+        public AutomationAvatar(String extensionsPath)
         {
-            if (Directory.Exists(ExtensionsPath))
+            if (Directory.Exists(extensionsPath))
             {
-                ExtensionManager.LoadExtensions(ExtensionsPath);
+                ExtensionManager.LoadExtensions(extensionsPath);
             }
             else
             {
-                LogTo.Warn("Extensions Path Supplied Does Not Exist!\r\nPath: {0}", ExtensionsPath);
+                LogTo.Warn("Extensions Path Supplied Does Not Exist!\r\nPath: {0}", extensionsPath);
             }
 
         }
 
-        public ApplicationInfo Start(String ExecutablePath, String Arguments, int StartupTimeOutSeconds)
+        public ApplicationInfo Start(String executablePath, String arguments, int startupTimeOutSeconds)
         {
 
             Stopwatch startWatch = new Stopwatch();
@@ -44,9 +44,9 @@ namespace Ghostice.Core
             try
             {
 
-                _application = Assembly.LoadFrom(ExecutablePath);
+                _application = Assembly.LoadFrom(executablePath);
 
-                _applicationThread = new Thread(() => StartApplication(ExecutablePath, Arguments));
+                _applicationThread = new Thread(() => StartApplication(executablePath, arguments));
 
                 _applicationThread.SetApartmentState(ApartmentState.STA);
 
@@ -79,28 +79,28 @@ namespace Ghostice.Core
                     applicationReady = WindowManager.GetApplicationWindows().FindAll(
                         (control) => control != null).Count > 0;
 
-                    if (started.AddSeconds(StartupTimeOutSeconds) <= DateTime.Now)
+                    if (started.AddSeconds(startupTimeOutSeconds) <= DateTime.Now)
                     {
                         startWatch.Stop();
 
-                        return ApplicationInfo.ReportFailed(ExecutablePath, Arguments, String.Format("Timed Out Waiting {0} Seconds for Main/First Window to Load!", StartupTimeOutSeconds), startWatch.Elapsed);
+                        return ApplicationInfo.ReportFailed(executablePath, arguments, String.Format("Timed Out Waiting {0} Seconds for Main/First Window to Load!", startupTimeOutSeconds), startWatch.Elapsed);
                     }
 
                 }
 
                 startWatch.Stop();
 
-                return ApplicationInfo.ReportStarted(AppDomain.CurrentDomain.FriendlyName, ExecutablePath, Arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
+                return ApplicationInfo.ReportStarted(AppDomain.CurrentDomain.FriendlyName, executablePath, arguments, Process.GetCurrentProcess().Id, startWatch.Elapsed);
 
             }
             catch (Exception ex)
             {
-                throw new AutomationAvatarException(String.Format("ApplicationManager Constructor Failed!\r\nPath: [{0}]\r\nArguments: [{1}]\r\nError: {2}", ExecutablePath, String.Concat(Arguments, " "), ex.Message), ex);
+                throw new AutomationAvatarException(String.Format("ApplicationManager Constructor Failed!\r\nPath: [{0}]\r\nArguments: [{1}]\r\nError: {2}", executablePath, String.Concat(arguments, " "), ex.Message), ex);
             }
 
         }
 
-        public ActionResult Perform(ActionRequest Request)
+        public ActionResult Perform(ActionRequest request)
         {
 
             ActionResult result = null;
@@ -108,38 +108,38 @@ namespace Ghostice.Core
             try
             {
 
-                var logArgsString = Request.HasParameters ? String.Join(", ", from parameter in Request.Parameters select parameter.Value != null ? parameter.Value.ToString() : "null") : "None";
+                var logArgsString = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value != null ? parameter.Value.ToString() : "null") : "None";
 
-                Locator windowLocator = Request.HasTarget ? Request.Target : null;
+                Locator windowLocator = request.HasTarget ? request.Target : null;
                 Locator controlPath = null;
 
-                var targetWindow = windowLocator != null ? WindowWalker.LocateWindow(windowLocator) : null;            
-                                             
-                switch (Request.Operation)
+                var targetWindow = windowLocator != null ? WindowWalker.LocateWindow(windowLocator) : null;
+
+                switch (request.Operation)
                 {
 
                     case ActionRequest.OperationType.Get:
 
-                        LogTo.Info(String.Format("Target: {0} Get: {1}", Request.Target, Request.Name));
+                        LogTo.Info(String.Format("Target: {0} Get: {1}", request.Target, request.Name));
 
-                        controlPath = Request.Target.GetRelativePath();
-                        
+                        controlPath = request.Target.GetRelativePath();
+
                         var getControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (getControl != null)
                         {
 
-                            result = ActionManager.Execute(getControl, Request);
+                            result = ActionManager.Perform(getControl, request);
 
                             break;
                         }
 
-                        var getComponent = WindowWalker.Locate(targetWindow, Request.Target) as Component;
+                        var getComponent = WindowWalker.Locate(targetWindow, request.Target) as Component;
 
                         if (getComponent != null)
                         {
 
-                            result = ActionManager.Execute(targetWindow, getComponent, Request);
+                            result = ActionManager.Perform(targetWindow, getComponent, request);
                             break;
 
                         }
@@ -148,17 +148,16 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Set:
 
+                        LogTo.Info(String.Format("Target: {0} Set: {1} Value: {2}", request.Target.ToString(), request.Name, request.Value));
 
-                        LogTo.Info(String.Format("Target: {0} Set: {1} Value: {2}", Request.Target.ToString(), Request.Name, Request.Value));
-
-                        controlPath = Request.Target.GetRelativePath();
+                        controlPath = request.Target.GetRelativePath();
 
                         var setControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (setControl != null)
                         {
 
-                            result = ActionManager.Execute(setControl, Request);
+                            result = ActionManager.Perform(setControl, request);
                             break;
 
                         }
@@ -167,23 +166,23 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Execute:
 
-                        LogTo.Info(String.Format("Target: {0} Execute: {1} Arguments: {2}", Request.Target.ToString(), Request.Name, logArgsString));
+                        LogTo.Info(String.Format("Target: {0} Execute: {1} Arguments: {2}", request.Target.ToString(), request.Name, logArgsString));
 
-                        controlPath = Request.Target.GetRelativePath();
+                        controlPath = request.Target.GetRelativePath();
 
                         var executeTarget = WindowWalker.Locate(targetWindow, controlPath);
 
                         if (executeTarget != null && executeTarget is Control)
                         {
 
-                            result = ActionManager.Execute((Control)executeTarget, Request);
+                            result = ActionManager.Perform((Control)executeTarget, request);
                             break;
                         }
 
                         if (executeTarget != null && executeTarget is Component)
                         {
 
-                            result = ActionManager.Execute(targetWindow, (Component)executeTarget, Request);
+                            result = ActionManager.Perform(targetWindow, (Component)executeTarget, request);
                             break;
                         }
 
@@ -191,16 +190,16 @@ namespace Ghostice.Core
 
                     case ActionRequest.OperationType.Map:
 
-                        LogTo.Info(String.Format("Map: {0}", Request.Target.ToString()));
+                        LogTo.Info(String.Format("Map: {0}", request.Target.ToString()));
 
-                        controlPath = Request.Target.GetRelativePath();
+                        controlPath = request.Target.GetRelativePath();
 
                         var mapControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (mapControl != null)
                         {
 
-                            result = ActionManager.Execute(mapControl, Request);
+                            result = ActionManager.Perform(mapControl, request);
                             break;
 
                         }
@@ -238,35 +237,101 @@ namespace Ghostice.Core
 
                     //    break;
 
-                    case ActionRequest.OperationType.Evaluate:
+                    case ActionRequest.OperationType.Wait:
 
-                        LogTo.Info(String.Format("Evaluate: {0}", Request.Target.ToString()));
+                        LogTo.Info(String.Format("Wait: {0}", request.Target.ToString()));
 
-                        // Dynamic Expression Evaluation
-                        var evaluateTarget = WindowWalker.Locate(targetWindow, controlPath);
+                        var waitTarget = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
-                        if (evaluateTarget != null && evaluateTarget is Control)
+                        if (waitTarget != null)
                         {
 
-                            result = ActionManager.Execute((Control)evaluateTarget, Request);
+                            // If we call the action managers perform method we end up on the UI Thread ! No Sleep on that !!
+                            //result = ActionManager.Perform((Control)evaluateTarget, Request);
+                            String waitType = Convert.ToString(request.Parameters[0].Value).ToLower();
+                            String waitExpression = Convert.ToString(request.Parameters[1].Value);
+                            int waitTimeout = Convert.ToInt32(request.Parameters[2].Value);
+                            int waitInterval = Convert.ToInt32(request.Parameters[3].Value);
+
+                            var waitStarted = DateTime.Now;
+                            
+
+                            switch (waitType)
+                            {
+
+                                // Until
+
+                                case "until":
+
+                                    var untilComplete = false;
+
+                                    while (!untilComplete && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
+                                    {
+
+                                        untilComplete = ActionManager.Evaluate((Control)waitTarget, waitExpression);
+
+                                        if (!untilComplete)
+                                        {
+
+                                            Thread.Sleep(waitInterval);
+
+                                        }
+
+                                    }
+
+                                    return untilComplete ? ActionResult.Successful(waitTarget.Describe()) : ActionResult.Failed(waitTarget.Describe(), String.Format("Timeout Waiting for Condition Util [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout));
+
+                                // While                    
+
+                                case "while":
+
+                                    var whileSucessful = true;
+
+                                    while (whileSucessful && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
+                                    {
+
+                                        whileSucessful = !ActionManager.Evaluate((Control)waitTarget, waitExpression);
+
+                                        if (whileSucessful)
+                                        {
+
+                                            Thread.Sleep(waitInterval);
+
+                                        }
+
+                                    }
+
+                                    return whileSucessful ? ActionResult.Successful(waitTarget.Describe()) : ActionResult.Failed(waitTarget.Describe(), String.Format("Timeout Waiting for Condition While [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout));
+
+                                default:
+
+                                    return ActionResult.Failed(waitTarget.Describe(), String.Format("Unrecognised Wait Type [{0}] for Expression [{1}]", waitType, waitExpression));
+
+                            }
+
 
                         }
-                        break;
+                        else
+                        {
+                            return ActionResult.Failed(request.Target.ToString(), String.Format("Unable to Find Target Control!"));
+                        }
+
+                    //break;
 
                     case ActionRequest.OperationType.Ready:
 
                         // Find the Control
 
-                        LogTo.Info(String.Format("Ready: {0}", Request.Target.ToString()));
+                        LogTo.Info(String.Format("Ready: {0}", request.Target.ToString()));
 
-                        controlPath = Request.Target.GetRelativePath();
+                        controlPath = request.Target.GetRelativePath();
 
                         int timeoutSeconds = 30;
 
-                        if (Request.HasParameters)
+                        if (request.HasParameters)
                         {
 
-                            int.TryParse(Request.Parameters[0].ToString(), out timeoutSeconds);
+                            int.TryParse(request.Parameters[0].ToString(), out timeoutSeconds);
 
                         }
 
@@ -299,13 +364,13 @@ namespace Ghostice.Core
                         if (targetControl != null)
                         {
                             // Check Ready State
-                            result = ActionManager.Execute(targetControl, Request);
+                            result = ActionManager.Perform(targetControl, request);
                             break;
 
                         }
                         else
                         {
-                            result = ActionResult.Failed(Request.Target.ToString(), "Failed to Find Control!", typeof(Boolean), "false");
+                            result = ActionResult.Failed(request.Target.ToString(), "Failed to Find Control!", typeof(Boolean), "false");
                             break;
                         }
 
@@ -313,19 +378,19 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("List:"));
 
-                        result = ActionManager.Execute(null, Request);
+                        result = ActionManager.Perform(null, request);
                         break;
 
                     case ActionRequest.OperationType.Unknown:
                     default:
                         LogTo.Error("Action Request Type Not Valid!");
-                        result = ActionResult.Failed(Request.Target.ToString(), String.Format("Action Request Type is Not Valid!\r\nOperation Type: {0}", Enum.GetName(typeof(ActionRequest.OperationType), Request.Operation)));
+                        result = ActionResult.Failed(request.Target.ToString(), String.Format("Action Request Type is Not Valid!\r\nOperation Type: {0}", Enum.GetName(typeof(ActionRequest.OperationType), request.Operation)));
                         break;
                 }
             }
             catch (Exception ex)
             {
-                throw new AutomationAvatarException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", Request.Target.ToString(), ex.Message, Request.ToJson()), ex);
+                throw new AutomationAvatarException(String.Format("ApplicationManager Perform Action Failed!\r\nPath: {0}\r\nMessage: {1}\r\nRequest: {2}", request.Target.ToString(), ex.Message, request.ToJson()), ex);
             }
 
             return result;

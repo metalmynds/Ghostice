@@ -10,15 +10,18 @@ using System.ComponentModel;
 using Ghostice.Core.Serialisation;
 using System.Threading;
 using Newtonsoft.Json.Linq;
+using DynamicExpresso;
 
 namespace Ghostice.Core
 {
     public static class ActionManager
     {
 
-        delegate ActionResult UIThreadSafeControlExecute(Control Target, ActionRequest Action);
+        delegate ActionResult UIThreadSafeControlPerform(Control Target, ActionRequest Action);
 
-        delegate ActionResult UIThreadSafeComponentExecute(Control Parent, Component Target, ActionRequest Request);
+        delegate ActionResult UIThreadSafeComponentPerform(Control Parent, Component Target, ActionRequest Request);
+
+        delegate Boolean UIThreadSafeEvaluate(Control target, String expression);
 
         static IgnorableSerializerContractResolver ignorableJsonResolver = new IgnorableSerializerContractResolver();
 
@@ -44,17 +47,39 @@ namespace Ghostice.Core
 
         }
 
-        public static ActionResult Execute(Control Target, ActionRequest Request)
+        public static Boolean Evaluate(Control target, String expression)
         {
-            if (Target != null && Target.InvokeRequired)
+
+            if (target != null && target.InvokeRequired)
             {
-                return (ActionResult)Target.Invoke(new UIThreadSafeControlExecute(Execute), new Object[] { Target, Request });
+
+                return (Boolean)target.Invoke(new UIThreadSafeEvaluate(Evaluate), new Object[] { target, expression });
 
             }
             else
             {
 
-                switch (Request.Operation)
+                var interpreter = new Interpreter();
+                
+                Func<Control, bool> conditionCheck = interpreter.ParseAsDelegate<Func<Control, bool>>(expression, "control");
+
+                return conditionCheck.Invoke(target);
+
+            }
+        }
+
+        public static ActionResult Perform(Control target, ActionRequest request)
+        {
+            if (target != null && target.InvokeRequired)
+            {
+
+                return (ActionResult)target.Invoke(new UIThreadSafeControlPerform(Perform), new Object[] { target, request });
+
+            }
+            else
+            {
+
+                switch (request.Operation)
                 {
                     case ActionRequest.OperationType.Get:
 
@@ -62,16 +87,16 @@ namespace Ghostice.Core
                         try
                         {
 
-                            var output = ReflectionManager.Get(Target, Request.Name);
+                            var output = ReflectionManager.Get(target, request.Name);
 
                             var outputSerialised = JsonConvert.SerializeObject(output, commonJsonSettings);
 
-                            return ActionResult.Successful(Target.Describe(), output != null ? output.GetType() : null, outputSerialised);
+                            return ActionResult.Successful(target.Describe(), output != null ? output.GetType() : null, outputSerialised);
 
                         }
                         catch (Exception ex)
                         {
-                            return ActionResult.Failed(Target.Describe(), ex);
+                            return ActionResult.Failed(target.Describe(), ex);
                         }
 
 
@@ -79,16 +104,16 @@ namespace Ghostice.Core
 
                         try
                         {
-                            var typedValue = Convert.ChangeType(Request.Value, Request.ValueType);
+                            var typedValue = Convert.ChangeType(request.Value, request.ValueType);
 
-                            ReflectionManager.Set(Target, Request.Name, typedValue);
+                            ReflectionManager.Set(target, request.Name, typedValue);
 
-                            return ActionResult.Successful(Target.Describe());
+                            return ActionResult.Successful(target.Describe());
 
                         }
                         catch (Exception ex)
                         {
-                            return ActionResult.Failed(Target.Describe(), ex);
+                            return ActionResult.Failed(target.Describe(), ex);
                         }
 
 
@@ -97,26 +122,26 @@ namespace Ghostice.Core
                         try
                         {
 
-                            var actualParameters = Request.HasParameters ? GetTypedParameters(Request.Parameters) : null;
+                            var actualParameters = request.HasParameters ? GetTypedParameters(request.Parameters) : null;
 
-                            var result = ReflectionManager.Execute(Target, Request.Name, actualParameters);
+                            var result = ReflectionManager.Execute(target, request.Name, actualParameters);
 
                             if (result != null)
                             {
                                 var resultSerialised = JsonConvert.SerializeObject(result, commonJsonSettings);
 
-                                return ActionResult.Successful(Target.Describe(), result != null ? result.GetType() : null, resultSerialised);
+                                return ActionResult.Successful(target.Describe(), result != null ? result.GetType() : null, resultSerialised);
                             }
                             else
                             {
-                                return ActionResult.Successful(Target.Describe());
+                                return ActionResult.Successful(target.Describe());
                             }
 
                         }
                         catch (Exception ex)
                         {
 
-                            return ActionResult.Failed(Target.Describe(), ex);
+                            return ActionResult.Failed(target.Describe(), ex);
                         }
 
                     //case ActionRequest.OperationType.Tell:
@@ -135,13 +160,6 @@ namespace Ghostice.Core
                     //        return ActionResult.Failed(Target.Describe(), ex);
                     //    }
 
-                    case ActionRequest.OperationType.Evaluate:
-
-
-                        // Dynamic C# Expression Evaluation
-                        return ActionResult.Failed(Target.Describe(),"Not Implemented!");
-
-
                     case ActionRequest.OperationType.Map:
 
                         try
@@ -149,36 +167,36 @@ namespace Ghostice.Core
 
                             String[] properties = null;
 
-                            if (Request.HasParameters)
+                            if (request.HasParameters)
                             {
 
-                                properties = (String[])Request.Parameters[0].Value;
+                                properties = (String[])request.Parameters[0].Value;
 
                             }
 
-                            var tree = ControlNode.GetControlHierarchy(Target, properties);
+                            var tree = ControlNode.GetControlHierarchy(target, properties);
 
                             var serialised = JsonConvert.SerializeObject(tree, commonJsonSettings);
 
-                            return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
+                            return ActionResult.Successful(target.Describe(), target.GetType(), serialised);
 
                         }
                         catch (Exception ex)
                         {
 
-                            return ActionResult.Failed(Target.Describe(), ex);
+                            return ActionResult.Failed(target.Describe(), ex);
                         }
 
                     case ActionRequest.OperationType.Ready:
 
 
-                        var enabledEvent = new AutoResetEvent(Target.Enabled);
+                        var enabledEvent = new AutoResetEvent(target.Enabled);
 
-                        var visibleEvent = new AutoResetEvent(Target.Visible);
+                        var visibleEvent = new AutoResetEvent(target.Visible);
 
                         var valueEvent = new AutoResetEvent(false);
 
-                        EventHandler visibleHandler = delegate(Object sender, EventArgs e)
+                        EventHandler visibleHandler = delegate (Object sender, EventArgs e)
                         {
                             if (((Control)sender).Visible)
                             {
@@ -186,7 +204,7 @@ namespace Ghostice.Core
                             }
                         };
 
-                        EventHandler enabledHandler = delegate(Object sender, EventArgs e)
+                        EventHandler enabledHandler = delegate (Object sender, EventArgs e)
                         {
                             if (((Control)sender).Enabled)
                             {
@@ -194,7 +212,7 @@ namespace Ghostice.Core
                             }
                         };
 
-                        EventHandler textChangedHandler = delegate(Object sender, EventArgs e)
+                        EventHandler textChangedHandler = delegate (Object sender, EventArgs e)
                         {
                             valueEvent.Set();
                         };
@@ -206,52 +224,52 @@ namespace Ghostice.Core
                             bool anyValue = false;
                             bool valueFound = false;
 
-                            if (Request.HasParameters)
+                            if (request.HasParameters)
                             {
 
-                                int.TryParse(Request.Parameters[0].ToString(), out timeoutSeconds);
+                                int.TryParse(request.Parameters[0].ToString(), out timeoutSeconds);
 
-                                if (Request.Parameters.Count() == 3)
+                                if (request.Parameters.Count() == 3)
                                 {
-                                    value = Request.Parameters[1].ToString();
-                                    bool.TryParse(Request.Parameters[2].ToString(), out anyValue);
+                                    value = request.Parameters[1].ToString();
+                                    bool.TryParse(request.Parameters[2].ToString(), out anyValue);
                                 }
                             }
 
-                            Target.VisibleChanged += visibleHandler;
+                            target.VisibleChanged += visibleHandler;
 
-                            Target.EnabledChanged += enabledHandler;
+                            target.EnabledChanged += enabledHandler;
 
-                            Target.TextChanged += textChangedHandler;
+                            target.TextChanged += textChangedHandler;
 
                             if (!visibleEvent.WaitOne(timeoutSeconds))
                             {
-                                return ActionResult.Failed(Target.Describe(), String.Format("Timed Out Waiting for Control to be Visible!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
+                                return ActionResult.Failed(target.Describe(), String.Format("Timed Out Waiting for Control to be Visible!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
                             }
 
                             if (!enabledEvent.WaitOne(timeoutSeconds))
                             {
-                                return ActionResult.Failed(Target.Describe(), String.Format("Timed Out Waiting for Control to be Enabled!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
+                                return ActionResult.Failed(target.Describe(), String.Format("Timed Out Waiting for Control to be Enabled!\r\nTimeout: {0}", timeoutSeconds), typeof(Boolean), "false");
                             }
 
                             if (value != null && value != "null")
                             {
                                 if (!valueEvent.WaitOne(timeoutSeconds))
                                 {
-                                    return ActionResult.Failed(Target.Describe(),
+                                    return ActionResult.Failed(target.Describe(),
                                         String.Format(
                                             "Timed Out Waiting for Text Value!\r\nTimeout: {0}\r\nValue: [{1}]",
-                                            timeoutSeconds, value), typeof (Boolean), "false");
+                                            timeoutSeconds, value), typeof(Boolean), "false");
                                 }
                                 else
                                 {
-                                    if (anyValue && !String.IsNullOrWhiteSpace(Target.Text))
+                                    if (anyValue && !String.IsNullOrWhiteSpace(target.Text))
                                     {
                                         valueFound = true;
                                     }
                                     else
                                     {
-                                        if (Target.Text.Equals(value))
+                                        if (target.Text.Equals(value))
                                         {
                                             valueFound = true;
                                         }
@@ -259,13 +277,13 @@ namespace Ghostice.Core
                                 }
                             }
 
-                            if (Target.Enabled && Target.Visible && value != null && valueFound || Target.Enabled && Target.Visible)
+                            if (target.Enabled && target.Visible && value != null && valueFound || target.Enabled && target.Visible)
                             {
-                                return ActionResult.Successful(Target.Describe(), typeof(Boolean), "true");
+                                return ActionResult.Successful(target.Describe(), typeof(Boolean), "true");
                             }
                             else
                             {
-                                return ActionResult.Failed(Target.Describe(),
+                                return ActionResult.Failed(target.Describe(),
                                     String.Format("Control failed to become Enabled & Visible!"), typeof(Boolean),
                                     "false");
                             }
@@ -274,13 +292,13 @@ namespace Ghostice.Core
                         catch (Exception ex)
                         {
 
-                            return ActionResult.Failed(Target.Describe(), ex);
+                            return ActionResult.Failed(target.Describe(), ex);
                         }
                         finally
                         {
                             try
                             {
-                                Target.VisibleChanged -= visibleHandler;
+                                target.VisibleChanged -= visibleHandler;
                             }
                             catch
                             {
@@ -288,7 +306,7 @@ namespace Ghostice.Core
                             }
                             try
                             {
-                                Target.EnabledChanged -= enabledHandler;
+                                target.EnabledChanged -= enabledHandler;
                             }
                             catch
                             {
@@ -296,7 +314,7 @@ namespace Ghostice.Core
                             }
                             try
                             {
-                                Target.TextChanged -= textChangedHandler;
+                                target.TextChanged -= textChangedHandler;
                             }
                             catch
                             {
@@ -312,9 +330,9 @@ namespace Ghostice.Core
 
                         List<String> propertyNames = new List<string>();
 
-                        if (Request.HasParameters && Request.Parameters[0].Value is WindowInfo)
+                        if (request.HasParameters && request.Parameters[0].Value is WindowInfo)
                         {
-                            var ownerWindowInfo = Request.Parameters[0].Value as WindowInfo;
+                            var ownerWindowInfo = request.Parameters[0].Value as WindowInfo;
 
                             if (ownerWindowInfo != null)
                             {
@@ -339,19 +357,19 @@ namespace Ghostice.Core
                         }
 
 
-                        if ((Request.HasParameters) && (Request.Parameters.Count() > 1 && Request.Parameters[1].Value is String[]))
+                        if ((request.HasParameters) && (request.Parameters.Count() > 1 && request.Parameters[1].Value is String[]))
                         {
-                            propertyNames.AddRange((String[])Request.Parameters[1].Value);
+                            propertyNames.AddRange((String[])request.Parameters[1].Value);
                         }
-                        else if ((Request.HasParameters) && Request.Parameters[0].Value is String[])
+                        else if ((request.HasParameters) && request.Parameters[0].Value is String[])
                         {
-                            propertyNames.AddRange((String[])Request.Parameters[0].Value);
+                            propertyNames.AddRange((String[])request.Parameters[0].Value);
                         }
 
                         foreach (var window in windowList)
                         {
 
-                            if (Request.HasParameters)
+                            if (request.HasParameters)
                             {
                                 windowInfoList.Add(WindowInfo.Create(window, propertyNames.ToArray()));
                             }
@@ -366,7 +384,7 @@ namespace Ghostice.Core
 
                     default:
 
-                        return ActionResult.Failed("ApplicationControl", String.Format("Execute Failed Due to Invalid Operation Type!\r\nOperation Type: {0} ", System.Enum.GetName(typeof(ActionRequest.OperationType), Request.Operation)));
+                        return ActionResult.Failed("ApplicationControl", String.Format("Execute Failed Due to Invalid Operation Type!\r\nOperation Type: {0} ", System.Enum.GetName(typeof(ActionRequest.OperationType), request.Operation)));
 
                 }
 
@@ -410,11 +428,11 @@ namespace Ghostice.Core
         }
 
 
-        public static ActionResult Execute(Control Parent, Component Target, ActionRequest Request)
+        public static ActionResult Perform(Control Parent, Component Target, ActionRequest Request)
         {
             if (Parent != null && Parent.InvokeRequired)
             {
-                return (ActionResult)Parent.Invoke(new UIThreadSafeComponentExecute(Execute), new Object[] { Parent, Target, Request });
+                return (ActionResult)Parent.Invoke(new UIThreadSafeComponentPerform(Perform), new Object[] { Parent, Target, Request });
 
             }
             else
@@ -492,21 +510,21 @@ namespace Ghostice.Core
                             return ActionResult.Failed(Target.Describe(), ex);
                         }
 
-                    //case ActionRequest.OperationType.Tell:
+                        //case ActionRequest.OperationType.Tell:
 
-                    //    try
-                    //    {
+                        //    try
+                        //    {
 
-                    //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
+                        //        var serialised = JsonConvert.SerializeObject(Target, commonJsonSettings);
 
-                    //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
+                        //        return ActionResult.Successful(Target.Describe(), Target.GetType(), serialised);
 
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
 
-                    //        return ActionResult.Failed(Target.Describe(), ex);
-                    //    }
+                        //        return ActionResult.Failed(Target.Describe(), ex);
+                        //    }
 
 
                 }
