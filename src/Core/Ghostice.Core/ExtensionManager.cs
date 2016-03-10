@@ -26,11 +26,6 @@ namespace Ghostice.Core
                 if (!String.IsNullOrWhiteSpace(Path))
                 {
 
-                    //if (!Directory.Exists(Path))
-                    //{
-                    //    throw new DirectoryNotFoundException(String.Format("Extensions Path Does Not Exist!\r\nPath: {0}", Path));
-                    //}
-
                     var extensionAssemblyFileList = Directory.GetFiles(Path, "*.dll");
 
                     foreach (var extensionAssemblyFilename in extensionAssemblyFileList)

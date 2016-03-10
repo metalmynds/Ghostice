@@ -64,6 +64,26 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             Assert.IsNotNull(menuStripExtensionClass);
 
+            
+
+        }
+
+        [TestMethod]
+        public void DoubleLoadExtensions()
+        {
+
+            ExtensionManager.LoadExtensions(".\\Extensions");
+
+            var listViewextensionClass1 = ExtensionManager.GetExtensions(typeof(ListView));
+
+            Assert.IsNotNull(listViewextensionClass1);
+
+            ExtensionManager.LoadExtensions(".\\Extensions");
+
+            var listViewextensionClass2 = ExtensionManager.GetExtensions(typeof(ListView));
+
+            Assert.IsNotNull(listViewextensionClass2);
+
         }
 
         [TestMethod]

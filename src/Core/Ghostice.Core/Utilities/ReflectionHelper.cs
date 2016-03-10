@@ -269,11 +269,23 @@ namespace Ghostice.Core.Utilities
             Assembly[] assemblies = Domain.GetAssemblies();
 
             foreach (Assembly assembly in assemblies)
-            {               
+            {
 
-                var assemblyFilename = Path.GetFileName(assembly.Location);
+                String assemblyFilename = null;
 
-                if (assemblyFilename.Equals(targetAssemblyFilename, StringComparison.InvariantCultureIgnoreCase))
+                try {
+
+                    assemblyFilename = Path.GetFileName(assembly.Location);
+
+                }
+                catch
+                {
+
+                    // Ignore Caused By Try to Get Location of a Dynamic Assembly i.e. an in memory only one, caused by NUnit
+
+                }
+
+                if (assemblyFilename != null && assemblyFilename.Equals(targetAssemblyFilename, StringComparison.InvariantCultureIgnoreCase))
                 {
                     LoadedAssembly = assembly;
                     return true;

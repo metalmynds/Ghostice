@@ -246,8 +246,6 @@ namespace Ghostice.Core
                         if (waitTarget != null)
                         {
 
-                            // If we call the action managers perform method we end up on the UI Thread ! No Sleep on that !!
-                            //result = ActionManager.Perform((Control)evaluateTarget, Request);
                             String waitType = Convert.ToString(request.Parameters[0].Value).ToLower();
                             String waitExpression = Convert.ToString(request.Parameters[1].Value);
                             int waitTimeout = Convert.ToInt32(request.Parameters[2].Value);
@@ -255,7 +253,7 @@ namespace Ghostice.Core
 
                             var waitStarted = DateTime.Now;
 
-                            var preparedWaitExpression = ExpressionManager.Prepare(waitTarget.GetType(), waitExpression);
+                            var preparedWaitCondition = ExpressionManager.Prepare(waitTarget, waitExpression);
 
                             var description = ((Control)waitTarget).Describe();
 
@@ -271,7 +269,7 @@ namespace Ghostice.Core
                                     while (!untilComplete && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
                                     {
 
-                                        untilComplete = ExpressionManager.Evaluate(waitTarget, preparedWaitExpression);
+                                        untilComplete = ExpressionManager.Evaluate(waitTarget, preparedWaitCondition);
 
                                         if (!untilComplete)
                                         {
@@ -293,7 +291,7 @@ namespace Ghostice.Core
                                     while (whileSucessful && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
                                     {
 
-                                        whileSucessful = !ExpressionManager.Evaluate(waitTarget, preparedWaitExpression);
+                                        whileSucessful = !ExpressionManager.Evaluate(waitTarget, preparedWaitCondition);
 
                                         if (whileSucessful)
                                         {
