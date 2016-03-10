@@ -56,8 +56,17 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
 
+                var goodResult = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
+
+                Assert.IsTrue(goodResult);
+
+                statuslabel.Text = "Not to frett!";
+
                 var result = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
 
+                var negativeResult = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
+
+                Assert.IsFalse(negativeResult);
             }
 
         }
