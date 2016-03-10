@@ -255,7 +255,6 @@ namespace Ghostice.Core
 
                             var waitStarted = DateTime.Now;
                             
-
                             switch (waitType)
                             {
 

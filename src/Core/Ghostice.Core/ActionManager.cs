@@ -60,12 +60,13 @@ namespace Ghostice.Core
             {
 
                 var interpreter = new Interpreter();
-                
+
                 Func<Control, bool> conditionCheck = interpreter.ParseAsDelegate<Func<Control, bool>>(expression, "control");
 
                 return conditionCheck.Invoke(target);
 
             }
+
         }
 
         public static ActionResult Perform(Control target, ActionRequest request)

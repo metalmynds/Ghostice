@@ -42,6 +42,24 @@ namespace Ghostice.ApplicationKit.UnitTests
             }
 
         }
-        
+
+        [TestMethod]
+        public void EvaluteSimpleExpression()
+        {
+
+            using (var form = new FormEvaluation())
+            {
+
+                form.Show();
+
+                var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
+
+                Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
+
+                var result = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
+
+            }
+
+        }
     }
 }
