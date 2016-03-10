@@ -40,14 +40,15 @@
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "Designer Content";
             // 
-            // FormEvalution
+            // FormEvaluation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.lblStatus);
-            this.Name = "FormEvalution";
+            this.Name = "FormEvaluation";
             this.Text = "FormEvalution";
+            this.Load += new System.EventHandler(this.FormEvaluation_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

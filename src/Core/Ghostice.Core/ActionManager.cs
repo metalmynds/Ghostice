@@ -47,13 +47,15 @@ namespace Ghostice.Core
 
         }
 
-        public static Boolean Evaluate(Control target, String expression)
+        public static Boolean Evaluate(Object target, String expression)
         {
 
-            if (target != null && target.InvokeRequired)
+            var control = target as Control;
+
+            if (control != null && (control.InvokeRequired))
             {
 
-                return (Boolean)target.Invoke(new UIThreadSafeEvaluate(Evaluate), new Object[] { target, expression });
+                return (Boolean)control.Invoke(new UIThreadSafeEvaluate(Evaluate), new Object[] { target, expression });
 
             }
             else
@@ -61,9 +63,23 @@ namespace Ghostice.Core
 
                 var interpreter = new Interpreter();
 
-                Func<Control, bool> conditionCheck = interpreter.ParseAsDelegate<Func<Control, bool>>(expression, "control");
+                interpreter.EnableReflection();
 
-                return conditionCheck.Invoke(target);
+                var typedTarget = Convert.ChangeType(target, target.GetType());
+
+                interpreter.Reference(typedTarget.GetType());
+
+                foreach (var referenceType in ReflectionManager.GetReferencedTypes(typedTarget))
+                {
+
+                    interpreter.Reference(referenceType);
+
+                }
+
+               
+                var condition = interpreter.Parse(expression, new Parameter("target", typedTarget.GetType(), typedTarget));
+               
+                return (Boolean)condition.Invoke(typedTarget);
 
             }
 

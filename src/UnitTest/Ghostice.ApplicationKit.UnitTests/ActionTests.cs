@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 using Ghostice.Core;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace Ghostice.ApplicationKit.UnitTests
 {
@@ -30,9 +31,8 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 var appManager = new AutomationAvatar(String.Empty);
 
-                System.Threading.Thread.Sleep(512);
+                //System.Threading.Thread.Sleep(512);
 
-                //var getActionResult = ActionResult.FromJson(appManager.Perform(getTextRequest.ToJson()));
                 var getActionResult = appManager.Perform(getTextRequest);
 
                 Assert.IsTrue(getActionResult.Status == ActionResult.ActionStatus.Successful);
@@ -52,23 +52,52 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
+                var simpleExpression = "target.Text == \"Shiney\"";
+
                 var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
 
                 Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
 
-                var goodResult = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
+                var goodResult = ActionManager.Evaluate(statuslabel, simpleExpression);
 
                 Assert.IsTrue(goodResult);
 
                 statuslabel.Text = "Not to frett!";
 
-                var result = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
-
-                var negativeResult = ActionManager.Evaluate(statuslabel, "control.Text == \"Shiney\"");
+                var negativeResult = ActionManager.Evaluate(statuslabel, simpleExpression);
 
                 Assert.IsFalse(negativeResult);
             }
 
         }
+
+        [TestMethod]
+        public void EvaluteComplexExpression()
+        {
+
+            using (var form = new FormEvaluation())
+            {
+
+                form.Show();
+                
+                var complexExpression = "target.Text == \"Shiney\" && target.TextAlign == ContentAlignment.TopLeft";
+
+                var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
+
+                Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
+
+                var goodResult = ActionManager.Evaluate(statuslabel, complexExpression);
+
+                Assert.IsTrue(goodResult);
+
+                statuslabel.Text = "Not to frett!";
+
+                var negativeResult = ActionManager.Evaluate(statuslabel, complexExpression);
+
+                Assert.IsFalse(negativeResult);
+            }
+
+        }
+
     }
 }

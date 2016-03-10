@@ -14,11 +14,13 @@ namespace Ghostice.ApplicationKit.UnitTests
         public FormEvaluation()
         {
             InitializeComponent();
-
-            lblStatus.Text = "Shiney";
-
+          
         }
 
-       
+        private void FormEvaluation_Load(object sender, EventArgs e)
+        {
+            lblStatus.Text = "Shiney";
+            lblStatus.TextAlign = ContentAlignment.TopLeft;
+        }
     }
 }

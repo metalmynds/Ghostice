@@ -153,6 +153,19 @@ namespace Ghostice.Core
 
         }
 
+        public static List<Type> GetReferencedTypes(Object target)
+        {
+
+            var typedTarget = Convert.ChangeType(target, target.GetType());
+
+            var properties = typedTarget.GetType().GetProperties();
+
+            var propertyType = from property in properties select property.PropertyType;
+
+            return propertyType.Distinct().ToList<Type>();
+
+        }
+
         [Serializable]
         public class ReflectionManagerException : Exception
         {
