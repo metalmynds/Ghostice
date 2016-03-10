@@ -17,11 +17,11 @@ namespace Ghostice.Core
     public static class ActionManager
     {
 
-        delegate ActionResult UIThreadSafeControlPerform(Control Target, ActionRequest Action);
+        delegate ActionResult UIThreadSafeControlPerform(Control target, ActionRequest action);
 
-        delegate ActionResult UIThreadSafeComponentPerform(Control Parent, Component Target, ActionRequest Request);
+        delegate ActionResult UIThreadSafeComponentPerform(Control parent, Component target, ActionRequest request);        
 
-        delegate Boolean UIThreadSafeEvaluate(Control target, String expression);
+        static Dictionary<String, Lambda> preparedExpresionList = new Dictionary<String, Lambda>();
 
         static IgnorableSerializerContractResolver ignorableJsonResolver = new IgnorableSerializerContractResolver();
 
@@ -44,44 +44,6 @@ namespace Ghostice.Core
 
             ignorableJsonResolver.Ignore(typeof(AccessibleObject));
             ignorableJsonResolver.Ignore(typeof(System.Windows.Forms.ToolStripOverflowButton));
-
-        }
-
-        public static Boolean Evaluate(Object target, String expression)
-        {
-
-            var control = target as Control;
-
-            if (control != null && (control.InvokeRequired))
-            {
-
-                return (Boolean)control.Invoke(new UIThreadSafeEvaluate(Evaluate), new Object[] { target, expression });
-
-            }
-            else
-            {
-
-                var interpreter = new Interpreter();
-
-                interpreter.EnableReflection();
-
-                var typedTarget = Convert.ChangeType(target, target.GetType());
-
-                interpreter.Reference(typedTarget.GetType());
-
-                foreach (var referenceType in ReflectionManager.GetReferencedTypes(typedTarget))
-                {
-
-                    interpreter.Reference(referenceType);
-
-                }
-
-               
-                var condition = interpreter.Parse(expression, new Parameter("target", typedTarget.GetType(), typedTarget));
-               
-                return (Boolean)condition.Invoke(typedTarget);
-
-            }
 
         }
 

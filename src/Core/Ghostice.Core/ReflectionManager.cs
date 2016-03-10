@@ -153,12 +153,10 @@ namespace Ghostice.Core
 
         }
 
-        public static List<Type> GetReferencedTypes(Object target)
+        public static List<Type> GetReferencedTypes(Type target)
         {
 
-            var typedTarget = Convert.ChangeType(target, target.GetType());
-
-            var properties = typedTarget.GetType().GetProperties();
+            var properties = target.GetProperties();
 
             var propertyType = from property in properties select property.PropertyType;
 

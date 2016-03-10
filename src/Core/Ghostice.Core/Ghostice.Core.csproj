@@ -194,6 +194,7 @@
     <Compile Include="Diagnostics\ExtensionInfo.cs" />
     <Compile Include="Diagnostics\ExtensionMethodInfo.cs" />
     <Compile Include="Diagnostics\ExtensionParameterInfo.cs" />
+    <Compile Include="ExpressionManager.cs" />
     <Compile Include="ExtensionHelper.cs" />
     <Compile Include="InterfaceControlFactory.cs" />
     <Compile Include="Error.cs" />

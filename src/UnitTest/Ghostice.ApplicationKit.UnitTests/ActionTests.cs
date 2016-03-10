@@ -43,61 +43,6 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         }
 
-        [TestMethod]
-        public void EvaluteSimpleExpression()
-        {
-
-            using (var form = new FormEvaluation())
-            {
-
-                form.Show();
-
-                var simpleExpression = "target.Text == \"Shiney\"";
-
-                var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
-
-                Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
-
-                var goodResult = ActionManager.Evaluate(statuslabel, simpleExpression);
-
-                Assert.IsTrue(goodResult);
-
-                statuslabel.Text = "Not to frett!";
-
-                var negativeResult = ActionManager.Evaluate(statuslabel, simpleExpression);
-
-                Assert.IsFalse(negativeResult);
-            }
-
-        }
-
-        [TestMethod]
-        public void EvaluteComplexExpression()
-        {
-
-            using (var form = new FormEvaluation())
-            {
-
-                form.Show();
-                
-                var complexExpression = "target.Text == \"Shiney\" && target.TextAlign == ContentAlignment.TopLeft";
-
-                var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
-
-                Label statuslabel = WindowWalker.Locate(form, statusLabelLocator) as Label;
-
-                var goodResult = ActionManager.Evaluate(statuslabel, complexExpression);
-
-                Assert.IsTrue(goodResult);
-
-                statuslabel.Text = "Not to frett!";
-
-                var negativeResult = ActionManager.Evaluate(statuslabel, complexExpression);
-
-                Assert.IsFalse(negativeResult);
-            }
-
-        }
 
     }
 }
