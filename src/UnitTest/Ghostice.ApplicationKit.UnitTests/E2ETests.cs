@@ -21,6 +21,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         //public const String WINFORMS_TEST_SUT = @"Example\WinForms\Example.PetShop.WinForms.exe";
         public const String WINFORMS_TEST_SUT = @"Example.PetShop.WinForms.exe";
         public const String WINFORMS_MULTI_TEST_SUT = @"WindowsFormTopLevelWindows.exe";
+        public const String WINFORMS_WAIT_TEST_SUT = @"WinFormWaitExample.exe";
 
         //private Process ghostiseServer;
 
@@ -110,6 +111,60 @@ namespace Ghostice.ApplicationKit.UnitTests
                 mainWindow.WaitForReady(30);
 
                 mainWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (ghostiseServer != null)
+                {
+                    ghostiseServer.Kill();
+                }
+            }
+        }
+
+        [TestMethod]
+        public void StartExampleInServerWaitWhileAndCloseWindow()
+        {
+
+            Process ghostiseServer = null;
+
+            try
+            {
+
+                ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
+                serverStartupInfo.Arguments = "-e http://localhost:21555";
+
+                ghostiseServer = Process.Start(serverStartupInfo);
+
+                Assert.IsNotNull(ghostiseServer);
+
+                ghostiseServer.WaitForInputIdle();
+
+                GhosticeClient client = new GhosticeClient();
+
+                Assert.IsNotNull(client);
+
+                client.Connect("http://localhost:21555");
+
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_WAIT_TEST_SUT);
+
+                var application = client.Start(applicationPath, String.Empty, 15);
+
+                var waitExampleWindow = InterfaceControlFactory.Create<WaitExampleWindow>(client.Application);
+
+                Assert.IsNotNull(waitExampleWindow);
+
+                waitExampleWindow.WaitForReady(15);
+
+                waitExampleWindow.ActionOne.Press();
+
+                waitExampleWindow.ActionOneResult.WaitWhile("target.Text == \"Not Done\"", 15, 250);
+
+                waitExampleWindow.Close();
             }
             catch (Exception ex)
             {

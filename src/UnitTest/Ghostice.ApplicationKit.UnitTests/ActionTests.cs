@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Ghostice.Core;
 using Newtonsoft.Json;
 using System.Drawing;
+using System.Threading;
 
 namespace Ghostice.ApplicationKit.UnitTests
 {
@@ -43,6 +44,6 @@ namespace Ghostice.ApplicationKit.UnitTests
 
         }
 
-
     }
+
 }

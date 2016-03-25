@@ -129,6 +129,7 @@
     <Compile Include="HistoryTabPage.cs" />
     <Compile Include="RegistrationHistoryTabControl.cs" />
     <Compile Include="RegistrationTabPage.cs" />
+    <Compile Include="WaitExampleWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Client\Ghostice.Framework\Ghostice.Framework.csproj">

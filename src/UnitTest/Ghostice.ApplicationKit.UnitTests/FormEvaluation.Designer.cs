@@ -47,8 +47,7 @@
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.lblStatus);
             this.Name = "FormEvaluation";
-            this.Text = "FormEvalution";
-            this.Load += new System.EventHandler(this.FormEvaluation_Load);
+            this.Text = "FormEvaluation";
             this.ResumeLayout(false);
             this.PerformLayout();
 

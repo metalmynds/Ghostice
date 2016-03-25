@@ -119,6 +119,12 @@ namespace Ghostice.Core
 
                 try
                 {
+                    // Json Expects lower case true/false
+                    if (Result.ReturnType == typeof(Boolean))
+                    {
+                        Result.ReturnValue = Result.ReturnValue.ToLower();
+                    }
+
                     return JsonConvert.DeserializeObject<T>(Result.ReturnValue);
                 }
                 catch (Exception ex)

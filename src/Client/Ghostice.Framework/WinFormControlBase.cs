@@ -29,6 +29,20 @@ namespace Ghostice.Framework
 
         }
 
+        public Boolean WaitUntil(String expression, int timeoutSeconds, int interval)
+        {
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path,"Until", expression, timeoutSeconds, interval)));
+
+            return result;
+        }
+
+        public Boolean WaitWhile(String expression, int timeoutSeconds, int interval)
+        {
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path, "While", expression, timeoutSeconds, interval)));
+
+            return result;
+        }
+
         public Boolean WaitForReady(int TimeoutSeconds, String value, bool anyValue)
         {
 

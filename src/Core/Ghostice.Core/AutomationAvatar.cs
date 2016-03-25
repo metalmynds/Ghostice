@@ -111,7 +111,7 @@ namespace Ghostice.Core
                 var logArgsString = request.HasParameters ? String.Join(", ", from parameter in request.Parameters select parameter.Value != null ? parameter.Value.ToString() : "null") : "None";
 
                 Locator windowLocator = request.HasTarget ? request.Target : null;
-                Locator controlPath = null;
+                Locator controlPath = windowLocator != null ? request.Target.GetRelativePath() : null;
 
                 var targetWindow = windowLocator != null ? WindowWalker.LocateWindow(windowLocator) : null;
 
@@ -122,15 +122,12 @@ namespace Ghostice.Core
 
                         LogTo.Info(String.Format("Target: {0} Get: {1}", request.Target, request.Name));
 
-                        controlPath = request.Target.GetRelativePath();
-
                         var getControl = WindowWalker.Locate(targetWindow, controlPath) as Control;
 
                         if (getControl != null)
                         {
 
                             result = ActionManager.Perform(getControl, request);
-
                             break;
                         }
 
@@ -251,8 +248,6 @@ namespace Ghostice.Core
                             int waitTimeout = Convert.ToInt32(request.Parameters[2].Value);
                             int waitInterval = Convert.ToInt32(request.Parameters[3].Value);
 
-                            var waitStarted = DateTime.Now;
-
                             var preparedWaitCondition = ExpressionManager.Prepare(waitTarget, waitExpression);
 
                             var description = ((Control)waitTarget).Describe();
@@ -266,7 +261,9 @@ namespace Ghostice.Core
 
                                     var untilComplete = false;
 
-                                    while (!untilComplete && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
+                                    Stopwatch untilWatch = Stopwatch.StartNew();
+
+                                    while (!untilComplete && (untilWatch.Elapsed).Seconds <= waitTimeout)
                                     {
 
                                         untilComplete = ExpressionManager.Evaluate(waitTarget, preparedWaitCondition);
@@ -280,7 +277,7 @@ namespace Ghostice.Core
 
                                     }
 
-                                    return untilComplete ? ActionResult.Successful(((Control)waitTarget).Describe()) : ActionResult.Failed(description, String.Format("Timeout Waiting for Condition Util [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout));
+                                    return untilComplete ? ActionResult.Successful(description, typeof(Boolean), "true") : ActionResult.Failed(description, String.Format("Timeout Waiting for Condition Util [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout), typeof(Boolean), "false");
 
                                 // While                    
 
@@ -288,10 +285,12 @@ namespace Ghostice.Core
 
                                     var whileSucessful = true;
 
-                                    while (whileSucessful && ((DateTime.Now - waitStarted).Seconds <= waitTimeout))
+                                    Stopwatch whileWatch = Stopwatch.StartNew();
+
+                                    while (whileSucessful && (whileWatch.Elapsed).Seconds <= waitTimeout)
                                     {
 
-                                        whileSucessful = !ExpressionManager.Evaluate(waitTarget, preparedWaitCondition);
+                                        whileSucessful = ExpressionManager.Evaluate(waitTarget, preparedWaitCondition);
 
                                         if (whileSucessful)
                                         {
@@ -302,11 +301,11 @@ namespace Ghostice.Core
 
                                     }
 
-                                    return whileSucessful ? ActionResult.Successful(description) : ActionResult.Failed(description, String.Format("Timeout Waiting for Condition While [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout));
+                                    return !whileSucessful ? ActionResult.Successful(description, typeof(Boolean), true.ToString()) : ActionResult.Failed(description, String.Format("Timeout Waiting for Condition While [{0}] Waited for {1} Seconds!", waitExpression, waitTimeout), typeof(Boolean), "false");
 
                                 default:
 
-                                    return ActionResult.Failed(description, String.Format("Unrecognised Wait Type [{0}] for Expression [{1}]", waitType, waitExpression));
+                                    return ActionResult.Failed(description, String.Format("Unrecognised Wait Type [{0}] for Expression [{1}]", waitType, waitExpression), typeof(Boolean), "false");
 
                             }
 
@@ -314,7 +313,7 @@ namespace Ghostice.Core
                         }
                         else
                         {
-                            return ActionResult.Failed(request.Target.ToString(), String.Format("Unable to Find Target Control!"));
+                            return ActionResult.Failed(request.Target.ToString(), String.Format("Unable to Find Target Control!"), typeof(Boolean), "false");
                         }
 
                     //break;
@@ -324,8 +323,6 @@ namespace Ghostice.Core
                         // Find the Control
 
                         LogTo.Info(String.Format("Ready: {0}", request.Target.ToString()));
-
-                        controlPath = request.Target.GetRelativePath();
 
                         int timeoutSeconds = 30;
 

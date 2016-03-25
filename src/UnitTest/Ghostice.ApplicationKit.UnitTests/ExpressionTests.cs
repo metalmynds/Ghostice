@@ -21,6 +21,12 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 form.Show();
 
+                // Setup Form
+
+                form.SetLabel("Shiney");
+
+                // Test
+
                 var simpleExpression = "target.Text == \"Shiney\"";
                
                 var statusLabelLocator = new Locator(new Descriptor(DescriptorType.Control, new Property("Name", "lblStatus")));
@@ -38,6 +44,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                 var negativeResult = ExpressionManager.Evaluate(statusLabel, simpleExpressionPrepared);
 
                 Assert.IsFalse(negativeResult);
+
             }
 
         }
@@ -50,6 +57,12 @@ namespace Ghostice.ApplicationKit.UnitTests
             {
 
                 form.Show();
+
+                // Setup Form
+
+                form.SetLabel("Shiney");
+
+                // Test
 
                 var complexExpression = "target.Text == \"Shiney\" && target.TextAlign == ContentAlignment.TopLeft";
 

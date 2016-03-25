@@ -29,8 +29,8 @@ namespace Ghostice.Core
 
                     try
                     {
-                        descriptionBuilder.AppendFormat("Control Name: {0} Handle: [{1}] Type: [{2}]", Target.Name,
-                            Target.Handle, Target.GetType().FullName);
+                        descriptionBuilder.AppendFormat("Control Name: {0} Handle: [{1}] Hex [{2}] Type: [{3}]", Target.Name,
+                            Target.Handle, Target.Handle.ToString("X"), Target.GetType().FullName);
 
                     }
                     catch (ObjectDisposedException)

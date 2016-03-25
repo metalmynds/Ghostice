@@ -18,5 +18,6 @@ namespace Ghostice.Core.Framework
     {
         bool IsReady { get; }
         bool WaitForReady(TimeSpan Timeout);
+
     }
 }

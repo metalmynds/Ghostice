@@ -259,6 +259,18 @@ namespace Ghostice.Core.Server.Services
 
                     return actionResult;
 
+                case ActionRequest.OperationType.Wait:
+
+                    var waitResult = _autoAvatarProxy.Perform(request);
+
+                    actionResult = waitResult;
+
+                    LogTo.Debug("Target: Windows Wait:\r\nResult: {0}", actionResult.ToString());
+
+                    _listener.OnPerformed(request, actionResult);
+
+                    return actionResult;
+
                 case ActionRequest.OperationType.Unknown:
                 default:
 
