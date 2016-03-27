@@ -15,7 +15,7 @@ namespace Ghostice.ApplicationKit.UnitTests
             
             var messageBoxThread = new Thread(() =>
             {
-                MessageBox.Show("A Simple MessageBox");
+                MessageBox.Show("A Simple MessageBox", "A Simple Title");
 
             });
 
@@ -24,6 +24,12 @@ namespace Ghostice.ApplicationKit.UnitTests
             Application.DoEvents();
 
             var windows = WindowManager.GetApplicationWindows();
+
+            var messageBox = (MessageBoxControl)windows[0];
+
+            Assert.AreEqual<String>("A Simple Title", messageBox.Text);
+
+            Assert.AreEqual<String>("A Simple MessageBox", messageBox.Description);
 
             messageBoxThread.Abort();
 

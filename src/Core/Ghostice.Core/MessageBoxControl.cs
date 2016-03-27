@@ -12,29 +12,50 @@ namespace Ghostice.Core
     public class MessageBoxControl : Control
     {
 
+        private Dictionary<String, IntPtr> buttons = new Dictionary<string, IntPtr>();
+
         private NativeWindow nativeMessageBox;
 
         public MessageBoxControl(IntPtr handle)
             : base()
         {
 
+            this.Text = WindowManager.GetWindowText(handle);
+
             nativeMessageBox = new NativeWindow();
 
             nativeMessageBox.AssignHandle(handle);
 
             var children = NativeMethods.EnumChildWindowHandles(handle);
+
+            // Find Buttons and Get Text
+
+            foreach (var childHandle in children)
+            {
+                var childClass = WindowManager.GetWindowClassName(childHandle);
+
+                var text = WindowManager.GetWindowText(childHandle);
+
+                if (childClass == "Button")
+                {
+                    buttons.Add(text, childHandle);
+
+                    // NEED TO CHECK WHICH IS DEFAULT BUTTON !!!
+
+                } else if (childClass == "Static")
+                {
+                    this.Description = text;
+                }
+
+            }
         }
+
+        public String Description { get; protected set; }
 
         public static Boolean IsMessageBox(IntPtr handle)
         {
 
-            StringBuilder classNameBuffer = new StringBuilder(260);
-
-            NativeMethods.GetClassName(handle, classNameBuffer, classNameBuffer.Capacity);
-
-            return (classNameBuffer.ToString() == "#32770");
-
-            //return (NativeMethods.GetWindowLong(handle, NativeMethods.WindowLongFlags.GWL_STYLE) & NativeMethods.WS_POPUPWINDOW) != 0;
+            return WindowManager.GetWindowClassName(handle) == "#32770";
         }
 
     }

@@ -113,6 +113,23 @@ namespace Ghostice.Core
             return windows;
         }
 
+        public static String GetWindowClassName(IntPtr handle)
+        {
+            StringBuilder classNameBuffer = new StringBuilder(260);
+
+            NativeMethods.GetClassName(handle, classNameBuffer, classNameBuffer.Capacity);
+
+            return classNameBuffer.ToString();
+        }
+
+        public static string GetWindowText(IntPtr hWnd)
+        {
+            int length = NativeMethods.GetWindowTextLength(hWnd);
+            StringBuilder sb = new StringBuilder(length + 1);
+            NativeMethods.GetWindowText(hWnd, sb, sb.Capacity);
+            return sb.ToString();
+        }
+
         public static List<Control> GetApplicationWindows()
         {
             var windows = new List<Control>();
