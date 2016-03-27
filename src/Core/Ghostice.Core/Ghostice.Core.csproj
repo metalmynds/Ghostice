@@ -203,6 +203,9 @@
     <Compile Include="IHoldPlace.cs" />
     <Compile Include="IManageState.cs" />
     <Compile Include="InterfaceControl.cs" />
+    <Compile Include="MessageBoxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MethodManager.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="NotAutomationWindowAttribute.cs" />

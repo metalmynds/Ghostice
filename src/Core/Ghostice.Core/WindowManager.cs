@@ -70,7 +70,7 @@ namespace Ghostice.Core
         {
             var windows = new List<Control>();
 
-            var handles = EnumerateDesktopWindowHandles();
+            var handles = NativeMethods.EnumerateDesktopWindowHandles();
 
             foreach (var hwnd in handles)
             {
@@ -98,7 +98,7 @@ namespace Ghostice.Core
 
             var windows = new List<Control>();
 
-            var handles = EnumerateOwnerWindowHandles(owner.Handle);
+            var handles = NativeMethods.EnumerateOwnerWindowHandles(owner.Handle);
 
             foreach (var hwnd in handles)
             {
@@ -117,7 +117,7 @@ namespace Ghostice.Core
         {
             var windows = new List<Control>();
 
-            var handles = EnumerateProcessWindowHandles();
+            var handles = NativeMethods.EnumerateProcessWindowHandles();
 
             foreach (var hwnd in handles)
             {
@@ -126,6 +126,10 @@ namespace Ghostice.Core
                 if (window != null)
                 {
                     windows.Add(window);
+                }
+                else if (MessageBoxControl.IsMessageBox(hwnd))
+                {
+                    windows.Add(new MessageBoxControl(hwnd));
                 }
             }
 
@@ -145,7 +149,7 @@ namespace Ghostice.Core
                         return (List<Control>)child.Invoke(new UIThreadSafeGetChildControls(GetWindowsChildren), new Object[] { child });
                     }
 
-                    var handles = EnumChildWindowHandles(child.Handle);
+                    var handles = NativeMethods.EnumChildWindowHandles(child.Handle);
 
                     foreach (var hwnd in handles)
                     {
@@ -168,81 +172,6 @@ namespace Ghostice.Core
 
 
             return controls;
-        }
-
-        private static IEnumerable<IntPtr> EnumerateDesktopWindowHandles()
-        {
-            var handles = new List<IntPtr>();
-
-            NativeMethods.EnumDesktopWindows(IntPtr.Zero, 
-                (hWnd, lParam) => { handles.Add(hWnd); return true; }
-            , IntPtr.Zero);
-
-            return handles;
-        }
-
-        private static IEnumerable<IntPtr> EnumerateOwnerWindowHandles(IntPtr ownerHandle)
-        {
-            var handles = new List<IntPtr>();
-
-            NativeMethods.EnumDesktopWindows(IntPtr.Zero,
-                (hWnd, lParam) => 
-                {
-                    if ((NativeMethods.GetWindow(hWnd, NativeMethods.GetWindowCommand.GW_OWNER)) == ownerHandle)
-                    {
-                        handles.Add(hWnd);
-                    }
-                    return true;
-                }
-            , IntPtr.Zero);
-
-            return handles;
-        }
-
-        private static IEnumerable<IntPtr> EnumerateProcessWindowHandles()
-        {
-            var handles = new List<IntPtr>();
-
-            foreach (ProcessThread thread in Process.GetCurrentProcess().Threads)
-                NativeMethods.EnumThreadWindows(thread.Id,
-                    (hWnd, lParam) => { /*if (hWnd != _hostMainWindow)*/ handles.Add(hWnd); return true; }, IntPtr.Zero);
-
-            return handles;
-        }
-
-        private static List<IntPtr> EnumChildWindowHandles(IntPtr TopLevelHandle)
-        {
-            List<IntPtr> childHandles = new List<IntPtr>();
-
-            GCHandle gcChildhandlesList = GCHandle.Alloc(childHandles);
-            IntPtr pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
-
-            try
-            {
-                NativeMethods.EnumWindowProc childProc = new NativeMethods.EnumWindowProc(EnumWindow);
-                NativeMethods.EnumChildWindows(TopLevelHandle, childProc, pointerChildHandlesList);
-            }
-            finally
-            {
-                gcChildhandlesList.Free();
-            }
-
-            return childHandles;
-        }
-
-        private static bool EnumWindow(IntPtr hWnd, IntPtr lParam)
-        {
-            GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
-
-            if (gcChildhandlesList == null || gcChildhandlesList.Target == null)
-            {
-                return false;
-            }
-
-            List<IntPtr> childHandles = gcChildhandlesList.Target as List<IntPtr>;
-            childHandles.Add(hWnd);
-
-            return true;
         }
 
         public static String ToYaml(Control Target, Boolean Recursive)

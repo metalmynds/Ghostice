@@ -146,6 +146,7 @@
     <Compile Include="WinFormListView.cs" />
     <Compile Include="WinFormMainMenu.cs" />
     <Compile Include="WinFormCheckBox.cs" />
+    <Compile Include="WinFormMessageBox.cs" />
     <Compile Include="WinFormRadioButton.cs" />
     <Compile Include="WinFormTabControlBase.cs" />
     <Compile Include="WinFormTextBox.cs" />

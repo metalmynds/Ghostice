@@ -265,6 +265,7 @@
     <Compile Include="FrameworkTests.cs" />
     <Compile Include="DiagnosticTests.cs" />
     <Compile Include="ConversionTests.cs" />
+    <Compile Include="DialogTests.cs" />
     <Compile Include="WindowHandleTests.cs" />
     <Compile Include="WindowTests.cs" />
     <Compile Include="UserControlSimple.cs">

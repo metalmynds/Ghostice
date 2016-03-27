@@ -1,19 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Comment CommentText="Basic Hierarchy of Use of Static Classess by AutomationAvatar">
+  <Comment CommentText="Basic Hierarchy of Static Classess used by AutomationAvatar">
     <Position X="0.5" Y="0.5" Height="0.75" Width="1.7" />
   </Comment>
   <Class Name="Ghostice.Core.ActionManager">
     <Position X="5" Y="1.25" Width="2.25" />
     <NestedTypes>
-      <Delegate Name="Ghostice.Core.ActionManager.UIThreadSafePerform" Collapsed="true">
+      <Delegate Name="Ghostice.Core.ActionManager.UIThreadSafeControlPerform" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ActionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Ghostice.Core.ActionManager.UIThreadSafeComponentPerform" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>ActionManager.cs</NewMemberFileName>
         </TypeIdentifier>
       </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAEAQAAAAEAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAAEgAAAAIEAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
       <FileName>ActionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -27,7 +32,7 @@
   <Class Name="Ghostice.Core.ExtensionManager">
     <Position X="7.75" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEEAAAACAAAAAgAAAABAAAAAAAAAAAAAAQAAg=</HashCode>
+      <HashCode>AAAAAAAAEAAAACAAAAAgAAAABAACAAAAAAAAAAAQAAg=</HashCode>
       <FileName>ExtensionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -48,7 +53,7 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABARAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAEAAAAAAAAABARAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ReflectionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -60,9 +65,19 @@
           <NewMemberFileName>WindowManager.cs</NewMemberFileName>
         </TypeIdentifier>
       </Delegate>
+      <Delegate Name="Ghostice.Core.WindowManager.UIThreadSafeGetOwnedWindows" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Ghostice.Core.WindowManager.UIThreadSafeGetNestedControlPropertyValue" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAIAAAABAAAAIgBAAAAAAAAAIAAAABAIBAAAAAAIAA=</HashCode>
+      <HashCode>AAAMAAACACAACAgAAQAAQAAAAAAQAABAIBAAAAAAAAA=</HashCode>
       <FileName>WindowManager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -74,9 +89,19 @@
           <NewMemberFileName>WindowWalker.cs</NewMemberFileName>
         </TypeIdentifier>
       </Delegate>
+      <Delegate Name="Ghostice.Core.WindowWalker.UIThreadSafeTryLocate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowWalker.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Ghostice.Core.WindowWalker.UIThreadSafeGetProperties" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>WindowWalker.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAAAAAAAABAAAAAAAAAABAAAQAAAA=</HashCode>
+      <HashCode>AAAACAAAAAAAAAAAAAEAAAABAAAAAAAAACBAAAQAAAA=</HashCode>
       <FileName>WindowWalker.cs</FileName>
     </TypeIdentifier>
   </Class>
