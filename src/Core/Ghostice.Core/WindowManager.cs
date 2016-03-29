@@ -125,8 +125,11 @@ namespace Ghostice.Core
         public static string GetWindowText(IntPtr hWnd)
         {
             int length = NativeMethods.GetWindowTextLength(hWnd);
+
             StringBuilder sb = new StringBuilder(length + 1);
+
             NativeMethods.GetWindowText(hWnd, sb, sb.Capacity);
+
             return sb.ToString();
         }
 
@@ -144,9 +147,9 @@ namespace Ghostice.Core
                 {
                     windows.Add(window);
                 }
-                else if (MessageBoxControl.IsMessageBox(hwnd))
+                else if (MessageBoxWrapper.IsMessageBoxWindow(hwnd))
                 {
-                    windows.Add(new MessageBoxControl(hwnd));
+                    windows.Add(MessageBoxWrapper.FromHandle(hwnd));
                 }
             }
 

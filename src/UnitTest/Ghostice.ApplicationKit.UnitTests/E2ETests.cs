@@ -180,6 +180,77 @@ namespace Ghostice.ApplicationKit.UnitTests
         }
 
         [TestMethod]
+        public void StartExampleInServerWaitForMessageBoxAndCloseWindow()
+        {
+
+            Process ghostiseServer = null;
+
+            try
+            {
+
+                ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
+
+                serverStartupInfo.Arguments = "-e http://localhost:21565";
+
+                ghostiseServer = Process.Start(serverStartupInfo);
+
+                Assert.IsNotNull(ghostiseServer);
+
+                ghostiseServer.WaitForInputIdle();
+
+                GhosticeClient client = new GhosticeClient();
+
+                Assert.IsNotNull(client);
+
+                client.Connect("http://localhost:21565");
+
+                var applicationPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), WINFORMS_WAIT_TEST_SUT);
+
+                var application = client.Start(applicationPath, String.Empty, 15);
+
+                var waitExampleWindow = InterfaceControlFactory.Create<WaitExampleWindow>(client.Application);
+
+                Assert.IsNotNull(waitExampleWindow);
+
+                waitExampleWindow.WaitForReady(15);
+
+                waitExampleWindow.ActionThree.Press();
+
+                MessageBoxDialog dialog = null;
+
+                if (client.Application.TryWaitForDialog(10, out dialog))
+                {
+
+                    Assert.AreEqual<String>("Action Message Box", dialog.Caption);
+
+                    Assert.IsTrue(dialog.Buttons.Length > 0);
+
+                    Assert.AreEqual<String>("OK", dialog.Buttons[0]);
+
+                    Assert.AreEqual<String>("Delayed Action Message", dialog.Text);
+
+                }
+                else
+                {
+                    Assert.Fail("Find Message Box Timed Out!");
+                }
+
+                waitExampleWindow.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (ghostiseServer != null)
+                {
+                    ghostiseServer.Kill();
+                }
+            }
+        }
+
+        [TestMethod]
         public void StartMultipleWindowExampleInServerAndCloseWindowThem()
         {
 
@@ -298,7 +369,7 @@ namespace Ghostice.ApplicationKit.UnitTests
                     ghostiseServer.Kill();
                 }
             }
-        }        
+        }
 
         [TestMethod]
         public void StartExampleInServerSelectMenuFromMainMenuComponentAndCloseWindow()

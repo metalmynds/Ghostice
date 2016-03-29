@@ -39,6 +39,8 @@ namespace Ghostice.ApplicationKit.UnitTests
 
             Assert.IsTrue(ownedWindowList.Count == 1);
 
+            // This will fail if any dialog/message boxes are still on display 
+            // e.g. a previous test did not tidy up!
             Assert.IsTrue(processWindowList.Count == 3);
 
         }

@@ -21,7 +21,6 @@ namespace Ghostice.Core
             _dispatcher = dispatcher;
         }
 
-
         public new ActionDispatcher GetDispatcher()
         {
             return _dispatcher;
@@ -84,15 +83,15 @@ namespace Ghostice.Core
             return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(Target, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" })));
         }
 
-        //public JObject Tell(Locator Target)
-        //{
-        //    var tellRequest = ActionRequest.Tell(Target);
+        public Boolean TryWaitForDialog(int timeoutSeconds, out MessageBoxDialog dialog)
+        {
+            
+            dialog = new MessageBoxDialog(this);
 
-        //    var result = _dispatcher.Perform(tellRequest);
+            dialog.SetDescription(Descriptor.Window(String.Format("Type={0}", "MessageBoxWrapper")));
 
-        //    var dserialised = JsonConvert.DeserializeObject<JObject>(result.ReturnValue);
+            return dialog.WaitForReady(timeoutSeconds);
 
-        //    return dserialised;
-        //}
+        }
     }
 }

@@ -316,8 +316,6 @@ namespace Ghostice.Core
                             return ActionResult.Failed(request.Target.ToString(), String.Format("Unable to Find Target Control!"), typeof(Boolean), "false");
                         }
 
-                    //break;
-
                     case ActionRequest.OperationType.Ready:
 
                         // Find the Control

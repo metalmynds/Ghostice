@@ -7,49 +7,13 @@ namespace Ghostice.Framework
     public abstract class WinFormControlBase : InterfaceControl
     {
 
-        public WinFormControlBase(InterfaceControl Parent)
-            : base(Parent)
+        public WinFormControlBase(InterfaceControl parent)
+            : base(parent)
         {
 
         }
 
-        public ControlNode PrintTree()
-        {
+        
 
-            return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(this.Path, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" })));
-
-        }
-
-        public Boolean WaitForReady(int TimeoutSeconds)
-        {
-
-            var result =  HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Ready(this.Path, TimeoutSeconds)));
-
-            return result;
-
-        }
-
-        public Boolean WaitUntil(String expression, int timeoutSeconds, int interval)
-        {
-            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path,"Until", expression, timeoutSeconds, interval)));
-
-            return result;
-        }
-
-        public Boolean WaitWhile(String expression, int timeoutSeconds, int interval)
-        {
-            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path, "While", expression, timeoutSeconds, interval)));
-
-            return result;
-        }
-
-        public Boolean WaitForReady(int TimeoutSeconds, String value, bool anyValue)
-        {
-
-            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Ready(this.Path, TimeoutSeconds, value, anyValue)));
-
-            return result;
-
-        }
     }
 }

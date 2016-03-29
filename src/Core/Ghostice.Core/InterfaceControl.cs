@@ -23,40 +23,6 @@ namespace Ghostice.Core
             _descriptor = Descriptor;
         }
 
-        //public Property AddIdentifier(String Name, String Value)
-        //{
-        //    var property = new Property(Name, Value);
-
-        //    _descriptor.Properties.Add(property);
-
-        //    return property;
-        //}
-
-        //public void RemoveIdentifier(int Index)
-        //{
-        //    _descriptor.Properties.RemoveAt(Index);
-        //}
-
-        //public void RemoveIdentifier(String Name)
-        //{
-
-        //    Property deleteTarget = null;
-
-        //    foreach (var property in _descriptor.Properties)
-        //    {
-        //        if (property.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase))
-        //        {
-        //            deleteTarget = property;
-        //            break;
-        //        }
-        //    }
-
-        //    if (deleteTarget != null)
-        //    {
-        //        _descriptor.Properties.Remove(deleteTarget);
-        //    }
-
-        //}
 
         public Descriptor Description
         {
@@ -65,11 +31,6 @@ namespace Ghostice.Core
                 return _descriptor;
             }
         }
-
-        //public void ClearIdentifiers()
-        //{
-        //    _descriptor.Properties.Clear();
-        //}
 
         public Locator Path
         {
@@ -107,7 +68,7 @@ namespace Ghostice.Core
 
         protected T HandleResult<T>(ActionResult Result)
         {
-            
+
             if (Result == null) { throw new GhosticeClientException("Client Received Unexpected Null Response from Server!"); }
 
             if (Result.Error != null)
@@ -140,46 +101,79 @@ namespace Ghostice.Core
         protected ActionDispatcher GetDispatcher()
         {
 
-                InterfaceControl target = this;
+            InterfaceControl target = this;
 
-                while (target != null && target as IDispatcherHost == null)
-                {
+            while (target != null && target as IDispatcherHost == null)
+            {
 
-                    target = target.Parent;
-
-                }
-
-                if (target == null)
-                {
-
-                    throw new ClientDispatchActionRequestFailedException("No Client Control Implementing IDispatcherHost Interface Found! Check Top Level Window Class or ApplicationControl!");
-                }
-                else
-                {
-                    return (target as IDispatcherHost).GetDispatcher();
+                target = target.Parent;
 
             }
+
+            if (target == null)
+            {
+
+                throw new ClientDispatchActionRequestFailedException("No Client Control Implementing IDispatcherHost Interface Found! Check Top Level Window Class or ApplicationControl!");
+            }
+            else
+            {
+                return (target as IDispatcherHost).GetDispatcher();
+
+            }
+
+
         }
 
-
-        [Serializable]
-        public class GhosticeClientException : Exception
+        public ControlNode PrintTree()
         {
 
-            protected GhosticeClientException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-                : base(info, context) { }
+            return HandleResult<ControlNode>(GetDispatcher().Perform(ActionRequest.Map(this.Path, new String[] { "Location", "Size", "TopMost", "Text", "Value", "Selected", "Focused" })));
 
-            public GhosticeClientException(String Message) :
-                base(Message)
-            {
+        }
 
-            }
+        public Boolean WaitForReady(int timeoutSeconds)
+        {
 
-            public GhosticeClientException(String Message, Exception Inner) :
-                base(Message, Inner)
-            {
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Ready(this.Path, timeoutSeconds)));
 
-            }
+            return result;
+
+        }
+
+        public Boolean WaitUntil(String expression, int timeoutSeconds, int interval)
+        {
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path, "Until", expression, timeoutSeconds, interval)));
+
+            return result;
+        }
+
+        public Boolean WaitWhile(String expression, int timeoutSeconds, int interval)
+        {
+            var result = HandleResult<Boolean>(GetDispatcher().Perform(ActionRequest.Wait(this.Path, "While", expression, timeoutSeconds, interval)));
+
+            return result;
+        }
+    }
+
+    [Serializable]
+    public class GhosticeClientException : Exception
+    {
+
+        protected GhosticeClientException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
+
+        public GhosticeClientException(String Message) :
+            base(Message)
+        {
+
+        }
+
+        public GhosticeClientException(String Message, Exception Inner) :
+            base(Message, Inner)
+        {
+
         }
     }
 }
+

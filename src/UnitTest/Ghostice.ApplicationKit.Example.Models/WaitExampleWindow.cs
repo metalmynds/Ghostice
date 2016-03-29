@@ -14,6 +14,9 @@ namespace Ghostice.ApplicationKit.Example.Models
         [ControlDescriptor("Action One List", "Name=butActionOne")]
         private PlaceHolder<WinFormButton> _actionOneButton;
 
+        [ControlDescriptor("Action Three Messagebox", "Name=butActionThree")]
+        private PlaceHolder<WinFormButton> _actionThreeButton;
+
         [ControlDescriptor("Action One Result", "Name=lblActionOneResult")]
         private PlaceHolder<WinFormLabel> _actionOneResult;
 
@@ -29,6 +32,11 @@ namespace Ghostice.ApplicationKit.Example.Models
         public WinFormButton ActionOne
         {
             get { return _actionOneButton.GetControl(); }
+        }
+
+        public WinFormButton ActionThree
+        {
+            get { return _actionThreeButton.GetControl(); }
         }
 
         public WinFormLabel ActionOneResult

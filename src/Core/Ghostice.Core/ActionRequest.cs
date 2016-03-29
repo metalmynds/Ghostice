@@ -149,11 +149,6 @@ namespace Ghostice.Core
             return new ActionRequest(target, OperationType.Ready, ActionParameter.Create(timeoutSeconds));
         }
 
-        public static ActionRequest Ready(Locator target, int timeoutSeconds, String value, bool anyValue)
-        {
-            return new ActionRequest(target, OperationType.Ready, ActionParameter.Create(timeoutSeconds), ActionParameter.Create(value), ActionParameter.Create(anyValue));
-        }
-
         public static ActionRequest Wait(Locator target, string type, String expression, int timeoutSeconds, int interval)
         {
             return new ActionRequest(target, OperationType.Wait, ActionParameter.Create(type), ActionParameter.Create(expression), ActionParameter.Create(timeoutSeconds), ActionParameter.Create(interval));
