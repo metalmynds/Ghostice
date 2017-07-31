@@ -932,7 +932,7 @@ namespace Ghostice.ApplicationKit.UnitTests
             try
             {
 
-                // Start Server                
+                // Start Server
 
                 ProcessStartInfo serverStartupInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), SERVER_NAME + ".exe"));
 

@@ -130,7 +130,7 @@ namespace Ghostice.Core.Server.Rpc
                 throw new HttpServerStartupFailedException(this.EndPoint.ToString(), ex);
             }
         }
-    
+
 
     protected void ListenerCallback(IAsyncResult result)
         {
