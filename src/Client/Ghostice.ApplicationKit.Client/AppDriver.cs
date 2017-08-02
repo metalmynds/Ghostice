@@ -13,7 +13,7 @@ using Anotar.NLog;
 
 namespace Ghostice.ApplicationKit
 {
-    public class GhosticeClient
+    public class AppDriver
     {
 
         protected JsonRpcClient _client;
@@ -22,7 +22,7 @@ namespace Ghostice.ApplicationKit
 
         protected ApplicationUnderTest _application;
 
-        public GhosticeClient()
+        public AppDriver()
         {
 
         }

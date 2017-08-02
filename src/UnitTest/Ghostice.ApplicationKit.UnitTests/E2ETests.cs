@@ -94,7 +94,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -144,7 +144,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -198,7 +198,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -269,7 +269,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -327,7 +327,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -390,7 +390,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -442,7 +442,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 ghostiseServer.WaitForInputIdle();
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -499,7 +499,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -558,7 +558,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -615,7 +615,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -732,7 +732,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -799,7 +799,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -858,7 +858,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 
@@ -946,7 +946,7 @@ namespace Ghostice.ApplicationKit.UnitTests
 
                 // Start Client
 
-                GhosticeClient client = new GhosticeClient();
+                AppDriver client = new AppDriver();
 
                 Assert.IsNotNull(client);
 

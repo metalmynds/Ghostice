@@ -10,7 +10,7 @@ namespace Ghostice.ApplicationKit.UnitTests
         [TestMethod]
         public void ConstructControls()
         {
-            var client = new GhosticeClient();
+            var client = new AppDriver();
 
             var textbbox = new WinFormTextBox(client.Application);
 
