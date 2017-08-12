@@ -10,8 +10,7 @@ Scenario Outline: Loading the Server Takes Very Little Time
 	When I start the <UI> server
 	Then the server should start in under <Timeout> seconds
 
-| UI      | Timeout | EndPoint                |
-| GUI     | 5       | http://localhost:21300/ |
-| Console | 2       | http://localhost:21300/ |
-
-
+	Examples:
+	| UI      | Timeout | EndPoint                  |
+	| GUI     | 5       | "http://localhost:21300/" |
+	| Console | 2       | "http://localhost:21300/" |
