@@ -53,34 +53,34 @@ namespace Ghostice.Core.Server.Rpc
 
             // 4.0
 
-            //_requestThread = new Thread(new ThreadStart(ServerThread));
+            _requestThread = new Thread(new ThreadStart(ServerThread));
 
-            //_requestThread.Start();
+            _requestThread.Start();
 
             // 4.5
 
-            using (var listener = new HttpListener())
-            {
-                var tcs = new TaskCompletionSource<object>();
+            //using (var listener = new HttpListener())
+            //{
+            //var tcs = new TaskCompletionSource<object>();
 
-                listener.GetContextAsync().ContinueWith(async t =>
-                {
-                    try
-                    {
-                        while (true)
-                        {
-                            var context = await t;
-                            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
-                            t = listener.GetContextAsync();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        listener.Close();
-                        tcs.TrySetException(e);
-                    }
-                });
-            }
+            //listener.GetContextAsync().ContinueWith(async t =>
+            //{
+            //    try
+            //    {
+            //        while (true)
+            //        {
+            //            var context = await t;
+            //            this.HttpRequestRecieved(new HttpRequestEventArgs(context));
+            //            t = listener.GetContextAsync();
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        listener.Close();
+            //        tcs.TrySetException(e);
+            //    }
+            //});
+            //}
         }
 
         protected void ServerThread()
